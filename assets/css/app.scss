@@ -1,0 +1,18 @@
+/* IMPORT AND FONTS */
+
+@import "vars";
+@import "~bootstrap/scss/bootstrap";
+@font-face
+{
+    font-family: Supercell-Magic;
+    src: url('Supercell-Magic.ttf') format('Truetype');
+}
+
+/* GENERAL */
+
+body {
+    background-image: url("images/background-cr.png");
+    background-color: $primary-color;
+    font-family: $primary-font;
+    color: white;
+}
