@@ -42,6 +42,7 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            $user->setDateCreate(new \DateTime());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -52,7 +53,7 @@ class RegistrationController extends AbstractController
                 (new TemplatedEmail())
                     ->from(new Address('ecolelaprovidence@gmail.com', 'Classe Royale'))
                     ->to($user->getEmail())
-                    ->subject('Demande d\'inscription reçue, merci de confirmer voyre email')
+                    ->subject('Demande d\'inscription reçue, merci de confirmer votre email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
