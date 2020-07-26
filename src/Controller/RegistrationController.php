@@ -27,6 +27,11 @@ class RegistrationController extends AbstractController
 
     /**
      * @Route("/register", name="app_register")
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param GuardAuthenticatorHandler $guardHandler
+     * @param LoginFormAuthenticator $authenticator
+     * @return Response
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator): Response
     {
@@ -56,7 +61,8 @@ class RegistrationController extends AbstractController
                     ->subject('Demande d\'inscription reçue, merci de confirmer votre email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
-            // do anything else you need here, like send an email
+            // send flash message
+            $this->addFlash('success', 'Votre compte a été créé, merci de confirmer votre adresse email depuis votre messagerie');
 
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
