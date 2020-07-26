@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -65,6 +67,16 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity=School::class, mappedBy="director")
+     */
+    private $directors;
+
+    public function __construct()
+    {
+        $this->directors = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -212,6 +224,37 @@ class User implements UserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|School[]
+     */
+    public function getDirectors(): Collection
+    {
+        return $this->directors;
+    }
+
+    public function addSchool(School $school): self
+    {
+        if (!$this->directors->contains($school)) {
+            $this->directors[] = $school;
+            $school->setDirector($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSchool(School $school): self
+    {
+        if ($this->directors->contains($school)) {
+            $this->directors->removeElement($school);
+            // set the owning side to null (unless already changed)
+            if ($school->getDirector() === $this) {
+                $school->setDirector(null);
+            }
+        }
 
         return $this;
     }
