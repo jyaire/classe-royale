@@ -14,4 +14,12 @@ class AdminController extends AbstractController
     {
         return $this->render('admin/index.html.twig');
     }
+
+    /**
+     * @Route("/admin/addAdmin", name="admin_addAdmin")
+     */
+    public function addAdmin()
+    {
+        return $this->render('admin/addAdmin.html.twig');
+    }
 }
