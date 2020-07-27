@@ -73,9 +73,27 @@ class User implements UserInterface
      */
     private $directors;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Student::class, mappedBy="parent")
+     */
+    private $students;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Classgroup::class, mappedBy="teacher")
+     */
+    private $classgroups;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Team::class, mappedBy="student")
+     */
+    private $teams;
+
     public function __construct()
     {
         $this->directors = new ArrayCollection();
+        $this->students = new ArrayCollection();
+        $this->classgroups = new ArrayCollection();
+        $this->teams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -254,6 +272,90 @@ class User implements UserInterface
             if ($school->getDirector() === $this) {
                 $school->setDirector(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Student[]
+     */
+    public function getStudents(): Collection
+    {
+        return $this->students;
+    }
+
+    public function addStudent(Student $student): self
+    {
+        if (!$this->students->contains($student)) {
+            $this->students[] = $student;
+            $student->addParent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudent(Student $student): self
+    {
+        if ($this->students->contains($student)) {
+            $this->students->removeElement($student);
+            $student->removeParent($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Classgroup[]
+     */
+    public function getClassgroups(): Collection
+    {
+        return $this->classgroups;
+    }
+
+    public function addClassgroup(Classgroup $classgroup): self
+    {
+        if (!$this->classgroups->contains($classgroup)) {
+            $this->classgroups[] = $classgroup;
+            $classgroup->addTeacher($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClassgroup(Classgroup $classgroup): self
+    {
+        if ($this->classgroups->contains($classgroup)) {
+            $this->classgroups->removeElement($classgroup);
+            $classgroup->removeTeacher($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Team[]
+     */
+    public function getTeams(): Collection
+    {
+        return $this->teams;
+    }
+
+    public function addTeam(Team $team): self
+    {
+        if (!$this->teams->contains($team)) {
+            $this->teams[] = $team;
+            $team->addStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeam(Team $team): self
+    {
+        if ($this->teams->contains($team)) {
+            $this->teams->removeElement($team);
+            $team->removeStudent($this);
         }
 
         return $this;

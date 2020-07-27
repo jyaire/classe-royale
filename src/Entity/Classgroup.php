@@ -40,9 +40,21 @@ class Classgroup
      */
     private $students;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="classgroups")
+     */
+    private $teacher;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Section::class, inversedBy="classgroups")
+     */
+    private $section;
+
     public function __construct()
     {
         $this->students = new ArrayCollection();
+        $this->teacher = new ArrayCollection();
+        $this->section = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,6 +124,58 @@ class Classgroup
             if ($student->getClassgroup() === $this) {
                 $student->setClassgroup(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getTeacher(): Collection
+    {
+        return $this->teacher;
+    }
+
+    public function addTeacher(User $teacher): self
+    {
+        if (!$this->teacher->contains($teacher)) {
+            $this->teacher[] = $teacher;
+        }
+
+        return $this;
+    }
+
+    public function removeTeacher(User $teacher): self
+    {
+        if ($this->teacher->contains($teacher)) {
+            $this->teacher->removeElement($teacher);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Section[]
+     */
+    public function getSection(): Collection
+    {
+        return $this->section;
+    }
+
+    public function addSection(Section $section): self
+    {
+        if (!$this->section->contains($section)) {
+            $this->section[] = $section;
+        }
+
+        return $this;
+    }
+
+    public function removeSection(Section $section): self
+    {
+        if ($this->section->contains($section)) {
+            $this->section->removeElement($section);
         }
 
         return $this;

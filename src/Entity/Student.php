@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\StudentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -71,6 +73,22 @@ class Student
      * @ORM\Column(type="integer")
      */
     private $elixir;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="students")
+     */
+    private $parent;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Point::class, mappedBy="student", orphanRemoval=true)
+     */
+    private $points;
+
+    public function __construct()
+    {
+        $this->parent = new ArrayCollection();
+        $this->points = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -205,6 +223,63 @@ class Student
     public function setElixir(int $elixir): self
     {
         $this->elixir = $elixir;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getParent(): Collection
+    {
+        return $this->parent;
+    }
+
+    public function addParent(User $parent): self
+    {
+        if (!$this->parent->contains($parent)) {
+            $this->parent[] = $parent;
+        }
+
+        return $this;
+    }
+
+    public function removeParent(User $parent): self
+    {
+        if ($this->parent->contains($parent)) {
+            $this->parent->removeElement($parent);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Point[]
+     */
+    public function getPoints(): Collection
+    {
+        return $this->points;
+    }
+
+    public function addPoint(Point $point): self
+    {
+        if (!$this->points->contains($point)) {
+            $this->points[] = $point;
+            $point->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removePoint(Point $point): self
+    {
+        if ($this->points->contains($point)) {
+            $this->points->removeElement($point);
+            // set the owning side to null (unless already changed)
+            if ($point->getStudent() === $this) {
+                $point->setStudent(null);
+            }
+        }
 
         return $this;
     }
