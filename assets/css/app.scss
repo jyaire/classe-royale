@@ -11,10 +11,16 @@
 /* GENERAL */
 
 body {
+    padding: 0;
+    margin: 0;
+    background-color: $secondary-color;
     background-image: url("images/background-cr.png");
-    background-color: $primary-color;
     font-family: $primary-font;
     color: white;
+}
+
+.container-fluid {
+    padding: 0;
 }
 
 a{
@@ -29,8 +35,72 @@ a{
 
 /* HEADER */
 
-#header {
+.header {
+    margin: 0;
     height: 4rem;
     width: 100%;
-    background-color: $primary-color;
+    background: linear-gradient($primary-color, black);
+
+    a{
+        color: white;
+        text-decoration: none;
+
+        &:hover{
+            color: $fourth-color;
+            text-decoration: none;
+        }
+    }
 }
+
+/* BUTTONS */
+
+/* BOUTONS */
+
+@mixin button($color){
+    background-color : $color;
+    border-radius : 5px;
+    text-decoration : none;
+    font-size : 1.5rem;
+    font-weight: bold;
+    color : white;
+    width : 60%;
+    max-width: 250px;
+    padding : 5px 5px;
+    max-height: 70px;
+    display : block;
+    margin : 1% auto 1% auto;
+    text-align : center;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: transform;
+    transition-property: transform;
+
+    &:hover{
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+        background-color: darken($color, 10%); ;
+        color : white;
+        text-decoration: none;
+    }
+}
+
+.primary-button{
+    @include button($primary-color)
+}
+
+.third-button{
+    @include button($third-color)
+}
+
+/* MAIN */
+
+.main {
+    padding: 0;
+    margin: 0;
+    height: 70vh;
+}
+
+

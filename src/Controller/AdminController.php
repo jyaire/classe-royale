@@ -23,6 +23,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/addAdmin", name="admin_addAdmin")
      * @param Request $request
+     * @param UserRepository $userRepository
      * @return RedirectResponse|Response
      */
     public function addAdmin(Request $request, UserRepository $userRepository)

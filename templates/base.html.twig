@@ -9,39 +9,47 @@
         {% endblock %}
     </head>
     <body>
-    <header>
-        <div id="header">
-            header
-        </div>
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success text-center mt-1 alert-dismissible fade show">
-                {{ message }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        {% endfor %}
-        {% for message in app.flashes('danger') %}
-            <div class="alert alert-danger text-center mt-1 alert-dismissible fade show">
-                {{ message }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        {% endfor %}
-    </header>
-    <main>
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    {% block body %}{% endblock %}
+            <div class="row header align-content-center">
+                <div class="col-3 text-center">
+                    image
+                </div>
+                <div class="col-3 text-center">
+                    vide
+                </div>
+                <div class="col-3 text-center">
+                    vide
+                </div>
+                <div class="col-3 text-center">
+                    <a href="{{ path('app_login') }}">Connexion</a>
                 </div>
             </div>
-        </div>
-    </main>
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+            <div class="row main justify-content-center">
+                <div class="col-12">
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success text-center mt-1 alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('danger') %}
+                    <div class="alert alert-danger text-center mt-1 alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% block body %}{% endblock %}
+
+            {% block javascripts %}
+                {{ encore_entry_script_tags('app') }}
+            {% endblock %}
+        </div>
     </body>
 </html>
