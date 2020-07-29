@@ -1,11 +1,24 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+    Classe Royale - Ajout d'un administrateur
+{% endblock %}
+
 {% block body %}
 <h1>Ajout d'un administrateur</h1>
+    <p>Adresse e-mail de l'utilisateur à promouvoir administrateur</p>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Promouvoir administrateur') }}</button>
+    {{ form_end(form) }}
+    <p>
+        Cet utilisateur pourra :<br>
+        - avoir accès à la liste des utilisateurs et les modifier ;<br>
+        - ajouter des utilisateurs ;<br>
+        - ajouter / modifier / supprimer des cartes ;<br>
+    </p>
 
 {% endblock %}
 
-{% block title %}
-Classe Royale - Ajout d'un administrateur
-{% endblock %}
+
 

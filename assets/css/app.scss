@@ -16,3 +16,13 @@ body {
     font-family: $primary-font;
     color: white;
 }
+
+a{
+    color: $secondary-color;
+    text-decoration: none;
+
+    &:hover{
+        color: $secondary-color;
+        text-decoration: none;
+    }
+}
