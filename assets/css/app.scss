@@ -18,11 +18,11 @@ body {
 }
 
 a{
-    color: $secondary-color;
+    color: $third-color;
     text-decoration: none;
 
     &:hover{
-        color: $secondary-color;
+        color: $fourth-color;
         text-decoration: none;
     }
 }
