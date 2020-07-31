@@ -21,7 +21,11 @@
                     vide
                 </div>
                 <div class="col-3 text-center">
+                    {% if app.user %}
+                        <a href="{{ path('user_show', {'id' : app.user.id}) }}">{{ app.user.firstname }}</a>
+                    {% else %}
                     <a href="{{ path('app_login') }}">Connexion</a>
+                    {% endif %}
                 </div>
             </div>
 
