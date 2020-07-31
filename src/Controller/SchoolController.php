@@ -17,6 +17,8 @@ class SchoolController extends AbstractController
 {
     /**
      * @Route("/", name="school_index", methods={"GET"})
+     * @param SchoolRepository $schoolRepository
+     * @return Response
      */
     public function index(SchoolRepository $schoolRepository): Response
     {
@@ -27,6 +29,8 @@ class SchoolController extends AbstractController
 
     /**
      * @Route("/new", name="school_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -35,11 +39,14 @@ class SchoolController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $school->setDateCreate(new \DateTime())->setDirector($this->getUser());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($school);
             $entityManager->flush();
 
-            return $this->redirectToRoute('school_index');
+            $message = 'Votre école "' . $school->getName() . '" a été créée';
+            $this->addFlash('success', $message);
+            return $this->redirectToRoute('director');
         }
 
         return $this->render('school/new.html.twig', [
