@@ -67,6 +67,9 @@ class SchoolController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="school_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param School $school
+     * @return Response
      */
     public function edit(Request $request, School $school): Response
     {
@@ -76,7 +79,9 @@ class SchoolController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('school_index');
+            $message = 'Votre école "' . $school->getName() . '" a été modifiée';
+            $this->addFlash('success', $message);
+            return $this->redirectToRoute('school_show', ['id' => $school->getId()]);
         }
 
         return $this->render('school/edit.html.twig', [
