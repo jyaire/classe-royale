@@ -6,7 +6,7 @@
     <div class="col-7">
         <h3 class="text-center">Interface de direction</h3>
         <p>Bienvenue {{ app.user.firstname }} {{ app.user.lastname }}</p>
-        <a href="{{ path('home') }}">Mon profil</a><br>
+        <a href="{{ path('user_show', {'id' : app.user.id}) }}">Mon profil</a><br>
         <a href="{{ path('home') }}">Créer mon école</a><br>
     </div>
 {% endblock %}
