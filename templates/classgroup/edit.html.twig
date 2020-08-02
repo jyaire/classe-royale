@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Classgroup{% endblock %}
+
+{% block body %}
+    <h1>Edit Classgroup</h1>
+
+    {{ include('classgroup/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('classgroup_index') }}">back to list</a>
+
+    {{ include('classgroup/_delete_form.html.twig') }}
+{% endblock %}
