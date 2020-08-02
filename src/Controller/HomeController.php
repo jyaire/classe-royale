@@ -14,14 +14,18 @@ class HomeController extends AbstractController
     {
         if ($this->getUser()) {
             foreach ($this->getUser()->getRoles() as $role) {
-                if ($role == "ROLE_DIRECTOR") {
+                if ($role == "ROLE_ADMIN") {
+                    return $this->redirectToRoute('admin');
+                }
+                elseif ($role == "ROLE_DIRECTOR") {
                     return $this->redirectToRoute('director');
                 }
-                else {
-                    return $this->render('home/index.html.twig');
-                }
+            }
         }
-    }
+        else {
+            return $this->render('home/index.html.twig');
+        }
+
         return $this->redirectToRoute('app_login');
     }
 }

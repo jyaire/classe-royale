@@ -89,6 +89,9 @@ class OptionController extends AbstractController
 
     /**
      * @Route("/{id}", name="option_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Option $option
+     * @return Response
      */
     public function delete(Request $request, Option $option): Response
     {

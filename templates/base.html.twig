@@ -18,7 +18,13 @@
                     vide
                 </div>
                 <div class="col-3 text-center">
-                    vide
+                    {% if app.user %}
+                        {% for role in app.user.roles %}
+                            {% if role == "ROLE_ADMIN" %}
+                                <a href="{{ path('admin') }}">Administration</a>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
                 </div>
                 <div class="col-3 text-center">
                     {% if app.user %}
