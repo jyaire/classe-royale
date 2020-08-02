@@ -15,6 +15,10 @@
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
+###> User files ###
+/public/uploads/
+###< User files ###
+
 ###> jetbrain/phpstorm ###
 /.idea/
 ###< jetbrain/phpstorm ###
