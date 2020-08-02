@@ -3,9 +3,11 @@
 {% block title %}Classe Royale - Administration{% endblock %}
 
 {% block body %}
+<div class="col-7">
+    <h3>Interface d'administration</h3>
 
-    <h1>Interface d'administration</h1>
-
-<a href="{{ path('admin_addAdmin') }}" title="Ajouter un administrateur">Ajouter un administrateur</a>
+    <a href="{{ path('admin_addAdmin') }}" title="Ajouter un administrateur">Ajouter un administrateur</a><br>
+    <a href="{{ path('admin_addAdmin') }}" title="Options de Classe Royale">Options de Classe Royale</a>
+</div>
 
 {% endblock %}
