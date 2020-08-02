@@ -54,8 +54,6 @@ a{
 
 /* BUTTONS */
 
-/* BOUTONS */
-
 @mixin button($color){
     background-color : $color;
     border-radius : 5px;
@@ -100,6 +98,22 @@ a{
     padding: 0;
     margin: 0;
     height: 70vh;
+}
+
+.primary-color {
+    color: $primary-color;
+}
+
+.secondary-color {
+    color: $secondary-color;
+}
+
+.third-color {
+    color: $third-color;
+}
+
+.fourth-color {
+    color: $fourth-color;
 }
 
 

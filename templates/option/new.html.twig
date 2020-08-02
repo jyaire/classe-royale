@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Option{% endblock %}
+{% block title %}Ajout d'une option{% endblock %}
 
 {% block body %}
     <div class="col-12 col-md-10 col-lg-7 text-center">
-        <h3>Ajouter une option</h3>
+        <h3 class="mb-4">Ajouter une option</h3>
 
         {{ include('option/_form.html.twig') }}
 
-        <a href="{{ path('option_index') }}">back to list</a>
+        <br><a href="{{ path('option_index') }}">Liste des options</a>
     </div>
 
 {% endblock %}

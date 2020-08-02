@@ -3,14 +3,15 @@
 {% block title %}Option index{% endblock %}
 
 {% block body %}
-    <div class="col-7">
+    <div class="col-12 col-md-10 col-lg-7">
         <h3>Options disponibles</h3>
-
-        <table class="table">
+        <p class="text-right">
+            <a href="{{ path('option_new') }}">Ajouter une option</a>
+        </p>
+        <table class="table text-white">
             <thead>
-            <tr>
-                <th>Id</th>
-                <th>Option</th>
+            <tr class="secondary-color bg-dark">
+                <th>Nom de l'option</th>
                 <th>Réglage</th>
                 <th></th>
             </tr>
@@ -18,7 +19,6 @@
             <tbody>
             {% for option in options %}
                 <tr>
-                    <td>{{ option.id }}</td>
                     <td>{{ option.property }}</td>
                     <td>{{ option.value }}</td>
                     <td>
@@ -32,7 +32,5 @@
             {% endfor %}
             </tbody>
         </table>
-
-        <a href="{{ path('option_new') }}">Ajouter une option</a>
     </div>
 {% endblock %}

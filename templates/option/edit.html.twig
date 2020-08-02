@@ -1,13 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Option{% endblock %}
+{% block title %}Modification d'une option{% endblock %}
 
 {% block body %}
-    <h1>Edit Option</h1>
+    <div class="col-12 col-md-10 col-lg-7 text-center">
+        <h3 class="mb-4">Modifier l'option {{ option.property }}</h3>
 
-    {{ include('option/_form.html.twig', {'button_label': 'Update'}) }}
+        {{ include('option/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('option_index') }}">back to list</a>
+        {{ include('option/_delete_form.html.twig') }}
 
-    {{ include('option/_delete_form.html.twig') }}
+        <br><a href="{{ path('option_index') }}">Liste des options</a>
+    </div>
+
 {% endblock %}

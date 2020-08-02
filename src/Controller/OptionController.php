@@ -54,6 +54,8 @@ class OptionController extends AbstractController
 
     /**
      * @Route("/{id}", name="option_show", methods={"GET"})
+     * @param Option $option
+     * @return Response
      */
     public function show(Option $option): Response
     {
@@ -64,6 +66,9 @@ class OptionController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="option_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Option $option
+     * @return Response
      */
     public function edit(Request $request, Option $option): Response
     {
