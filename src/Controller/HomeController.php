@@ -20,6 +20,9 @@ class HomeController extends AbstractController
                 elseif ($role == "ROLE_DIRECTOR") {
                     return $this->redirectToRoute('director');
                 }
+                elseif ($role == "ROLE_TEACHER") {
+                    return $this->redirectToRoute('teacher');
+                }
                 elseif ($role == "ROLE_PARENT") {
                     return $this->redirectToRoute('parent');
                 }
