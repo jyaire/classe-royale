@@ -11,12 +11,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/option")
+ * @Route("admin/option")
  */
 class OptionController extends AbstractController
 {
     /**
      * @Route("/", name="option_index", methods={"GET"})
+     * @param OptionRepository $optionRepository
+     * @return Response
      */
     public function index(OptionRepository $optionRepository): Response
     {
@@ -27,6 +29,8 @@ class OptionController extends AbstractController
 
     /**
      * @Route("/new", name="option_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {

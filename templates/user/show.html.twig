@@ -3,10 +3,10 @@
 {% block title %}Profil de {{ user.firstname }} {{ user.lastname }}{% endblock %}
 
 {% block body %}
-    <div class="col-7">
+    <div class="col-12 col-md-10 col-lg-7">
         <h3>Profil de {{ user.firstname }} {{ user.lastname }}</h3>
     </div>
-    <div class="col-7">
+    <div class="col-12 col-md-10 col-lg-7">
         Id : {{ user.id }}<br>
         Email : {{ user.email }}<br>
         Roles : {{ user.roles ? user.roles|json_encode : '' }}<br>
@@ -17,7 +17,7 @@
         Date modif : {{ user.dateModif ? user.dateModif|date('d/m/Y H:i:s') : '' }}<br>
         Email est vérifiée : {{ user.isVerified ? 'Yes' : 'No' }}<br>
     </div>
-    <div class="col-7">
+    <div class="col-12 col-md-10 col-lg-7">
 
         <a href="{{ path('user_edit', {'id': user.id}) }}">Modifier mon profil</a>
 

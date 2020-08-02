@@ -3,35 +3,36 @@
 {% block title %}Option index{% endblock %}
 
 {% block body %}
-    <h1>Option index</h1>
+    <div class="col-7">
+        <h3>Options disponibles</h3>
 
-    <table class="table">
-        <thead>
+        <table class="table">
+            <thead>
             <tr>
                 <th>Id</th>
-                <th>Property</th>
-                <th>Value</th>
-                <th>actions</th>
+                <th>Option</th>
+                <th>Réglage</th>
+                <th></th>
             </tr>
-        </thead>
-        <tbody>
-        {% for option in options %}
-            <tr>
-                <td>{{ option.id }}</td>
-                <td>{{ option.property }}</td>
-                <td>{{ option.value }}</td>
-                <td>
-                    <a href="{{ path('option_show', {'id': option.id}) }}">show</a>
-                    <a href="{{ path('option_edit', {'id': option.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for option in options %}
+                <tr>
+                    <td>{{ option.id }}</td>
+                    <td>{{ option.property }}</td>
+                    <td>{{ option.value }}</td>
+                    <td>
+                        <a href="{{ path('option_edit', {'id': option.id}) }}">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Aucune option pour l'instant</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-    <a href="{{ path('option_new') }}">Create new</a>
+        <a href="{{ path('option_new') }}">Ajouter une option</a>
+    </div>
 {% endblock %}
