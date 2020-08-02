@@ -20,12 +20,15 @@ class HomeController extends AbstractController
                 elseif ($role == "ROLE_DIRECTOR") {
                     return $this->redirectToRoute('director');
                 }
+                elseif ($role == "ROLE_PARENT") {
+                    return $this->redirectToRoute('parent');
+                }
             }
         }
         else {
-            return $this->render('home/index.html.twig');
+            return $this->redirectToRoute('app_login');
         }
 
-        return $this->redirectToRoute('app_login');
+        return $this->render('home/index.html.twig');
     }
 }

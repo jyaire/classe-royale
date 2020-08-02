@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Classe Royale - Parent{% endblock %}
+
+{% block body %}
+    <div class="col-12 col-md-7">
+        <h3 class="text-center">Interface Parent</h3>
+        <p>Bienvenue {{ app.user.firstname }} {{ app.user.lastname }}</p>
+        <a href="{{ path('user_show', {'id' : app.user.id}) }}">Mon profil</a><br>
+    </div>
+    <div class="col-12 col-md-5">
+        <h3 class="text-center">Mes enfants</h3>
+        {% for student in app.user.students %}
+            <a href="{{ path('student_show', {id : student.id}) }}">{{ student.firstname }} {{ student.lastname }}</a>
+            {% else %}
+            Aucun enfant rattaché
+        {% endfor %}
+        <p class="mt-4">
+            <a href="{{ path('student_new') }}">Ajouter un enfant</a>
+        </p>
+    </div>
+{% endblock %}

@@ -1,13 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Création d'un compte{% endblock %}
+{% block title %}Classe Royale - Création d'un compte{% endblock %}
 
 {% block body %}
-
-    <h1>Création d'un compte</h1>
+<div class="col-12 col-md-10 col-lg-7 text-center">
+    <h3>Création d'un compte</h3>
 
     {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.roles) }}
+        {{ form_row(registrationForm.roles, {
+            label: 'Je suis un '
+        }) }}
         {{ form_row(registrationForm.email) }}
         {{ form_row(registrationForm.firstname, {
             label: 'Prénom'
@@ -25,6 +27,7 @@
             label: 'J\'accepte les conditions'
         }) }}
 
-        <button type="submit" class="btn">Créer mon compte</button>
+        <button type="submit" class="third-button">Créer mon compte</button>
     {{ form_end(registrationForm) }}
+</div>
 {% endblock %}

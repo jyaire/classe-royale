@@ -6,16 +6,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DirectorController extends AbstractController
+class ParentController extends AbstractController
 {
     /**
-     * @Route("/director", name="director")
-     * @IsGranted("ROLE_DIRECTOR")
+     * @Route("/parent", name="parent")
+     * @IsGranted("ROLE_PARENT")
      */
     public function index()
     {
-        return $this->render('director/index.html.twig', [
-            'controller_name' => 'DirectorController',
+        return $this->render('parent/index.html.twig', [
+            'controller_name' => 'ParentController',
         ]);
     }
 }

@@ -3,13 +3,13 @@
 {% block title %}Classe Royale - Interface direction{% endblock %}
 
 {% block body %}
-    <div class="col-7">
+    <div class="col-12 col-md-7">
         <h3 class="text-center">Interface de direction</h3>
         <p>Bienvenue {{ app.user.firstname }} {{ app.user.lastname }}</p>
         <a href="{{ path('user_show', {'id' : app.user.id}) }}">Mon profil</a><br>
         <a href="{{ path('school_new') }}">Créer mon école</a><br>
     </div>
-    <div class="col-5">
+    <div class="col-12 col-md-5">
         <h3 class="text-center">Mes écoles</h3>
         {% for school in app.user.directors %}
             <a href="{{ path('school_show', {id : school.id}) }}">{{ school.name }}</a>
