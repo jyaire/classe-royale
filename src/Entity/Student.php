@@ -84,6 +84,11 @@ class Student
      */
     private $points;
 
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $birthdate;
+
     public function __construct()
     {
         $this->parent = new ArrayCollection();
@@ -280,6 +285,18 @@ class Student
                 $point->setStudent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBirthdate(): ?\DateTimeInterface
+    {
+        return $this->birthdate;
+    }
+
+    public function setBirthdate(\DateTimeInterface $birthdate): self
+    {
+        $this->birthdate = $birthdate;
 
         return $this;
     }

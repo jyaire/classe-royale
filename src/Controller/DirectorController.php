@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\Constraints\Date;
 
 class DirectorController extends AbstractController
 {
@@ -118,7 +119,8 @@ class DirectorController extends AbstractController
                         $isGirl = 1;
                     }
                     $ine = $data[5];
-                    $dateNaissance = DateTime::createFromFormat("d/m/Y", $data[3]);
+                    $birthdate = $data[3]->format("Y-m-d");
+                    dd($birthdate);
                     $refClassgroup = $data[17];
                     $student = $students->findOneBy(['ine'=> $ine]);
                     if(isset($student)) {
