@@ -1,30 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Classgroup{% endblock %}
+{% block title %}Classe Royale{% endblock %}
 
 {% block body %}
-    <h1>Classgroup</h1>
+<div class="col-12 col-md-7 text-center">
+    <h3>{{ classgroup.name }}</h3>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ classgroup.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ classgroup.name }}</td>
-            </tr>
-            <tr>
-                <th>Ref</th>
-                <td>{{ classgroup.ref }}</td>
-            </tr>
-        </tbody>
-    </table>
+    Référence {{ classgroup.ref }}
 
-    <a href="{{ path('classgroup_index') }}">back to list</a>
+    <br><a href="{{ path('school_show', {'id' : classgroup.school.id}) }}">{{ classgroup.school.name }}</a>
 
-    <a href="{{ path('classgroup_edit', {'id': classgroup.id}) }}">edit</a>
+    <p class="mt-3">
+        <a href="{{ path('classgroup_edit', {'id': classgroup.id}) }}">Modifier</a>
+    </p>
 
     {{ include('classgroup/_delete_form.html.twig') }}
+</div>
+<div class="col-12 col-md-5 text-center">
+    <h3>{{ classgroup.students | length }} élèves</h3>
+    {% for student in classgroup.students %}
+        {{ student.firstname }} {{ student.lastname }}<br>
+    {% else %}
+        Aucun élève actuellement dans cette classe
+    {% endfor %}
+</div>
 {% endblock %}
