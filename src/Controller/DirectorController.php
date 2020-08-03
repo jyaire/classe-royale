@@ -211,7 +211,7 @@ class DirectorController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $message = $user->getFirstname() . ' ' . $user->getLastname() . ' est associé à la classe';
+            $message = $user->getFirstname() . ' ' . $user->getLastname() . ' est associé(e) à la classe';
             $this->addFlash('success', $message);
             return $this->redirectToRoute('classgroup_show', ['id'=>$classgroup->getId()]);
         }
@@ -235,7 +235,7 @@ class DirectorController extends AbstractController
         $entityManager->persist($classgroup);
         $entityManager->flush();
 
-        $message = $teacher->getFirstname() . ' ' . $teacher->getLastname() . ' a été retirée de la classe';
+        $message = $teacher->getFirstname() . ' ' . $teacher->getLastname() . ' a été retiré(e) de la classe';
         $this->addFlash('success', $message);
 
         return $this->redirectToRoute('classgroup_show', ['id'=>$classgroup->getId()]);
