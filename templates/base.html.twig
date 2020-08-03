@@ -23,6 +23,9 @@
                             {% if role == "ROLE_ADMIN" %}
                                 <a href="{{ path('admin') }}">Administration</a>
                             {% endif %}
+                            {% if role == "ROLE_DIRECTOR" %}
+                                <a href="{{ path('director') }}">Direction</a>
+                            {% endif %}
                         {% endfor %}
                     {% endif %}
                 </div>

@@ -13,6 +13,7 @@
         <h3 class="text-center">Mes écoles</h3>
         {% for school in app.user.directors %}
             <a href="{{ path('school_show', {id : school.id}) }}">{{ school.name }}</a>
+            ({{ school.classgroups|length }} classes)
         {% endfor %}
     </div>
 
