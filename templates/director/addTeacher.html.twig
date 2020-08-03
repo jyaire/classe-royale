@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Classe Royale - Ajout d'un enseignant
+{% endblock %}
+
+{% block body %}
+    <div class="col-12 col-md-10 col-lg-7 text-center">
+        <h3>Ajout d'un enseignant</h3>
+        <p>Adresse e-mail de l'enseignant de la classe</p>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="third-button">{{ button_label|default('Ajouter à la classe') }}</button>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
+
+
+

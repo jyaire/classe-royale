@@ -8,16 +8,17 @@ use App\Entity\Student;
 use App\Form\ImportType;
 use App\Repository\ClassgroupRepository;
 use App\Repository\StudentRepository;
+use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Validator\Constraints\Date;
 
 class DirectorController extends AbstractController
 {
@@ -37,6 +38,7 @@ class DirectorController extends AbstractController
      * @param Request $request
      * @param School $school
      * @param EntityManagerInterface $em
+     * @param ClassgroupRepository $classgroupRepository
      * @param StudentRepository $students
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @return RedirectResponse|Response
@@ -81,7 +83,7 @@ class DirectorController extends AbstractController
 
             $csv = fopen($destination . $newFilename, 'r');
             $i = 0;
-            $iClassgroup = 0;
+            $iClassAdd = 0;
             while (($data = fgetcsv($csv, 0, ';')) !== FALSE) {
                 $data = array_map("utf8_encode", $data);
                 // pass the first title line
@@ -96,19 +98,20 @@ class DirectorController extends AbstractController
                             ->setName("Classe n°" . $data[17])
                             ->setRef($data[17])
                             ->setSchool($school)
+                            ->addSection($data[16])
                         ;
                         $em->persist($classgroup);
                         $em->flush();
-                        $iClassgroup++;
+                        $iClassAdd++;
                     }
                 }
                 $i++;
             }
             // send confirmation if classgroup added
-            if ($iClassgroup > 0) {
+            if ($iClassAdd > 0) {
                 $this->addFlash(
                     'success',
-                    "$iClassgroup classes ajoutées"
+                    "$iClassAdd classes ajoutées"
                 );
             }
 
@@ -182,6 +185,38 @@ class DirectorController extends AbstractController
             'form' => $form->createView(),
             'students' => $students,
             'school' => $school,
+        ]);
+    }
+
+    /**
+     * @Route("/director/class/{id}/addTeacher", name="director_addTeacher")
+     * @param Request $request
+     * @param Classgroup $classgroup
+     * @param UserRepository $userRepository
+     * @return RedirectResponse|Response
+     */
+    public function addTeacher(Request $request, Classgroup $classgroup, UserRepository $userRepository)
+    {
+        $form = $this->createFormBuilder()
+            ->add('email', EmailType::class)
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $email = $form->getData();
+            $user = $userRepository->findOneBy(['email' => $email]);
+            $user->addClassgroup($classgroup);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $message = $user->getFirstname() . ' ' . $user->getLastname() . ' est associé à la classe';
+            $this->addFlash('success', $message);
+            return $this->redirectToRoute('classgroup_show', ['id'=>$classgroup->getId()]);
+        }
+
+        return $this->render('director/addTeacher.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }
