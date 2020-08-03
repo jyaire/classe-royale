@@ -3,14 +3,20 @@
 {% block title %}Classe Royale - Ajout d'élèves{% endblock %}
 
 {% block body %}
+    <div class="col-12 col-md-7 text-center">
+        <h3>{{ school.name }} - {{ school.city }}</h3>
+    </div>
 
-    <div class="col-12 col-md-10 col-lg-7 text-center">
-        <h3>Charger les élèves depuis Onde</h3>
+    <div class="col-12 col-md-7 text-center">
+        <p>Import des classes et des élèves depuis Onde</p>
         {{ form_start(form) }}
-        <p>Merci de charger un fichier au format CSV</p>
         <p>{{ form_widget(form.students) }}</p>
         {{ form_row(form.submit, {'label': 'Envoyer', 'attr': {'class': 'third-button'}}) }}
         {{ form_end(form) }}
+
+    </div>
+    <div class="col-12 col-md-5 text-center pt-5">
+        <p>Merci de charger un fichier au format CSV</p>
         <p>Les élèves existants seront mis à jour, les nouveaux ajoutés</p>
     </div>
 

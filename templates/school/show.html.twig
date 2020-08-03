@@ -22,7 +22,7 @@
         Aucune classe dans cette école
     {% endfor %}
     <p>
-        <a href="{{ path('admin_import') }}" title="Importer des élèves">Importer classes et élèves depuis Onde</a><br>
+        <a href="{{ path('import_students', {'id' : school.id}) }}" title="Importer des élèves">Importer classes et élèves depuis Onde</a><br>
         <a href="{{ path('classgroup_new') }}">Ajouter une classe manuellement</a><br>
     </p>
 </div>

@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Classgroup;
+use App\Entity\School;
 use App\Entity\Student;
 use App\Form\ImportType;
+use App\Repository\ClassgroupRepository;
 use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -28,8 +31,9 @@ class DirectorController extends AbstractController
     }
 
     /**
-     * @Route("/admin/import", name="admin_import")
+     * @Route("/director/school/{id}/import", name="import_students")
      * @param Request $request
+     * @param School $school
      * @param EntityManagerInterface $em
      * @param StudentRepository $students
      * @param UserPasswordEncoderInterface $passwordEncoder
@@ -37,7 +41,9 @@ class DirectorController extends AbstractController
      */
     public function importStudents(
         Request $request,
+        School $school,
         EntityManagerInterface $em,
+        ClassgroupRepository $classgroupRepository,
         StudentRepository $students,
         UserPasswordEncoderInterface $passwordEncoder
     )
@@ -69,9 +75,35 @@ class DirectorController extends AbstractController
                 $newFilename
             );
 
-            // open the file to put data in DB and compare with old one
-            $oldStudents = $students->findAll();
+            // open the file to create classgroups if not exist
+
             $csv = fopen($destination . $newFilename, 'r');
+            $i = 0;
+            $iClassgroup = 0;
+            while (($data = fgetcsv($csv, 0, ';')) !== FALSE) {
+                $data = array_map("utf8_encode", $data);
+                // pass the first title line
+                if ($i != 0) {
+                    // search if classgroup already here
+                    $refClassgroup = $data[17];
+                    $classgroup = $classgroupRepository->findOneBy(['ref'=> $refClassgroup]);
+                    // if no, add it
+                    if(!isset($classgroup)) {
+                        $classgroup = new Classgroup();
+                        $classgroup
+                            ->setName("Classe n°" . $data[15])
+                            ->setRef($data[15])
+                            ->setSchool($school)
+                        ;
+                        $em->persist($classgroup);
+                        $iClassgroup++;
+                    }
+                }
+                $i++;
+            }
+            $em->flush();
+
+            // put students in DB and compare with old one
             $i = 0;
             $iModif = 0;
             $iAdd = 0;
@@ -81,12 +113,20 @@ class DirectorController extends AbstractController
                 if ($i != 0) {
                     // search if student already here
                     // if yes, add , if no update (add or modify)
+                    $isGirl = 0;
+                    if($data[4]=="F") {
+                        $isGirl = 1;
+                    }
                     $ine = $data[5];
+                    $dateNaissance = DateTime::createFromFormat("d/m/Y", $data[3]);
+                    $refClassgroup = $data[17];
                     $student = $students->findOneBy(['ine'=> $ine]);
                     if(isset($student)) {
                         $student
-                            ->setSection($data[15])
-                            ->setIsCaution(0)
+                            ->setLastname($data[0])
+                            ->setFirstname($data[2])
+                            ->setIsGirl($isGirl)
+                            ->setDateModif(new DateTime())
                         ;
                         $em->persist($student);
                         $iModif++;
@@ -94,15 +134,6 @@ class DirectorController extends AbstractController
                     else {
                         // add pupils
                         $student = new Student();
-                        $dateNaissance = DateTime::createFromFormat("d/m/Y", $data[3]);
-                        $refClassgroup = $data[18];
-                        dd($refClassgroup);
-                        if($data[4]=="M") {
-                            $isGirl = 0;
-                        }
-                        else {
-                            $isGirl = 1;
-                        }
                         $student
                             ->setLastname($data[0])
                             ->setFirstname($data[2])
@@ -135,6 +166,7 @@ class DirectorController extends AbstractController
         return $this->render('admin/import.html.twig', [
             'form' => $form->createView(),
             'students' => $students,
+            'school' => $school,
         ]);
     }
 }

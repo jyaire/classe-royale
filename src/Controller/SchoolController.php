@@ -57,6 +57,8 @@ class SchoolController extends AbstractController
 
     /**
      * @Route("/{id}", name="school_show", methods={"GET"})
+     * @param School $school
+     * @return Response
      */
     public function show(School $school): Response
     {
