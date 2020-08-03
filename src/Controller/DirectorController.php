@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Classgroup;
 use App\Entity\School;
 use App\Entity\Student;
+use App\Entity\User;
 use App\Form\ImportType;
 use App\Repository\ClassgroupRepository;
 use App\Repository\StudentRepository;
@@ -218,5 +219,25 @@ class DirectorController extends AbstractController
         return $this->render('director/addTeacher.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("director/class/{classgroup}/deleteTeacher/{teacher}", name="teacher_delete")
+     * @param Request $request
+     * @param Classgroup $classgroup
+     * @param User $teacher
+     * @return Response
+     */
+    public function delete(Request $request, Classgroup $classgroup, User $teacher): Response
+    {
+        $classgroup->removeTeacher($teacher);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($classgroup);
+        $entityManager->flush();
+
+        $message = $teacher->getFirstname() . ' ' . $teacher->getLastname() . ' a été retirée de la classe';
+        $this->addFlash('success', $message);
+
+        return $this->redirectToRoute('classgroup_show', ['id'=>$classgroup->getId()]);
     }
 }
