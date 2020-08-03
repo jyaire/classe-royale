@@ -8,6 +8,7 @@ use App\Entity\Student;
 use App\Form\ImportType;
 use App\Repository\ClassgroupRepository;
 use App\Repository\StudentRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -92,24 +93,32 @@ class DirectorController extends AbstractController
                     if(!isset($classgroup)) {
                         $classgroup = new Classgroup();
                         $classgroup
-                            ->setName("Classe n°" . $data[15])
-                            ->setRef($data[15])
+                            ->setName("Classe n°" . $data[17])
+                            ->setRef($data[17])
                             ->setSchool($school)
                         ;
                         $em->persist($classgroup);
+                        $em->flush();
                         $iClassgroup++;
                     }
                 }
                 $i++;
             }
-            $em->flush();
+            // send confirmation if classgroup added
+            if ($iClassgroup > 0) {
+                $this->addFlash(
+                    'success',
+                    "$iClassgroup classes ajoutées"
+                );
+            }
 
             // put students in DB and compare with old one
+            $csv = fopen($destination . $newFilename, 'r');
             $i = 0;
             $iModif = 0;
             $iAdd = 0;
-            while (($data = fgetcsv($csv, 0, ';')) !== FALSE) {
-                $data = array_map("utf8_encode", $data);
+            while (($data2 = fgetcsv($csv, 0, ';')) !== FALSE) {
+                $data = array_map("utf8_encode", $data2);
                 // pass the first title line
                 if ($i != 0) {
                     // search if student already here
@@ -119,16 +128,18 @@ class DirectorController extends AbstractController
                         $isGirl = 1;
                     }
                     $ine = $data[5];
-                    $birthdate = $data[3]->format("Y-m-d");
-                    dd($birthdate);
+                    $birthdate = DateTime::createFromFormat('d/m/Y', $data[3]);
                     $refClassgroup = $data[17];
+                    $classgroup = $classgroupRepository->findOneBy(['ref'=>$refClassgroup]);
                     $student = $students->findOneBy(['ine'=> $ine]);
                     if(isset($student)) {
                         $student
+                            ->setClassgroup($classgroup)
                             ->setLastname($data[0])
                             ->setFirstname($data[2])
                             ->setIsGirl($isGirl)
                             ->setDateModif(new DateTime())
+                            ->setBirthdate($birthdate)
                         ;
                         $em->persist($student);
                         $iModif++;
@@ -137,6 +148,7 @@ class DirectorController extends AbstractController
                         // add pupils
                         $student = new Student();
                         $student
+                            ->setClassgroup($classgroup)
                             ->setLastname($data[0])
                             ->setFirstname($data[2])
                             ->setIne($data[5])
@@ -146,6 +158,7 @@ class DirectorController extends AbstractController
                             ->setXp(5)
                             ->setGold(50)
                             ->setElixir(50)
+                            ->setBirthdate($birthdate)
                         ;
                         $em->persist($student);
                         $iAdd++;
