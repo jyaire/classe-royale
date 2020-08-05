@@ -50,6 +50,20 @@ a{
             text-decoration: none;
         }
     }
+
+    .logo-header {
+        position: absolute;
+        z-index: 2;
+        left: 10px;
+        top: -5px;
+        width: 100px;
+        @include media-breakpoint-up(sm) {
+            width: 200px;
+        }
+        @include media-breakpoint-up(lg) {
+            width: 250px;
+        }
+    }
 }
 
 /* BUTTONS */
