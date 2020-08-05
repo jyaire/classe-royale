@@ -10,28 +10,35 @@
     </head>
     <body>
         <div class="container-fluid">
-            <div class="row header align-content-center">
+            <div class="row header">
                 <div class="col-3 text-center">
                     <a href="{{ path('home') }}">
                         <img src="{{ asset('images/cr_logo_300.png') }}" class="logo-header">
                     </a>
                 </div>
-                <div class="col-3 text-center">
-                    vide
-                </div>
-                <div class="col-3 text-center">
+                <div class="tab-background col-3 text-center pt-3">
                     {% if app.user %}
                         {% for role in app.user.roles %}
-                            {% if role == "ROLE_ADMIN" %}
-                                <a href="{{ path('admin') }}">Administration</a>
-                            {% endif %}
                             {% if role == "ROLE_DIRECTOR" %}
                                 <a href="{{ path('director') }}">Direction</a>
+                            {% else %}
+                                Compte
                             {% endif %}
                         {% endfor %}
                     {% endif %}
                 </div>
-                <div class="col-3 text-center">
+                <div class="tab-background col-3 text-center pt-3">
+                    {% if app.user %}
+                        {% for role in app.user.roles %}
+                            {% if role == "ROLE_ADMIN" %}
+                                <a href="{{ path('admin') }}">Administration</a>
+                            {% else %}
+                                Cartes
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="tab-background col-3 text-center pt-3">
                     {% if app.user %}
                         <a href="{{ path('user_show', {'id' : app.user.id}) }}">{{ app.user.firstname }}</a>
                          - <a href="{{ path('app_logout') }}">déconnexion</a>
@@ -60,7 +67,7 @@
                     </div>
                 {% endfor %}
             </div>
-                <div class="col-12 p-3"></div>
+                <div class="col-12 p-3 p-lg-4"></div>
 
             {% block body %}{% endblock %}
 
