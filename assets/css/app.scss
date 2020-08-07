@@ -71,7 +71,17 @@ a{
 
     .tab-background:hover {
         color: black;
-        background-color: $third-color;
+        background: linear-gradient(white, $third-color);
+
+        a {
+            color: black;
+            text-decoration: none;
+
+            &:hover {
+                color: black;
+                text-decoration: none;
+            }
+        }
     }
 }
 

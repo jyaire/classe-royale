@@ -16,26 +16,45 @@
                         <img src="{{ asset('images/cr_logo_300.png') }}" class="logo-header">
                     </a>
                 </div>
+
+                {% if app.user %}
+                    {% for role in app.user.roles %}
+                        {% if role == "ROLE_SUPER_ADMIN" %}
+                            {% set role = "admin" %}
+                        {% elseif role == "ROLE_ADMIN" %}
+                            {% set role = "admin" %}
+                        {% elseif role == "ROLE_DIRECTOR" %}
+                            {% set role = "director" %}
+                        {% elseif role == "ROLE_DIRECTOR" %}
+                            {% set role = "teacher" %}
+                        {% else %}
+                            {% set role = "parent" %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
                 <div class="tab-background col-3 text-center pt-3">
                     {% if app.user %}
                         {% for role in app.user.roles %}
                             {% if role == "ROLE_DIRECTOR" %}
                                 <a href="{{ path('director') }}">Direction</a>
-                            {% else %}
-                                Compte
                             {% endif %}
                         {% endfor %}
                     {% endif %}
                 </div>
                 <div class="tab-background col-3 text-center pt-3">
+                    {% set noAdmin = 0 %}
                     {% if app.user %}
                         {% for role in app.user.roles %}
                             {% if role == "ROLE_ADMIN" %}
                                 <a href="{{ path('admin') }}">Administration</a>
-                            {% else %}
-                                Cartes
                             {% endif %}
+                        {% else %}
+                            {% set noAdmin = 1 %}
                         {% endfor %}
+                        {% if noAdmin == 1 %}
+                            Cartes
+                        {% endif %}
                     {% endif %}
                 </div>
                 <div class="tab-background col-3 text-center pt-3">
