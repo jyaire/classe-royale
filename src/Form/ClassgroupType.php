@@ -13,10 +13,6 @@ class ClassgroupType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('ref')
-            ->add('school')
-            ->add('teacher')
-            ->add('section')
         ;
     }
 

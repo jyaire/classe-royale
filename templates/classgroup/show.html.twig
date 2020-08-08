@@ -5,7 +5,9 @@
 {% block body %}
 <div class="col-12 col-md-7 text-center">
     <h3>{{ classgroup.name }}</h3>
-
+    <p class="mt-3">
+        <a href="{{ path('classgroup_edit', {'id': classgroup.id}) }}">Modifier le nom de cette classe</a>
+    </p>
     Référence {{ classgroup.ref }}
 
     <br><a href="{{ path('school_show', {'id' : classgroup.school.id}) }}">{{ classgroup.school.name }}</a>
@@ -19,9 +21,6 @@
         {% endfor %}
     </p>
     <a href="{{ path('director_addTeacher', {'id' : classgroup.id }) }}">Ajouter un enseignant</a>
-    <p class="mt-3">
-        <a href="{{ path('classgroup_edit', {'id': classgroup.id}) }}">Modifier</a>
-    </p>
 
     {{ include('classgroup/_delete_form.html.twig') }}
 </div>

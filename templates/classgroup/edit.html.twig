@@ -3,9 +3,10 @@
 {% block title %}Edit Classgroup{% endblock %}
 
 {% block body %}
-    <h1>Edit Classgroup</h1>
+<div class="col-12 col-md-10 col-lg-7 text-center">
+    <h3>Modifier la classe n°{{ classgroup.ref }}</h3>
 
-    {{ include('classgroup/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('classgroup/_form.html.twig', {'button_label': 'Changer le nom'}) }}
 
     <a href="{{ path('classgroup_index') }}">back to list</a>
 
