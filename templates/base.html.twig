@@ -17,46 +17,49 @@
                     </a>
                 </div>
 
+                {% set status = 'visitor' %}
                 {% if app.user %}
                     {% for role in app.user.roles %}
                         {% if role == "ROLE_SUPER_ADMIN" %}
-                            {% set role = "admin" %}
+                            {% set status = "admin" %}
                         {% elseif role == "ROLE_ADMIN" %}
-                            {% set role = "admin" %}
+                            {% set status = "admin" %}
                         {% elseif role == "ROLE_DIRECTOR" %}
-                            {% set role = "director" %}
+                            {% set status = "director" %}
                         {% elseif role == "ROLE_DIRECTOR" %}
-                            {% set role = "teacher" %}
-                        {% else %}
-                            {% set role = "parent" %}
+                            {% set status = "teacher" %}
+                        {% elseif role == "ROLE_PARENT" %}
+                            {% set status = "parent" %}
                         {% endif %}
                     {% endfor %}
                 {% endif %}
 
-                <div class="tab-background col-3 text-center pt-3">
-                    {% if app.user %}
-                        {% for role in app.user.roles %}
-                            {% if role == "ROLE_DIRECTOR" %}
-                                <a href="{{ path('director') }}">Direction</a>
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                </div>
-                <div class="tab-background col-3 text-center pt-3">
-                    {% set noAdmin = 0 %}
-                    {% if app.user %}
-                        {% for role in app.user.roles %}
-                            {% if role == "ROLE_ADMIN" %}
-                                <a href="{{ path('admin') }}">Administration</a>
-                            {% endif %}
-                        {% else %}
-                            {% set noAdmin = 1 %}
-                        {% endfor %}
-                        {% if noAdmin == 1 %}
-                            Cartes
-                        {% endif %}
-                    {% endif %}
-                </div>
+                {% if status == "admin" %}
+                    <div class="tab-background col-3 text-center pt-3">
+                        <a href="{{ path('admin') }}">Administration</a>
+                    </div>
+                    {% else %}
+                        <div class="col-3 text-center pt-3">
+                        </div>
+                {% endif %}
+
+                {% if status == "director" %}
+                    <div class="tab-background col-3 text-center pt-3">
+                        <a href="{{ path('director') }}">Direction</a>
+                    </div>
+                {% elseif status == "parent" %}
+                    <div class="tab-background col-3 text-center pt-3">
+                        <a href="{{ path('parent') }}">Mes enfants</a>
+                    </div>
+                {% elseif status == "visitor" %}
+                    <div class="tab-background col-3 text-center pt-3">
+                        <a href="{{ path('infos') }}">Infos</a>
+                    </div>
+                {% else %}
+                    <div class="col-3 text-center pt-3">
+                    </div>
+                {% endif %}
+
                 <div class="tab-background col-3 text-center pt-3">
                     {% if app.user %}
                         <a href="{{ path('user_show', {'id' : app.user.id}) }}">{{ app.user.firstname }}</a>

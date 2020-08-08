@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="col-12">
+        <h3 class=" text-center">En savoir plus sur Classe Royale</h3>
+    </div>
+    <div class="col-12 col-md-10 col-lg-7">
+        Classe Royale est un système d'évaluation ludique destiné aux élèves de la Maternelle au CM2.<br>
+        <br>Cette plate-forme reprend les classiques de la motivation ludique&nbsp;:<br>
+    </div>
+    <div class="col-12 col-md-10 col-lg-7 pt-3">
+        <div class="row">
+            <div class="col-4">
+                Cartes d'apprentissage<br>
+                img
+            </div>
+            <div class="col-4">
+                Pièces d'or<br>
+                img
+            </div>
+            <div class="col-4">
+                Elixir<br>
+                img
+            </div>
+            <div class="col-4">
+                Les cartes gagnées s'améliorent en débloquant des niveaux
+            </div>
+            <div class="col-4">
+                Les pièces d'Or sont récoltées après des défis ou des travaux scolaires remarquables, elles permettent d'acheter des objets magiques ou débloquer des niveaux
+            </div>
+            <div class="col-4">
+                Tu reçois des gouttes d'Elixir si tu as des comportements exemplaires (tu aides les copains, tu as une responsabilité dans ta classe, tu as amélioré ton comportement...)
+            </div>
+        </div>
+        <a href="{{ path('app_register') }}" class="third-button">Inscris-toi</a>
+    </div>
+
+{% endblock %}
+
+{% block title %}
+Classe Royale - En savoir plus
+{% endblock %}
+
