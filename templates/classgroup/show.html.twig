@@ -27,7 +27,10 @@
 <div class="col-12 col-md-5 text-center">
     <h3>{{ classgroup.students | length }} élèves</h3>
     {% for student in classgroup.students %}
-        {{ student.firstname }} {{ student.lastname }}<br>
+        <a href="{{ path('student_show', {'id': student.id}) }}">
+            {{ student.firstname }} {{ student.lastname }}
+        </a>
+        <br>
     {% else %}
         Aucun élève actuellement dans cette classe
     {% endfor %}
