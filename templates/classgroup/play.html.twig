@@ -1,7 +1,20 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-Ici on joue
+    {% for student in classgroup.students %}
+        <a href="{{ path('student_show', {'id': student.id}) }}">
+            <div class="student-box">
+                <div>
+                    {% if student.isGirl == 1 %}
+                        <img src="{{ asset('images/emoticon-pouces-f.png') }}" alt="{{ student.firstname }}">
+                    {% else %}
+                        <img src="{{ asset('images/emoticon-pouces-m.png') }}" alt="{{ student.firstname }}">
+                    {% endif %}
+                    <p>{{ student.firstname }}</p>
+                </div>
+            </div>
+        </a>
+    {% endfor %}
 {% endblock %}
 
 {% block title %}

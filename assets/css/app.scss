@@ -169,3 +169,26 @@ a{
 .emoticon-info {
     max-width: 120px;
 }
+
+/* PLAY */
+
+.student-box {
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+    align-items: center;
+    text-align: center;
+    background-color: #384A5E;
+    width: 130px;
+    height: 130px;
+    font-size: 0.8rem;
+
+    img {
+        width: 60px;
+        height: auto;
+   }
+
+    &:hover {
+        background-color: #00AFFE;
+    }
+}
