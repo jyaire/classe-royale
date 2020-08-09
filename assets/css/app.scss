@@ -87,7 +87,7 @@ a{
 
 /* BUTTONS */
 
-@mixin button($color){
+@mixin button($color) {
     background-color : $color;
     border-radius : 5px;
     text-decoration : none;
@@ -108,7 +108,7 @@ a{
     -webkit-transition-property: transform;
     transition-property: transform;
 
-    &:hover{
+    &:hover {
         -webkit-transform: scale(1.1);
         transform: scale(1.1);
         background-color: darken($color, 10%); ;
@@ -117,12 +117,28 @@ a{
     }
 }
 
-.primary-button{
+.primary-button {
     @include button($primary-color)
 }
 
-.third-button{
+.third-button {
     @include button($third-color)
+}
+
+.choice-button {
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+    align-items: center;
+    background-color: #F3E2CE;
+    width: 130px;
+    height: 130px;
+    font-size: 0.8rem;
+}
+
+.add-button {
+    width: 50%;
+    height: auto;
 }
 
 /* MAIN */

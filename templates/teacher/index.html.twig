@@ -4,19 +4,26 @@
 
 {% block body %}
     <div class="col-12 col-md-7">
-        <h3 class="text-center">Interface Enseignant</h3>
         <p>Bienvenue {{ app.user.firstname }} {{ app.user.lastname }}</p>
-        <a href="{{ path('user_show', {'id' : app.user.id}) }}">Mon profil</a><br>
-    </div>
-    <div class="col-12 col-md-5">
-        <h3 class="text-center">Mes classes</h3>
-        {% for classgroup in app.user.classgroups %}
-            <a href="{{ path('classgroup_show', {id : classgroup.id}) }}">{{ classgroup.name }}</a>
-        {% else %}
-            Aucune classe rattachée
-        {% endfor %}
-        <p class="mt-4">
-            <a href="{{ path('classgroup_new') }}">Ajouter une classe</a>
-        </p>
+        <h3>Mes classes</h3>
+        <div class="row">
+            {% for classgroup in app.user.classgroups %}
+                    <a href="{{ path('classgroup_show', {id : classgroup.id}) }}">
+                        <div class="choice-button text-center">
+                           {{ classgroup.name }}
+                        </div>
+                    </a>
+            {% else %}
+                    Aucune classe rattachée
+            {% endfor %}
+            <a href="{{ path('classgroup_new') }}">
+                <div class="choice-button">
+                    <img src="{{ asset('images/add.png') }}"
+                         alt="Ajouter une classe" class="add-button"
+                         title="Ajouter une classe">
+                </div>
+            </a>
+        </div>
+
     </div>
 {% endblock %}
