@@ -50,10 +50,19 @@ class ClassgroupController extends AbstractController
 
     /**
      * @Route("/{id}", name="classgroup_show", methods={"GET"})
+     * @param Classgroup $classgroup
+     * @return Response
      */
     public function show(Classgroup $classgroup): Response
     {
-        return $this->render('classgroup/show.html.twig', [
+        foreach ($this->getUser()->getRoles() as $role) {
+            if ($role == "ROLE_ADMIN") {
+                return $this->render('classgroup/show.html.twig', [
+                    'classgroup' => $classgroup,
+                ]);
+            }
+        }
+        return $this->render('classgroup/play.html.twig', [
             'classgroup' => $classgroup,
         ]);
     }
