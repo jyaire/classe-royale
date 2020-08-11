@@ -16,7 +16,8 @@
 ###< symfony/phpunit-bridge ###
 
 ###> User files ###
-
+/public/uploads/
+/public/avatars/
 ###< User files ###
 
 ###> jetbrain/phpstorm ###
