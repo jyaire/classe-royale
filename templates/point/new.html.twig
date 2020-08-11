@@ -3,9 +3,23 @@
 {% block title %}New Point{% endblock %}
 
 {% block body %}
-    <h1>Create new Point</h1>
+<div class="col-12 text-center">
+    <h3>Ajout
+        {% if point.type == "gold" %}d'Or {% else %}d'Elixir {% endif %} à {{ student.firstname }}</h3>
+</div>
 
-    {{ include('point/_form.html.twig') }}
+<div class="col-12 col-sm-10 col-lg-7 text-center">
+    <div class="row">
+        <div class="col-6">
+            {{ student.firstname }}
+        </div>
+        <div class="col-6">
+            {{ include('point/_form.html.twig') }}
+        </div>
+    </div>
+
+
 
     <a href="{{ path('point_index') }}">back to list</a>
+</div>
 {% endblock %}

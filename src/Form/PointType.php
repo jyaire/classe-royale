@@ -12,10 +12,7 @@ class PointType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('type')
             ->add('quantity')
-            ->add('date')
-            ->add('student')
             ->add('reason')
         ;
     }

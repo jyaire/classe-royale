@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Point;
+use App\Entity\Student;
 use App\Form\PointType;
 use App\Repository\PointRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,24 +27,34 @@ class PointController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="point_new", methods={"GET","POST"})
+     * @Route("/new/{id}/{type}", name="point_new", methods={"GET","POST"})
+     * @param Student $student
+     * @param string $type
+     * @param Request $request
+     * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Student $student, string $type, Request $request): Response
     {
         $point = new Point();
+        $point
+            ->setType($type)
+            ->setStudent($student);
         $form = $this->createForm(PointType::class, $point);
+        $form->remove('reason');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $point->setDate(new \DateTime());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($point);
             $entityManager->flush();
 
-            return $this->redirectToRoute('point_index');
+            return $this->redirectToRoute('student_show', ['id' => $student->getId()]);
         }
 
         return $this->render('point/new.html.twig', [
             'point' => $point,
+            'student' => $student,
             'form' => $form->createView(),
         ]);
     }

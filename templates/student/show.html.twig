@@ -32,12 +32,16 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="win-box">
-                            <img src="{{ asset('images/gold.png') }}" alt="Or">{{ student.gold }}
+                            <a href="{{ path('point_new', {'id' : student.id, 'type' : 'gold'}) }}">
+                                <img src="{{ asset('images/gold.png') }}" alt="Or">{{ student.gold }}
+                            </a>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="win-box">
-                            <img src="{{ asset('images/elixir.png') }}" alt="Elixir"> {{ student.elixir }}
+                            <a href="{{ path('point_new', {'id' : student.id, 'type' : 'elixir'}) }}">
+                                <img src="{{ asset('images/elixir.png') }}" alt="Elixir"> {{ student.elixir }}
+                            </a>
                         </div>
                     </div>
                     <div class="col-12 pt-4">
