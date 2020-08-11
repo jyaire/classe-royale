@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Point{% endblock %}
+
+{% block body %}
+    <h1>Point</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ point.id }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ point.type }}</td>
+            </tr>
+            <tr>
+                <th>Quantity</th>
+                <td>{{ point.quantity }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ point.date ? point.date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('point_index') }}">back to list</a>
+
+    <a href="{{ path('point_edit', {'id': point.id}) }}">edit</a>
+
+    {{ include('point/_delete_form.html.twig') }}
+{% endblock %}
