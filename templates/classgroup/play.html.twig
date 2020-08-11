@@ -5,10 +5,15 @@
         <a href="{{ path('student_show', {'id': student.id}) }}">
             <div class="student-box">
                 <div>
-                    {% if student.isGirl == 1 %}
-                        <img src="{{ asset('images/emoticon-pouces-f.png') }}" alt="{{ student.firstname }}">
+                    {% if student.avatar is empty %}
+                        {% if student.isGirl == 1 %}
+                            <img src="{{ asset('images/emoticon-pouces-f.png') }}" alt="{{ student.firstname }}">
+                        {% else %}
+                            <img src="{{ asset('images/emoticon-pouces-m.png') }}" alt="{{ student.firstname }}">
+                        {% endif %}
                     {% else %}
-                        <img src="{{ asset('images/emoticon-pouces-m.png') }}" alt="{{ student.firstname }}">
+                        <img src="{{ asset('avatars/' ~ student.avatar) }}"
+                             alt="{{ student.firstname }}">
                     {% endif %}
                     <p>{{ student.firstname }}</p>
                 </div>

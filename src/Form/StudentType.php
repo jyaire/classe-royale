@@ -16,14 +16,6 @@ class StudentType extends AbstractType
             ->add('firstname')
             ->add('ine')
             ->add('isGirl')
-            ->add('dateCreate')
-            ->add('dateModif')
-            ->add('isLead')
-            ->add('xp')
-            ->add('gold')
-            ->add('elixir')
-            ->add('classgroup')
-            ->add('parent')
         ;
     }
 

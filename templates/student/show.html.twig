@@ -14,14 +14,16 @@
     <div class="col-6 col-md-4">
         {% if student.avatar is empty %}
             {%  if student.isGirl == 1 %}
-                <img src="{{ asset('images/emoticon-pouces-f.png') }}" alt="{{ student.firstname }} {{ student.lastname }}">
+                <img src="{{ asset('images/emoticon-pouces-f.png') }}"
+                     alt="{{ student.firstname }} {{ student.lastname }}"
+                     class="emoticon-info">
             {% else %}
                 <img src="{{ asset('images/emoticon-pouces-m.png') }}"
                      alt="{{ student.firstname }} {{ student.lastname }}"
                     class="emoticon-info">
             {% endif %}
         {% else %}
-            <img src="{{ asset('avatars/'.student.avatar) }}"
+            <img src="{{ asset('avatars/' ~ student.avatar) }}"
                  alt="{{ student.firstname }} {{ student.lastname }}"
                  class="emoticon-info">
         {% endif %}

@@ -17,6 +17,8 @@ class StudentController extends AbstractController
 {
     /**
      * @Route("/", name="student_index", methods={"GET"})
+     * @param StudentRepository $studentRepository
+     * @return Response
      */
     public function index(StudentRepository $studentRepository): Response
     {
@@ -27,6 +29,8 @@ class StudentController extends AbstractController
 
     /**
      * @Route("/new", name="student_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -50,6 +54,8 @@ class StudentController extends AbstractController
 
     /**
      * @Route("/{id}", name="student_show", methods={"GET"})
+     * @param Student $student
+     * @return Response
      */
     public function show(Student $student): Response
     {
@@ -60,6 +66,9 @@ class StudentController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="student_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Student $student
+     * @return Response
      */
     public function edit(Request $request, Student $student): Response
     {
@@ -69,7 +78,7 @@ class StudentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('student_index');
+            return $this->redirectToRoute('student_show', ['id'=>$student->getId()]);
         }
 
         return $this->render('student/edit.html.twig', [
