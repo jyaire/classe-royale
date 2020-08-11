@@ -34,6 +34,10 @@ a{
     }
 }
 
+.small-text {
+    font-size: 0.6rem;
+}
+
 /* HEADER */
 
 .header {
@@ -132,7 +136,7 @@ a{
     justify-content: center;
     margin: 5px;
     align-items: center;
-    background-color: #F3E2CE;
+    background-color: $fifth-color;
     width: 130px;
     height: 130px;
     font-size: 0.8rem;
@@ -180,7 +184,7 @@ a{
     margin: 5px;
     align-items: center;
     text-align: center;
-    background-color: #384A5E;
+    background-color: $primary-color;
     width: 130px;
     height: 130px;
     font-size: 0.8rem;
@@ -188,9 +192,37 @@ a{
     img {
         width: 60px;
         height: auto;
-   }
+    }
 
     &:hover {
         background-color: #00AFFE;
+    }
+}
+
+/* STUDENT PROFILE */
+
+#profile {
+    background-color: $fifth-color;
+    padding: 10px;
+    border-radius: 25px;
+    color: black;
+
+    img {
+        border-bottom: solid 10px black;
+    }
+
+    .win-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color:$third-color;
+        font-size: 1.3rem;
+
+        img {
+            width: 70px;
+            height: auto;
+            border: none;
+            padding-right: 20px;
+        }
     }
 }

@@ -4,47 +4,57 @@
 
 {% block body %}
     <div class="col-12 text-center">
-        <h1>{{ student.firstname }} {{ student.lastname }}</h1>
+        <h3>{{ student.firstname }} {{ student.lastname }}</h3>
     </div>
 
-    <div class="col-6 offset-md-2 col-md-4">
-        Joueur depuis le {{ student.dateCreate ? student.dateCreate|date('d/m/Y') : '' }}<br>
-        Responsable des élèves : {{ student.isLead ? 'Oui' : 'Non' }}<br>
-    </div>
-    <div class="col-6 col-md-4">
-        {% if student.avatar is empty %}
-            {%  if student.isGirl == 1 %}
-                <img src="{{ asset('images/emoticon-pouces-f.png') }}"
-                     alt="{{ student.firstname }} {{ student.lastname }}"
-                     class="emoticon-info">
-            {% else %}
-                <img src="{{ asset('images/emoticon-pouces-m.png') }}"
-                     alt="{{ student.firstname }} {{ student.lastname }}"
-                    class="emoticon-info">
-            {% endif %}
-        {% else %}
-            <img src="{{ asset('avatars/' ~ student.avatar) }}"
-                 alt="{{ student.firstname }} {{ student.lastname }}"
-                 class="emoticon-info">
-        {% endif %}
-        <a href="{{ path('student_edit_avatar', {'id': student.id}) }}">Modifier</a>
-    </div>
-    <div class="col-6 col-md-3">
-        XP : {{ student.xp }}
-    </div>
-    <div class="col-6 col-md-3">
-        Cartes : 0
-    </div>
-    <div class="col-6 col-md-3">
-        Or : {{ student.gold }}
-    </div>
-    <div class="col-6 col-md-3">
-        Elixir : {{ student.elixir }}
+    <div class="col-12 col-sm-10 col-lg-7 text-center" id="profile">
+        <div class="row">
+            <div class="col-4 ">
+                {% if student.avatar is empty %}
+                    {%  if student.isGirl == 1 %}
+                        <img src="{{ asset('images/emoticon-pouces-f.png') }}"
+                             alt="{{ student.firstname }} {{ student.lastname }}"
+                             class="emoticon-info">
+                    {% else %}
+                        <img src="{{ asset('images/emoticon-pouces-m.png') }}"
+                             alt="{{ student.firstname }} {{ student.lastname }}"
+                             class="emoticon-info">
+                    {% endif %}
+                {% else %}
+                    <img src="{{ asset('avatars/' ~ student.avatar) }}"
+                         alt="{{ student.firstname }} {{ student.lastname }}"
+                         class="emoticon-info">
+                {% endif %}
+                <br><a href="{{ path('student_edit_avatar', {'id': student.id}) }}">Modifier</a>
+                <p class="pt-3">XP : {{ student.xp }}</p>
+            </div>
+            <div class="col-6 pt-3">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="win-box">
+                            <img src="{{ asset('images/gold.png') }}" alt="Or">{{ student.gold }}
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="win-box">
+                            <img src="{{ asset('images/elixir.png') }}" alt="Elixir"> {{ student.elixir }}
+                        </div>
+                    </div>
+                    <div class="col-12 pt-4">
+                        Cartes : 0
+                    </div>
+                    <div class="col-12 pt-5 small-text">
+                        Joueur depuis le {{ student.dateCreate ? student.dateCreate|date('d/m/Y') : '' }}<br>
+                        Responsable des élèves : {{ student.isLead ? 'Oui' : 'Non' }}<br>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="col-12 text-center">
 
-    <a href="{{ path('classgroup_show', {'id' : student.classgroup.id}) }}">Retour à la classe</a><br>
-    <a href="{{ path('student_edit', {'id': student.id}) }}">Modifier l'élève</a><br>
+        <a href="{{ path('classgroup_show', {'id' : student.classgroup.id}) }}">Retour à la classe</a><br>
+        <a href="{{ path('student_edit', {'id': student.id}) }}">Modifier l'élève</a><br>
 
     </div>
 
