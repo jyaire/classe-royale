@@ -6,6 +6,7 @@ use App\Entity\Student;
 use App\Form\StudentType;
 use App\Repository\StudentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -73,6 +74,7 @@ class StudentController extends AbstractController
     public function edit(Request $request, Student $student): Response
     {
         $form = $this->createForm(StudentType::class, $student);
+        $form->remove('ine');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -99,5 +101,41 @@ class StudentController extends AbstractController
         }
 
         return $this->redirectToRoute('student_index');
+    }
+
+    /**
+     * @Route("/{id}/edit/avatar", name="student_edit_avatar", methods={"GET","POST"})
+     * @param Request $request
+     * @param Student $student
+     * @return Response
+     */
+    public function editAvatar(Request $request, Student $student): Response
+    {
+        $form = $this->createFormBuilder()
+            ->add('avatar', FileType::class)
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $directory = "avatars/";
+            $file = $form['avatar']->getData();
+            $extension = $file->guessExtension();
+            if ($extension == 'png' or $extension == 'jpg' or $extension == 'jpeg') {
+                $fileName = $student->getIne().'.'.$extension;
+                $file->move($directory, $fileName);
+                $student->setAvatar($fileName);
+
+                $this->getDoctrine()->getManager()->flush();
+
+                return $this->redirectToRoute('student_show', ['id'=>$student->getId()]);
+                }
+            $this->addFlash('danger', 'Votre image doit être au format jpg, jpeg ou png');
+            return $this->redirectToRoute('student_edit_avatar', ['id'=>$student->getId()]);
+        }
+
+        return $this->render('student/avatar.html.twig', [
+            'student' => $student,
+            'form' => $form->createView(),
+        ]);
     }
 }

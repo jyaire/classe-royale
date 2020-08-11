@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="col-12">
+    <h3>{{ student.firstname }}</h3>
+</div>
+<div class="col-6 text-right">
+    Avatar actuel :<br>
+    {% if student.avatar is empty %}
+        {%  if student.isGirl == 1 %}
+            <img src="{{ asset('images/emoticon-pouces-f.png') }}"
+                 alt="{{ student.firstname }} {{ student.lastname }}"
+                 class="emoticon-info">
+        {% else %}
+            <img src="{{ asset('images/emoticon-pouces-m.png') }}"
+                 alt="{{ student.firstname }} {{ student.lastname }}"
+                 class="emoticon-info">
+        {% endif %}
+    {% else %}
+        <img src="{{ asset('avatars/' ~ student.avatar) }}"
+             alt="{{ student.firstname }} {{ student.lastname }}"
+             class="emoticon-info">
+    {% endif %}
+</div>
+<div class="col-6 text-left">
+    Modifier :<br>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="third-button">{{ button_label|default('Envoyer') }}</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}
+
+{% block title %}
+Classe Royale - Ajout d'un avatar
+{% endblock %}
+
