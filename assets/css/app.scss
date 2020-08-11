@@ -16,6 +16,7 @@ body {
     background-color: $secondary-color;
     background-image: url("images/background-cr.png");
     font-family: $primary-font;
+    font-size: 0.8rem;
     color: white;
 }
 
@@ -39,6 +40,7 @@ a{
     margin: 0;
     height: 4rem;
     width: 100%;
+    font-size: 1rem;
     background: linear-gradient($primary-color, black);
 
     a{
