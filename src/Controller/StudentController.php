@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Classgroup;
 use App\Entity\Student;
 use App\Form\StudentType;
 use App\Repository\StudentRepository;
@@ -31,13 +32,32 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="student_new", methods={"GET","POST"})
+     * @Route("/{id}/new", name="student_new", methods={"GET","POST"})
      * @param Request $request
+     * @param Classgroup $classgroup
+     * @param StudentRepository $studentRepository
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Classgroup $classgroup, StudentRepository $studentRepository): Response
     {
+        if (isset($_GET['student'])) {
+            $student = $studentRepository->findOneBy(['id'=>$_GET['student']]);
+            $student
+                ->setClassgroup($classgroup)
+                ->setDateModif(new \DateTime())
+            ;
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($student);
+            $entityManager->flush();
+
+            $name = $student->getFirstname(). ' ' . $student->getLastname();
+            $this->addFlash('success', "$name est désormais dans cette classe");
+            return $this->redirectToRoute('classgroup_show', ['id'=>$classgroup->getId()]);
+        }
+
+        $availableStudents = $studentRepository->findBy(['classgroup'=>null]);
         $student = new Student();
+        $student->setClassgroup($classgroup);
         $form = $this->createForm(StudentType::class, $student);
         $form->handleRequest($request);
 
@@ -51,6 +71,8 @@ class StudentController extends AbstractController
 
         return $this->render('student/new.html.twig', [
             'student' => $student,
+            'classgroup' => $classgroup,
+            'availableStudents' => $availableStudents,
             'form' => $form->createView(),
         ]);
     }

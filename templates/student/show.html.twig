@@ -48,7 +48,7 @@
                         Cartes : 0
                     </div>
                     <div class="col-12 pt-5 small-text">
-                        {{ student.classgroup.name }}<br>
+                        {{ student.classgroup.name }} (<a href="{{ path('student_remove', {'id': student.id}) }}">retirer</a>)<br>
                         Joueur depuis le {{ student.dateCreate ? student.dateCreate|date('d/m/Y') : '' }}<br>
                         Responsable des élèves : {{ student.isLead ? 'Oui' : 'Non' }}<br>
                     </div>
