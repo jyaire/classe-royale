@@ -41,16 +41,17 @@
             {% endfor %}
         </p>
     </div>
-
-    <div class="col-12 col-md-5 text-center">
-        <p class="mt-3">
-            <a href="{{ path('director_addTeacher', {'id' : classgroup.id }) }}">Ajouter un enseignant</a>
-        </p>
-        <p class="mt-3">
-            <a href="{{ path('classgroup_edit', {'id': classgroup.id}) }}">Modifier le nom de cette classe</a>
-            (ref Onde {{ classgroup.ref }})
-        </p>
-    </div>
+    {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_DIRECTOR') or is_granted('ROLE_TEACHER') %}
+        <div class="col-12 col-md-5 text-center">
+            <p class="mt-3">
+                <a href="{{ path('director_addTeacher', {'id' : classgroup.id }) }}">Ajouter un enseignant</a>
+            </p>
+            <p class="mt-3">
+                <a href="{{ path('classgroup_edit', {'id': classgroup.id}) }}">Modifier le nom de cette classe</a>
+                (ref Onde {{ classgroup.ref }})
+            </p>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block title %}
