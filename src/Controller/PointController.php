@@ -67,6 +67,7 @@ class PointController extends AbstractController
                     $student->setElixir($win);
                     break;
             }
+            $student->setXp($student->getXp()+5);
             $entityManager->persist($point);
             $entityManager->persist($student);
             $entityManager->flush();

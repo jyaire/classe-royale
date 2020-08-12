@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\Student;
 use App\Form\StudentType;
 use App\Repository\StudentRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -90,7 +92,33 @@ class StudentController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/remove", name="student_remove")
+     * @param Student $student
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+    public function removeFromClass(Student $student, EntityManagerInterface $em)
+    {
+        if(isset($_GET["delete"])) {
+            $name = $student->getFirstname() . ' ' . $student->getLastname();
+            $oldClassgroup = $student->getClassgroup();
+            $student->setClassgroup(null);
+            $em->persist($student);
+            $em-> flush();
+
+            $this->addFlash('success', "$name n'est plus dans la classe");
+            return $this->redirectToRoute('classgroup_show', ['id'=>$oldClassgroup->getId()]);
+        }
+        return $this->render('student/remove.html.twig', [
+            'student' => $student,
+        ]);
+    }
+
+    /**
      * @Route("/{id}", name="student_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Student $student
+     * @return Response
      */
     public function delete(Request $request, Student $student): Response
     {
