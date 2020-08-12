@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Reason{% endblock %}
+
+{% block body %}
+    <h1>Create new Reason</h1>
+
+    {{ include('reason/_form.html.twig') }}
+
+    <a href="{{ path('reason_index') }}">back to list</a>
+{% endblock %}

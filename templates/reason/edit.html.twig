@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Reason{% endblock %}
+
+{% block body %}
+    <h1>Edit Reason</h1>
+
+    {{ include('reason/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('reason_index') }}">back to list</a>
+
+    {{ include('reason/_delete_form.html.twig') }}
+{% endblock %}

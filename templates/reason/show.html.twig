@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reason{% endblock %}
+
+{% block body %}
+    <h1>Reason</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ reason.id }}</td>
+            </tr>
+            <tr>
+                <th>Sentence</th>
+                <td>{{ reason.sentence }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('reason_index') }}">back to list</a>
+
+    <a href="{{ path('reason_edit', {'id': reason.id}) }}">edit</a>
+
+    {{ include('reason/_delete_form.html.twig') }}
+{% endblock %}
