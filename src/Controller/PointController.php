@@ -40,13 +40,25 @@ class PointController extends AbstractController
             ->setType($type)
             ->setStudent($student);
         $form = $this->createForm(PointType::class, $point);
-        $form->remove('reason');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $point->setDate(new \DateTime());
+            $reason = $point->getReason();
+            switch($type) {
+                case "gold":
+                    $win = $student->getGold() + $point->getQuantity();
+                    $student->setGold($win);
+                    break;
+                case "elixir":
+                    $win = $student->getElixir() + $point->getQuantity();
+                    $student->setElixir($win);
+                    break;
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($point);
+            $entityManager->persist($reason);
+            $entityManager->persist($student);
             $entityManager->flush();
 
             return $this->redirectToRoute('student_show', ['id' => $student->getId()]);

@@ -201,7 +201,7 @@ a{
 
 /* STUDENT PROFILE */
 
-#profile {
+.clear-box {
     background-color: $fifth-color;
     padding: 10px;
     border-radius: 25px;
@@ -225,4 +225,10 @@ a{
             padding-right: 20px;
         }
     }
+}
+
+.dark-box {
+    background-color: $primary-color;
+    padding: 10px;
+    border-radius: 25px;
 }

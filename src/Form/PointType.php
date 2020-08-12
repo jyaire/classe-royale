@@ -13,7 +13,7 @@ class PointType extends AbstractType
     {
         $builder
             ->add('quantity')
-            ->add('reason')
+            ->add('reason', ReasonType::class);
         ;
     }
 
