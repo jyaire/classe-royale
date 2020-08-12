@@ -71,7 +71,7 @@ class ClassgroupController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('classgroup_index');
+            return $this->redirectToRoute('school_show', ['id'=>$classgroup->getSchool()->getId()]);
         }
 
         return $this->render('classgroup/edit.html.twig', [
