@@ -1,38 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Classe Royale{% endblock %}
-
 {% block body %}
-<div class="col-12 col-md-7 text-center">
-    <h3>{{ classgroup.name }}</h3>
-    <p class="mt-3">
-        <a href="{{ path('classgroup_edit', {'id': classgroup.id}) }}">Modifier le nom de cette classe</a>
-    </p>
-    Référence {{ classgroup.ref }}
+    <div class="col-12 text-center">
+        <h3>{{ classgroup.name }}</h3>
+    </div>
+    <div class="col-12">
+        <div class="row justify-content-center">
+            {% for student in classgroup.students %}
+                <a href="{{ path('student_show', {'id': student.id}) }}">
+                    <div class="student-box">
+                        <div>
+                            {% if student.avatar is empty %}
+                                {% if student.isGirl == 1 %}
+                                    <img src="{{ asset('images/emoticon-pouces-f.png') }}" alt="{{ student.firstname }}">
+                                {% else %}
+                                    <img src="{{ asset('images/emoticon-pouces-m.png') }}" alt="{{ student.firstname }}">
+                                {% endif %}
+                            {% else %}
+                                <img src="{{ asset('avatars/' ~ student.avatar) }}"
+                                     alt="{{ student.firstname }}">
+                            {% endif %}
+                            <p>{{ student.firstname }}</p>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+        <p class="mt-3 text-center">
+            {{ classgroup.students | length }} élèves,
+            <a href="{{ path('school_show', {'id' : classgroup.school.id}) }}">{{ classgroup.school.name }}</a>
+            , {{ classgroup.school.city }}
+        </p>
+        <p class="mt-3 text-center">
+            Enseignant(s) de la classe :
+            {% for teacher in classgroup.teacher %}
+                {{ teacher.firstname }} {{ teacher.lastname }} -
+                <a href="{{ path('teacher_delete', {'classgroup' : classgroup.id, 'teacher' : teacher.id}) }}">supprimer</a><br>
+            {% else %}
+                Aucun enseignant associé
+            {% endfor %}
+        </p>
+    </div>
 
-    <br><a href="{{ path('school_show', {'id' : classgroup.school.id}) }}">{{ classgroup.school.name }}</a>
-    <p class="mt-3">
-        Enseignant(s) de la classe :<br>
-        {% for teacher in classgroup.teacher %}
-            {{ teacher.firstname }} {{ teacher.lastname }} -
-            <a href="{{ path('teacher_delete', {'classgroup' : classgroup.id, 'teacher' : teacher.id}) }}">supprimer</a><br>
-        {% else %}
-            Aucun enseignant associé
-        {% endfor %}
-    </p>
-    <a href="{{ path('director_addTeacher', {'id' : classgroup.id }) }}">Ajouter un enseignant</a>
-
-    {{ include('classgroup/_delete_form.html.twig') }}
-</div>
-<div class="col-12 col-md-5 text-center">
-    <h3>{{ classgroup.students | length }} élèves</h3>
-    {% for student in classgroup.students %}
-        <a href="{{ path('student_show', {'id': student.id}) }}">
-            {{ student.firstname }} {{ student.lastname }}
-        </a>
-        <br>
-    {% else %}
-        Aucun élève actuellement dans cette classe
-    {% endfor %}
-</div>
+    <div class="col-12 col-md-5 text-center">
+        <p class="mt-3">
+            <a href="{{ path('director_addTeacher', {'id' : classgroup.id }) }}">Ajouter un enseignant</a>
+        </p>
+        <p class="mt-3">
+            <a href="{{ path('classgroup_edit', {'id': classgroup.id}) }}">Modifier le nom de cette classe</a>
+            (ref Onde {{ classgroup.ref }})
+        </p>
+    </div>
 {% endblock %}
+
+{% block title %}
+    Classe Royale - {{ classgroup.name }}
+{% endblock %}
+

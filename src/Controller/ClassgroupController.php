@@ -55,20 +55,9 @@ class ClassgroupController extends AbstractController
      */
     public function show(Classgroup $classgroup): Response
     {
-        if ($this->getUser()) {
-            foreach ($this->getUser()->getRoles() as $role) {
-                if ($role == "ROLE_ADMIN") {
-                    return $this->render('classgroup/show.html.twig', [
-                        'classgroup' => $classgroup,
-                    ]);
-                }
-            }
-        }
-        else {
-            return $this->render('classgroup/play.html.twig', [
-                'classgroup' => $classgroup,
+        return $this->render('classgroup/show.html.twig', [
+            'classgroup' => $classgroup,
             ]);
-        }
     }
 
     /**
