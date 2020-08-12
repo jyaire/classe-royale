@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Point;
+use App\Entity\Reason;
 use App\Entity\Student;
 use App\Form\PointType;
 use App\Repository\PointRepository;
+use App\Repository\ReasonRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,11 +31,12 @@ class PointController extends AbstractController
     /**
      * @Route("/new/{id}/{type}", name="point_new", methods={"GET","POST"})
      * @param Student $student
+     * @param ReasonRepository $reasonRepository
      * @param string $type
      * @param Request $request
      * @return Response
      */
-    public function new(Student $student, string $type, Request $request): Response
+    public function new(Student $student, ReasonRepository $reasonRepository, string $type, Request $request): Response
     {
         $point = new Point();
         $point
@@ -43,8 +46,17 @@ class PointController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
             $point->setDate(new \DateTime());
             $reason = $point->getReason();
+            // search if reason already exists
+            $search = $reasonRepository->findOneBy(['sentence'=>$reason->getSentence()]);
+            if(!empty($search)) {
+                $point->setReason($search);
+            } else {
+                $entityManager->persist($reason);
+            }
+            if ($reason->getSentence())
             switch($type) {
                 case "gold":
                     $win = $student->getGold() + $point->getQuantity();
@@ -55,9 +67,7 @@ class PointController extends AbstractController
                     $student->setElixir($win);
                     break;
             }
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($point);
-            $entityManager->persist($reason);
             $entityManager->persist($student);
             $entityManager->flush();
 
