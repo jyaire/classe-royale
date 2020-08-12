@@ -68,7 +68,15 @@
 
     <div class="col-12 col-sm-10 col-lg-7 text-center dark-box">
         {% for point in student.points %}
-            {{ student.firstname }} a gagné {{ point.quantity }} {{ point.type }}<br>
+            {{ student.firstname }} a
+            {% if point.quantity > 0 %}
+                gagné
+                {% set quantity = point.quantity %}
+            {% else %}
+                perdu
+                {% set quantity = -point.quantity %}
+            {% endif %}
+            {{ quantity }} {{ point.type }}<br>
         {% else %}
             Aucune activité pour l'instant
         {% endfor %}
