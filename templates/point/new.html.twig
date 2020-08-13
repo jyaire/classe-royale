@@ -7,7 +7,11 @@
     <h3>Ajout
         {% if point.type == "gold" %}d'Or {% else %}d'Elixir {% endif %} à {{ student.firstname }}</h3>
 </div>
-
+    <div class="col-12 text-center">
+       <a href="{{ path('point_multiple_new', {'number': student.classgroup.id, 'type': point.type, 'winner': 'classgroup'}) }}">
+           Ajout à plusieurs élèves ?
+       </a>
+    </div>
 <div class="col-12 col-sm-10 col-lg-7 text-center">
     <div class="row">
         <div class="col-6">

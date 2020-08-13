@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\Point;
 use App\Entity\Reason;
 use App\Entity\Student;
+use App\Form\PointMultipleType;
 use App\Form\PointType;
 use App\Repository\PointRepository;
 use App\Repository\ReasonRepository;
+use App\Repository\StudentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -73,6 +75,82 @@ class PointController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('student_show', ['id' => $student->getId()]);
+        }
+
+        return $this->render('point/new.html.twig', [
+            'point' => $point,
+            'student' => $student,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/new/{winner}/{number}/{type}", name="point_multiple_new", methods={"GET","POST"})
+     * @param Student $student
+     * @param string $winner
+     * @param int $number
+     * @param ReasonRepository $reasonRepository
+     * @param StudentRepository $studentRepository
+     * @param string $type
+     * @param Request $request
+     * @return Response
+     */
+    public function newMultiple(
+        Student $student,
+        string $winner,
+        int $number,
+        ReasonRepository $reasonRepository,
+        StudentRepository $studentRepository,
+        string $type,
+        Request $request): Response
+    {
+        if ($winner == "classgroup") {
+            $studentsArray = $studentRepository->findBy(['classgroup'=>$number]);
+        }
+        $form = $this->createForm(PointMultipleType::class, null);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            // search if reason already exists
+            $reason = $form->getData()['reason'];
+            $search = $reasonRepository->findOneBy(['sentence'=>$reason->getSentence()]);
+            if(!empty($search)) {
+                $reason = new Reason();
+                $reason->setSentence($search);
+            } else {
+                $entityManager->persist($reason);
+            }
+            if ($reason->getSentence())
+                switch($type) {
+                    case "gold":
+                        $win = $student->getGold() + $point->getQuantity();
+                        $student->setGold($win);
+                        break;
+                    case "elixir":
+                        $win = $student->getElixir() + $point->getQuantity();
+                        $student->setElixir($win);
+                        break;
+                }
+            // give points to each student
+            foreach ($form->getData()['students'] as $student) {
+                $point = new Point();
+                $point
+                    ->setType($type)
+                    ->setStudent($student)
+                    ->setDate(new \DateTime())
+                    ->setQuantity($form->getData()['quantity'])
+                    ->setReason($reason);
+
+                $student
+                    ->setXp($student->getXp()+5);
+                $entityManager->persist($point);
+                $entityManager->persist($student);
+            }
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute('classgroup_show', ['id' => $number]);
         }
 
         return $this->render('point/new.html.twig', [
