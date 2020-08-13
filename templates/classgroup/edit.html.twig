@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Classgroup{% endblock %}
+{% block title %}Classe Royale - Modifier une classe{% endblock %}
 
 {% block body %}
 <div class="col-12 col-md-10 col-lg-7 text-center">
-    <h3>Modifier la classe n°{{ classgroup.ref }}</h3>
+    <h3>{{ classgroup.name }}</h3>
 
-    {{ include('classgroup/_form.html.twig', {'button_label': 'Changer le nom'}) }}
+    {{ include('classgroup/_form.html.twig', {'button_label': 'Modifier'}) }}
 
     <a href="{{ path('school_show', {'id': classgroup.school.id}) }}">Retour {{ classgroup.school.name }}</a>
 
