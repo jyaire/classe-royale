@@ -17,6 +17,8 @@ class ClassgroupController extends AbstractController
 {
     /**
      * @Route("/", name="classgroup_index", methods={"GET"})
+     * @param ClassgroupRepository $classgroupRepository
+     * @return Response
      */
     public function index(ClassgroupRepository $classgroupRepository): Response
     {
@@ -27,6 +29,8 @@ class ClassgroupController extends AbstractController
 
     /**
      * @Route("/new", name="classgroup_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -62,6 +66,9 @@ class ClassgroupController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="classgroup_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Classgroup $classgroup
+     * @return Response
      */
     public function edit(Request $request, Classgroup $classgroup): Response
     {
