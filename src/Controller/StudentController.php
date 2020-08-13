@@ -62,6 +62,13 @@ class StudentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $student
+                ->setElixir(50)
+                ->setGold(50)
+                ->setXp(5)
+                ->setIsLead(0)
+                ->setDateCreate(new \DateTime())
+                ;
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($student);
             $entityManager->flush();

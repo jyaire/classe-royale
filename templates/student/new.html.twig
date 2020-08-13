@@ -3,7 +3,7 @@
 {% block title %}Ajouter un élève{% endblock %}
 
 {% block body %}
-<div class="col-12 col-md-7 text-center">
+<div class="col-12 col-md-7 text-center clear-box">
     <h3>{{ classgroup.name }}</h3>
     <p>Choisissez dans cette liste :</p>
     {% for availableStudent in availableStudents %}
@@ -13,7 +13,8 @@
         {% else %}
         Aucun élève "hors-classe" actuellement
     {% endfor %}
-
+</div>
+<div class="col-12 col-md-7 text-center">
     <p class="mt-3">Ou ajoutez manuellement (déconseillé) :</p>
     {{ include('student/_form.html.twig') }}
 
