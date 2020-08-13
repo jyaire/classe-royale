@@ -1,11 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Section{% endblock %}
+{% block title %}Classe Royale - Ajouter une section{% endblock %}
 
 {% block body %}
-    <h1>Create new Section</h1>
+<div class="col-12 col-md-10 col-lg-7 text-center">
+    <h3>Ajouter une section</h3>
 
     {{ include('section/_form.html.twig') }}
 
-    <a href="{{ path('section_index') }}">back to list</a>
+    <a href="{{ path('section_index') }}">Retour à la liste</a>
+</div>
 {% endblock %}

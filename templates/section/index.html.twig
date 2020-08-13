@@ -3,37 +3,36 @@
 {% block title %}Section index{% endblock %}
 
 {% block body %}
-    <h1>Section index</h1>
+<div class="col-12 col-md-10 col-lg-7 text-center">
+    <h1>Sections existantes</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Abbreviation</th>
-                <th>Rank</th>
+                <th>Nom</th>
+                <th>Abbréviation</th>
+                <th>Ordre</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for section in sections %}
             <tr>
-                <td>{{ section.id }}</td>
                 <td>{{ section.name }}</td>
                 <td>{{ section.abbreviation }}</td>
                 <td>{{ section.rank }}</td>
                 <td>
-                    <a href="{{ path('section_show', {'id': section.id}) }}">show</a>
-                    <a href="{{ path('section_edit', {'id': section.id}) }}">edit</a>
+                    <a href="{{ path('section_edit', {'id': section.id}) }}">modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">Aucune section actuellement</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('section_new') }}">Create new</a>
+    <a href="{{ path('section_new') }}">Ajouter une section</a>
+</div>
 {% endblock %}

@@ -8,7 +8,9 @@
 
     {{ include('classgroup/_form.html.twig', {'button_label': 'Changer le nom'}) }}
 
-    <a href="{{ path('classgroup_index') }}">back to list</a>
+    <a href="{{ path('school_show', {'id': classgroup.school.id}) }}">Retour {{ classgroup.school.name }}</a>
 
-    {{ include('classgroup/_delete_form.html.twig') }}
+    {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+        {{ include('classgroup/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

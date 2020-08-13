@@ -3,11 +3,13 @@
 {% block title %}Edit Section{% endblock %}
 
 {% block body %}
-    <h1>Edit Section</h1>
+<div class="col-12 col-md-10 col-lg-7 text-center">
+    <h3>Modifier une section</h3>
 
-    {{ include('section/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('section/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    <a href="{{ path('section_index') }}">back to list</a>
+    <a href="{{ path('section_index') }}">Retour à la liste</a>
 
     {{ include('section/_delete_form.html.twig') }}
+</div>
 {% endblock %}

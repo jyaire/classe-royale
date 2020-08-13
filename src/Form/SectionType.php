@@ -15,7 +15,6 @@ class SectionType extends AbstractType
             ->add('name')
             ->add('abbreviation')
             ->add('rank')
-            ->add('classgroups')
         ;
     }
 
