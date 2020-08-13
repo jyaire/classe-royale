@@ -8,10 +8,11 @@
 <div class="col-12 col-sm-10 col-lg-7 text-center clear-box mt-4">
     <p>Voulez-vous vraiment retirer {{ student.firstname }} {{ student.lastname }} de cette classe ?</p>
     <p class="p-1">
-        <a href="{{ path('student_remove', {'id': student.id, 'delete': 1}) }}" class="text-danger">Oui, retirer</a>
+        <a href="{{ path('student_remove', {'id': student.id, 'delete': 1}) }}" class="danger-button">Oui, retirer</a>
     </p>
+    (le compte et les données sont sauvegardées)
     <p class="p-1">
-        <a href="{{ path('classgroup_show', {'id': student.classgroup.id}) }}" class="m-2">Non, retour à la classe</a>
+        <a href="{{ path('classgroup_show', {'id': student.classgroup.id}) }}" class="third-button">Non, retour à la classe</a>
     </p>
 </div>
 {% endblock %}

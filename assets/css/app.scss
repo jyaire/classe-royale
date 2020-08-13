@@ -131,6 +131,10 @@ a{
     @include button($third-color)
 }
 
+.danger-button {
+    @include button($danger)
+}
+
 .choice-button {
     display: flex;
     justify-content: center;

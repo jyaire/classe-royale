@@ -9,7 +9,9 @@
     {% for availableStudent in availableStudents %}
         <a href="{{ path('student_new', {'id': classgroup.id, 'student': availableStudent.id}) }}">
             {{ availableStudent.firstname }} {{ availableStudent.lastname }}
-        </a><br>
+        </a>
+        {% if availableStudent.ine is null %} (sans INE){% endif %}
+        <br>
         {% else %}
         Aucun élève "hors-classe" actuellement
     {% endfor %}
