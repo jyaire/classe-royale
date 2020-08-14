@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Classe Royale - Rattacher un enfant
+{% endblock %}
+
+{% block body %}
+    <div class="col-12 col-md-10 col-lg-7 text-center">
+        <h2>Rattacher un enfant</h2>
+        <p>Code de l'enfant à rattacher</p>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="third-button">{{ button_label|default('Rattacher') }}</button>
+        {{ form_end(form) }}
+    </div>
+    <div class="col-12 col-md-10 col-lg-7 text-center">
+        <a href="{{ path('parent') }}">Retour</a>
+    </div>
+
+{% endblock %}

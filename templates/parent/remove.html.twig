@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="col-12 text-center">
+    <h3>Détacher un enfant</h3>
+</div>
+
+<div class="col-12 col-sm-10 col-lg-7 text-center clear-box mt-4">
+    <p>Voulez-vous vraiment retirer {{ student.firstname }} {{ student.lastname }} de votre compte ?</p>
+    <p class="p-1">
+        <a href="{{ path('parent_remove_student', {'id': student.id, 'delete': 1}) }}" class="danger-button">Oui, retirer</a>
+    </p>
+    (le compte et les données sont sauvegardées)
+    <p class="p-1">
+        <a href="{{ path('parent') }}" class="third-button">Non, retour à mon compte</a>
+    </p>
+</div>
+{% endblock %}
+
+{% block title %}
+Classe Royale - Détacher un enfant
+{% endblock %}
+

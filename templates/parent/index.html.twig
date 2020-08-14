@@ -3,20 +3,38 @@
 {% block title %}Classe Royale - Parent{% endblock %}
 
 {% block body %}
-    <div class="col-12 col-md-7">
-        <h3 class="text-center">Interface Parent</h3>
-        <p>Bienvenue {{ app.user.firstname }} {{ app.user.lastname }}</p>
+    <div class="col-12 col-sm-10 col-lg-7 text-center clear-box">
+        <h3 class="text-center">{{ app.user.firstname }} {{ app.user.lastname }}</h3>
         <a href="{{ path('user_show', {'id' : app.user.id}) }}">Mon profil</a><br>
     </div>
-    <div class="col-12 col-md-5">
-        <h3 class="text-center">Mes enfants</h3>
+    <div class="col-12 col-sm-10 col-lg-7 pt-3">
+        <div class="row">
         {% for student in app.user.students %}
-            <a href="{{ path('student_show', {id : student.id}) }}">{{ student.firstname }} {{ student.lastname }}</a>
-            {% else %}
-            Aucun enfant rattaché
+            <a href="{{ path('student_show', {'id': student.id}) }}">
+                <div class="student-box">
+                    <div>
+                        {% if student.avatar is empty %}
+                            {% if student.isGirl == 1 %}
+                                <img src="{{ asset('images/emoticon-pouces-f.png') }}" alt="{{ student.firstname }}">
+                            {% else %}
+                                <img src="{{ asset('images/emoticon-pouces-m.png') }}" alt="{{ student.firstname }}">
+                            {% endif %}
+                        {% else %}
+                            <img src="{{ asset('avatars/' ~ student.avatar) }}"
+                                 alt="{{ student.firstname }}">
+                        {% endif %}
+                        <p>{{ student.firstname }}</p>
+                    </div>
+                </div>
+            </a>
         {% endfor %}
-        <p class="mt-4">
-            <a href="{{ path('student_new') }}">Ajouter un enfant</a>
-        </p>
+        <a href="{{ path('parent_add_student') }}">
+            <div class="student-box">
+                <div>
+                    Ajouter un enfant
+                </div>
+            </div>
+        </a>
+        </div>
     </div>
 {% endblock %}
