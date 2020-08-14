@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Point;
 use App\Entity\Student;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,9 +21,7 @@ class PointMultipleType extends AbstractType
                 'expanded' => true,
                 'multiple' => true,
             ])
-            ->add('quantity', EntityType::class, [
-                'class' => Point::class,
-            ])
+            ->add('quantity', IntegerType::class)
             ->add('reason', ReasonType::class);
         ;
     }

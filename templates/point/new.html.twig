@@ -1,27 +1,40 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Point{% endblock %}
+{% block title %}Classe Royale - Ajout de points{% endblock %}
 
 {% block body %}
 <div class="col-12 text-center">
+    {% if studentsArray is defined %}
+    <h3>Ajout
+        {% if point.type == "gold" %}d'Or {% else %}d'Elixir {% endif %} à plusieurs élèves</h3>
+    <div class="col-12">
+    {% else %}
     <h3>Ajout
         {% if point.type == "gold" %}d'Or {% else %}d'Elixir {% endif %} à {{ student.firstname }}</h3>
 </div>
-    <div class="col-12 text-center">
-       <a href="{{ path('point_multiple_new', {'number': student.classgroup.id, 'type': point.type, 'winner': 'classgroup'}) }}">
-           Ajout à plusieurs élèves ?
-       </a>
-    </div>
+<div class="col-12 text-center">
+   <a href="{{ path('point_multiple_new', {'number': student.classgroup.id, 'type': point.type, 'winner': 'classgroup'}) }}">
+       Ajout à plusieurs élèves ?
+   </a>
+</div>
 <div class="col-12 col-sm-10 col-lg-7 text-center">
+    {% endif %}
     <div class="row">
-        <div class="col-6">
-            {{ student.firstname }}
-        </div>
-        <div class="col-6">
+        {% if studentsArray is defined %}
+            <div class="col-12 text-center">
+        {% else %}
+            <div class="col-6">
+                {{ student.firstname }}
+            </div>
+            <div class="col-6">
+                {% endif %}
             {{ include('point/_form.html.twig') }}
         </div>
     </div>
-
-    <a href="{{ path('classgroup_show', {'id' : student.classgroup.id}) }}">Retour Classe</a>
+    {% if studentsArray is defined %}
+        <a href="{{ path('classgroup_show', {'id' : number}) }}">Retour Classe</a>
+    {% else %}
+        <a href="{{ path('classgroup_show', {'id' : student.classgroup.id}) }}">Retour Classe</a>
+    {% endif %}
 </div>
 {% endblock %}

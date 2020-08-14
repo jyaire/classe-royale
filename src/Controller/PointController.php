@@ -86,7 +86,6 @@ class PointController extends AbstractController
 
     /**
      * @Route("/new/{winner}/{number}/{type}", name="point_multiple_new", methods={"GET","POST"})
-     * @param Student $student
      * @param string $winner
      * @param int $number
      * @param ReasonRepository $reasonRepository
@@ -96,7 +95,6 @@ class PointController extends AbstractController
      * @return Response
      */
     public function newMultiple(
-        Student $student,
         string $winner,
         int $number,
         ReasonRepository $reasonRepository,
@@ -112,50 +110,57 @@ class PointController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
             // search if reason already exists
             $reason = $form->getData()['reason'];
             $search = $reasonRepository->findOneBy(['sentence'=>$reason->getSentence()]);
-            if(!empty($search)) {
+            if(empty($search)) {
                 $reason = new Reason();
-                $reason->setSentence($search);
-            } else {
-                $entityManager->persist($reason);
+                $reason->setSentence($search->getSentence());
             }
-            if ($reason->getSentence())
-                switch($type) {
-                    case "gold":
-                        $win = $student->getGold() + $point->getQuantity();
-                        $student->setGold($win);
-                        break;
-                    case "elixir":
-                        $win = $student->getElixir() + $point->getQuantity();
-                        $student->setElixir($win);
-                        break;
-                }
+
             // give points to each student
-            foreach ($form->getData()['students'] as $student) {
+            foreach ($form->getData()['student'] as $pupil) {
                 $point = new Point();
                 $point
                     ->setType($type)
-                    ->setStudent($student)
+                    ->setStudent($pupil)
                     ->setDate(new \DateTime())
                     ->setQuantity($form->getData()['quantity'])
                     ->setReason($reason);
 
-                $student
-                    ->setXp($student->getXp()+5);
+                switch($type) {
+                    case "gold":
+                        $win = $pupil->getGold() + $point->getQuantity();
+                        $pupil->setGold($win);
+                        break;
+                    case "elixir":
+                        $win = $pupil->getElixir() + $point->getQuantity();
+                        $pupil->setElixir($win);
+                        break;
+                }
+
+                $pupil
+                    ->setXp($pupil->getXp()+5);
+
                 $entityManager->persist($point);
-                $entityManager->persist($student);
+                $entityManager->persist($reason);
+                $entityManager->persist($pupil);
             }
 
             $entityManager->flush();
 
+            $this->addFlash('success', 'Les points ont été ajoutés');
             return $this->redirectToRoute('classgroup_show', ['id' => $number]);
         }
+        $point = new Point();
+        $point
+            ->setType($type);
 
         return $this->render('point/new.html.twig', [
             'point' => $point,
-            'student' => $student,
+            'studentsArray' => $studentsArray,
+            'number' => $number,
             'form' => $form->createView(),
         ]);
     }
