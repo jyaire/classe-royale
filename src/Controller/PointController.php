@@ -22,6 +22,8 @@ class PointController extends AbstractController
 {
     /**
      * @Route("/", name="point_index", methods={"GET"})
+     * @param PointRepository $pointRepository
+     * @return Response
      */
     public function index(PointRepository $pointRepository): Response
     {
@@ -199,16 +201,29 @@ class PointController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="point_delete", methods={"DELETE"})
+     * @Route("/{id}/{student}/", name="point_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Point $point
+     * @param Student $student
+     * @return Response
      */
-    public function delete(Request $request, Point $point): Response
+    public function delete(Request $request, Point $point, Student $student): Response
     {
         if ($this->isCsrfTokenValid('delete'.$point->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            $student->setXP($student->getXp() -5);
+            if($point->getType() == "gold") {
+                $student->setGold($student->getGold() - $point->getQuantity());
+            } else {
+                $student->setElixir($student->getElixir() - $point->getQuantity());
+            }
             $entityManager->remove($point);
+            $entityManager->persist($student);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Action supprimée');
         }
 
-        return $this->redirectToRoute('point_index');
+        return $this->redirectToRoute('student_show', ['id' => $student->getId()]);
     }
 }

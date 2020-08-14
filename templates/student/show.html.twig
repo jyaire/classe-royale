@@ -67,19 +67,33 @@
     </div>
 
     <div class="col-12 col-sm-10 col-lg-7 text-center dark-box">
-        {% for point in student.points %}
-            {{ student.firstname }} a
-            {% if point.quantity > 0 %}
-                gagné
-                {% set quantity = point.quantity %}
-            {% else %}
-                perdu
-                {% set quantity = -point.quantity %}
-            {% endif %}
-            {{ quantity }} {{ point.type }}<br>
-        {% else %}
-            Aucune activité pour l'instant
-        {% endfor %}
+        <div class="row">
+            {% for point in student.points %}
+                <div class="col-2 p-3">
+                    {{ point.date |date("d/m/Y") }}
+                </div>
+                <div class="col-7 p-3">
+                    {{ student.firstname }} a
+                        {% if point.quantity > 0 %}
+                            gagné
+                            {% set quantity = point.quantity %}
+                        {% else %}
+                            perdu
+                            {% set quantity = -point.quantity %}
+                        {% endif %}
+                    {{ quantity }} {{ point.type }}<br>
+                    "{{ point.reason.sentence }}"
+                </div>
+                <div class="col-3 p-3">
+                    <form method="post" action="{{ path('point_delete', {'id': point.id, 'student': student.id}) }}"
+                          onsubmit="return confirm('Voulez-vous vraiment supprimer cette action ?');">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ point.id) }}">
+                        <button class="btn">Supprimer</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
 {% endblock %}
