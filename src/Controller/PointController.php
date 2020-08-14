@@ -105,7 +105,7 @@ class PointController extends AbstractController
         if ($winner == "classgroup") {
             $studentsArray = $studentRepository->findBy(['classgroup'=>$number]);
         }
-        $form = $this->createForm(PointMultipleType::class, null);
+        $form = $this->createForm(PointMultipleType::class, null, ['number' => $number]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
