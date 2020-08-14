@@ -115,8 +115,12 @@ class PointController extends AbstractController
             $reason = $form->getData()['reason'];
             $search = $reasonRepository->findOneBy(['sentence'=>$reason->getSentence()]);
             if(empty($search)) {
+                $sentence = $reason->getSentence();
                 $reason = new Reason();
-                $reason->setSentence($search->getSentence());
+                $reason->setSentence($sentence);
+                $entityManager->persist($reason);
+            } else {
+                $reason = $search;
             }
 
             // give points to each student
@@ -144,7 +148,6 @@ class PointController extends AbstractController
                     ->setXp($pupil->getXp()+5);
 
                 $entityManager->persist($point);
-                $entityManager->persist($reason);
                 $entityManager->persist($pupil);
             }
 
