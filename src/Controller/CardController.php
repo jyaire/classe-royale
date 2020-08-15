@@ -40,23 +40,24 @@ class CardController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $directory = "cards/";
-            $file = $form['image']->getData();
-            $extension = $file->guessExtension();
-            if ($extension == 'png' or $extension == 'jpg' or $extension == 'jpeg') {
-                $fileName = $card->getId() . '.' . $extension;
-                $file->move($directory, $fileName);
-                $card->setImage($fileName);
-
-                $entityManager->persist($card);
-                $entityManager->flush();
-
-                $this->addFlash('success', 'Carte ajoutée');
-                return $this->redirectToRoute('card_index');
-            } else {
-                $this->addFlash('danger', 'Votre image doit être au format jpg, jpeg ou png');
-                return $this->redirectToRoute('card_new');
+            if (!empty($form['image']->getData())) {
+                $directory = "cards/";
+                $file = $form['image']->getData();
+                $extension = $file->guessExtension();
+                if ($extension == 'png' or $extension == 'jpg' or $extension == 'jpeg') {
+                    $fileName = $card->getName() . '.' . $extension;
+                    $file->move($directory, $fileName);
+                    $card->setImage($fileName);
+                } else {
+                    $this->addFlash('danger', 'Votre image doit être au format jpg, jpeg ou png');
+                    return $this->redirectToRoute('card_new');
+                }
             }
+            $entityManager->persist($card);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Carte ajoutée');
+            return $this->redirectToRoute('card_index');
         }
 
         return $this->render('card/new.html.twig', [

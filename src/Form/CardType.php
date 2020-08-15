@@ -18,15 +18,18 @@ class CardType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('description')
             ->add('level')
+            ->add('description')
             ->add('type', ChoiceType::class, [
                 'choices'  => [
                     'Apprentissage' => 'apprentissage',
                     'Comportement' => 'comportement',
                 ],
             ])
-            ->add('image', FileType::class)
+            ->add('image', FileType::class, [
+                'required' => false,
+                'data_class' => null,
+            ])
             ->add('subject', EntityType::class, [
                 'class' => Subject::class,
                 'choice_label' => 'name',
