@@ -1,37 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Classgroup index{% endblock %}
+{% block title %}Classe Royale - Toutes les classes{% endblock %}
 
 {% block body %}
-    <h1>Classgroup index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Ref</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for classgroup in classgroups %}
-            <tr>
-                <td>{{ classgroup.id }}</td>
-                <td>{{ classgroup.name }}</td>
-                <td>{{ classgroup.ref }}</td>
-                <td>
-                    <a href="{{ path('classgroup_show', {'id': classgroup.id}) }}">show</a>
-                    <a href="{{ path('classgroup_edit', {'id': classgroup.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('classgroup_new') }}">Create new</a>
+    <div class="col-12 text-center">
+        <h3>Toutes les classes</h3>
+        <div class="row justify-content-center">
+            {% for classgroup in classgroups %}
+                <a href="{{ path('classgroup_show', {'id': classgroup.id}) }}">
+                    <div class="student-box">
+                        <p>{{ classgroup.name }}<br>
+                            <span class="small-text">{{ classgroup.school.name }} - {{ classgroup.school.city }}</span>
+                        </p>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
