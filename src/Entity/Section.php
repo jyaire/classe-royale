@@ -39,9 +39,15 @@ class Section
      */
     private $classgroups;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Student::class, mappedBy="section")
+     */
+    private $students;
+
     public function __construct()
     {
         $this->classgroups = new ArrayCollection();
+        $this->students = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -108,6 +114,37 @@ class Section
         if ($this->classgroups->contains($classgroup)) {
             $this->classgroups->removeElement($classgroup);
             $classgroup->removeSection($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Student[]
+     */
+    public function getStudents(): Collection
+    {
+        return $this->students;
+    }
+
+    public function addStudent(Student $student): self
+    {
+        if (!$this->students->contains($student)) {
+            $this->students[] = $student;
+            $student->setSection($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudent(Student $student): self
+    {
+        if ($this->students->contains($student)) {
+            $this->students->removeElement($student);
+            // set the owning side to null (unless already changed)
+            if ($student->getSection() === $this) {
+                $student->setSection(null);
+            }
         }
 
         return $this;

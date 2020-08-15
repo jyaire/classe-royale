@@ -43,6 +43,11 @@ class Point
      */
     private $reason;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="points")
+     */
+    private $author;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +109,18 @@ class Point
     public function setReason(?Reason $reason): self
     {
         $this->reason = $reason;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

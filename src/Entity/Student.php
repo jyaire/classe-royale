@@ -94,6 +94,11 @@ class Student
      */
     private $avatar;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Section::class, inversedBy="students")
+     */
+    private $section;
+
     public function __construct()
     {
         $this->parent = new ArrayCollection();
@@ -314,6 +319,18 @@ class Student
     public function setAvatar(?string $avatar): self
     {
         $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    public function getSection(): ?Section
+    {
+        return $this->section;
+    }
+
+    public function setSection(?Section $section): self
+    {
+        $this->section = $section;
 
         return $this;
     }
