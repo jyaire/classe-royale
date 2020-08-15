@@ -51,7 +51,10 @@ class PointController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $point->setDate(new \DateTime());
+            $point
+                ->setDate(new \DateTime())
+                ->setAuthor($this->getUser())
+            ;
             $reason = $point->getReason();
             // search if reason already exists
             $search = $reasonRepository->findOneBy(['sentence'=>$reason->getSentence()]);
@@ -133,7 +136,9 @@ class PointController extends AbstractController
                     ->setStudent($pupil)
                     ->setDate(new \DateTime())
                     ->setQuantity($form->getData()['quantity'])
-                    ->setReason($reason);
+                    ->setReason($reason)
+                    ->setAuthor($this->getUser())
+                ;
 
                 switch($type) {
                     case "gold":
