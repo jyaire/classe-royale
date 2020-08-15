@@ -17,6 +17,8 @@ class CardController extends AbstractController
 {
     /**
      * @Route("/", name="card_index", methods={"GET"})
+     * @param CardRepository $cardRepository
+     * @return Response
      */
     public function index(CardRepository $cardRepository): Response
     {
@@ -27,6 +29,8 @@ class CardController extends AbstractController
 
     /**
      * @Route("/new", name="card_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -36,10 +40,23 @@ class CardController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($card);
-            $entityManager->flush();
+            $directory = "cards/";
+            $file = $form['image']->getData();
+            $extension = $file->guessExtension();
+            if ($extension == 'png' or $extension == 'jpg' or $extension == 'jpeg') {
+                $fileName = $card->getId() . '.' . $extension;
+                $file->move($directory, $fileName);
+                $card->setImage($fileName);
 
-            return $this->redirectToRoute('card_index');
+                $entityManager->persist($card);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Carte ajoutée');
+                return $this->redirectToRoute('card_index');
+            } else {
+                $this->addFlash('danger', 'Votre image doit être au format jpg, jpeg ou png');
+                return $this->redirectToRoute('card_new');
+            }
         }
 
         return $this->render('card/new.html.twig', [
