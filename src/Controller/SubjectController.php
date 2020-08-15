@@ -27,6 +27,8 @@ class SubjectController extends AbstractController
 
     /**
      * @Route("/new", name="subject_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -38,6 +40,8 @@ class SubjectController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($subject);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Thème ajouté');
 
             return $this->redirectToRoute('subject_index');
         }

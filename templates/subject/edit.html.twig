@@ -1,13 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Subject{% endblock %}
+{% block title %}Classe Royale - Modifier un thème{% endblock %}
 
 {% block body %}
-    <h1>Edit Subject</h1>
+<div class="col-12 col-md-10 col-lg-7 text-center clear-box mt-2">
+    <h3>Modifier un thème</h3>
 
-    {{ include('subject/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('subject/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('subject_index') }}">back to list</a>
+    <a href="{{ path('subject_index') }}">Retour à la liste</a>
 
     {{ include('subject/_delete_form.html.twig') }}
+</div>
 {% endblock %}

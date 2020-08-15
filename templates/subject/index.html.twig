@@ -1,37 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Subject index{% endblock %}
+{% block title %}Classe Royale{% endblock %}
 
 {% block body %}
-    <h1>Subject index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Rank</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for subject in subjects %}
-            <tr>
-                <td>{{ subject.id }}</td>
-                <td>{{ subject.name }}</td>
-                <td>{{ subject.rank }}</td>
-                <td>
-                    <a href="{{ path('subject_show', {'id': subject.id}) }}">show</a>
-                    <a href="{{ path('subject_edit', {'id': subject.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('subject_new') }}">Create new</a>
+<div class="col-12 col-md-10 col-lg-7 text-center mt-2">
+    <h3>Gestion des thèmes des cartes</h3>
+        <div class="row justify-content-center">
+            {% for subject in subjects %}
+                <div class="student-box">
+                    <p>{{ subject.name }} - rang : {{ subject.rank }}<br>
+                        <a href="{{ path('subject_edit', {'id': subject.id}) }}">modifier</a></p>
+                </div>
+            {% else %}
+                Aucun thème actuellement dans la base
+            {% endfor %}
+            <div class="student-box">
+                <p><a href="{{ path('subject_new') }}">Ajouter un thème</a></p>
+            </div>
+        </div>
+</div>
 {% endblock %}

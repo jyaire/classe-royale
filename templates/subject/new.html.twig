@@ -1,11 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Subject{% endblock %}
+{% block title %}Classe Royale - Thèmes des cartes{% endblock %}
 
 {% block body %}
-    <h1>Create new Subject</h1>
+<div class="col-12 col-md-10 col-lg-7 text-center clear-box mt-2">
+    <h3>Nouveau thème</h3>
 
     {{ include('subject/_form.html.twig') }}
 
-    <a href="{{ path('subject_index') }}">back to list</a>
+    <a href="{{ path('subject_index') }}">Retour à la liste</a>
+</div>
 {% endblock %}
