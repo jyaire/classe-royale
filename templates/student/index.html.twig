@@ -20,7 +20,11 @@
                                 <img src="{{ asset('avatars/' ~ student.avatar) }}"
                                      alt="{{ student.firstname }}">
                             {% endif %}
-                            <p>{{ student.firstname }} {{ student.lastname }} (CE1)</p>
+                            <p>{{ student.firstname }} {{ student.lastname }}
+                                {% if student.section is not null %}
+                                     ({{ student.section.abbreviation }})
+                                {% endif %}
+                            </p>
                         </div>
                     </div>
                 </a>

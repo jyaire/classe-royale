@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Section;
 use App\Entity\Student;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,6 +22,12 @@ class StudentType extends AbstractType
                     'widget' => 'single_text',
                 ])
             ->add('isGirl')
+            ->add('section', EntityType::class, [
+                'class' => Section::class,
+                'choice_label' => 'abbreviation',
+                'expanded' => true,
+                'multiple' => false,
+        ])
         ;
     }
 
