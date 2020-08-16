@@ -180,7 +180,7 @@ a{
     max-width: 120px;
 }
 
-/* PLAY */
+/* PAGES */
 
 .student-box {
     display: flex;
@@ -202,8 +202,6 @@ a{
         background-color: #00AFFE;
     }
 }
-
-/* STUDENT PROFILE */
 
 .clear-box {
     background-color: $fifth-color;
@@ -235,4 +233,25 @@ a{
     background-color: $primary-color;
     padding: 10px;
     border-radius: 25px;
+}
+
+.card-box {
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+    align-items: center;
+    text-align: center;
+    background-color: $third-color;
+    width: 130px;
+    height: 180px;
+    font-size: 0.8rem;
+
+    img {
+        width: 60px;
+        height: auto;
+    }
+
+    &:hover {
+        background-color: $fourth-color;
+    }
 }
