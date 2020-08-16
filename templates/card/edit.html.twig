@@ -3,11 +3,13 @@
 {% block title %}Edit Card{% endblock %}
 
 {% block body %}
-    <h1>Edit Card</h1>
+<div class="col-12 col-md-10 col-lg-7 text-center clear-box mt-2">
+    <h3>Modifier une carte</h3>
 
-    {{ include('card/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('card/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('card_index') }}">back to list</a>
+    <a href="{{ path('card_index') }}">Retour aux cartes</a>
 
     {{ include('card/_delete_form.html.twig') }}
+</div>
 {% endblock %}

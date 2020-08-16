@@ -68,6 +68,8 @@ class CardController extends AbstractController
 
     /**
      * @Route("/{id}", name="card_show", methods={"GET"})
+     * @param Card $card
+     * @return Response
      */
     public function show(Card $card): Response
     {
@@ -78,6 +80,9 @@ class CardController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="card_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Card $card
+     * @return Response
      */
     public function edit(Request $request, Card $card): Response
     {
@@ -85,8 +90,24 @@ class CardController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            if (!empty($form['image']->getData())) {
+                $directory = "cards/";
+                $file = $form['image']->getData();
+                $extension = $file->guessExtension();
+                if ($extension == 'png' or $extension == 'jpg' or $extension == 'jpeg') {
+                    $fileName = $card->getName() . '.' . $extension;
+                    $file->move($directory, $fileName);
+                    $card->setImage($fileName);
+                } else {
+                    $this->addFlash('danger', 'Votre image doit être au format jpg, jpeg ou png');
+                    return $this->redirectToRoute('card_edit', ['id'=>$card->getId()]);
+                }
+                $entityManager->persist($card);
+            }
+            $entityManager->flush();
 
+            $this->addFlash('success', 'Carte modifiée');
             return $this->redirectToRoute('card_index');
         }
 
