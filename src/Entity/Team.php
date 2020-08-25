@@ -29,6 +29,12 @@ class Team
      */
     private $student;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Classgroup::class, inversedBy="teams")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $classgroup;
+
     public function __construct()
     {
         $this->student = new ArrayCollection();
@@ -73,6 +79,18 @@ class Team
         if ($this->student->contains($student)) {
             $this->student->removeElement($student);
         }
+
+        return $this;
+    }
+
+    public function getClassgroup(): ?Classgroup
+    {
+        return $this->classgroup;
+    }
+
+    public function setClassgroup(?Classgroup $classgroup): self
+    {
+        $this->classgroup = $classgroup;
 
         return $this;
     }

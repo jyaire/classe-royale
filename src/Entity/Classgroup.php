@@ -50,11 +50,17 @@ class Classgroup
      */
     private $section;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Team::class, mappedBy="classgroup")
+     */
+    private $teams;
+
     public function __construct()
     {
         $this->students = new ArrayCollection();
         $this->teacher = new ArrayCollection();
         $this->section = new ArrayCollection();
+        $this->teams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -176,6 +182,37 @@ class Classgroup
     {
         if ($this->section->contains($section)) {
             $this->section->removeElement($section);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Team[]
+     */
+    public function getTeams(): Collection
+    {
+        return $this->teams;
+    }
+
+    public function addTeam(Team $team): self
+    {
+        if (!$this->teams->contains($team)) {
+            $this->teams[] = $team;
+            $team->setClassgroup($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeam(Team $team): self
+    {
+        if ($this->teams->contains($team)) {
+            $this->teams->removeElement($team);
+            // set the owning side to null (unless already changed)
+            if ($team->getClassgroup() === $this) {
+                $team->setClassgroup(null);
+            }
         }
 
         return $this;
