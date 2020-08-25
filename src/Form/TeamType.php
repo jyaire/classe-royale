@@ -13,8 +13,6 @@ class TeamType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('student')
-            ->add('classgroup')
         ;
     }
 

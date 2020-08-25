@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Classgroup;
 use App\Entity\Team;
 use App\Form\TeamType;
 use App\Repository\TeamRepository;
@@ -16,21 +17,29 @@ use Symfony\Component\Routing\Annotation\Route;
 class TeamController extends AbstractController
 {
     /**
-     * @Route("/", name="team_index", methods={"GET"})
+     * @Route("/{classgroup}", name="team_index", methods={"GET"})
+     * @param Classgroup $classgroup
+     * @param TeamRepository $teamRepository
+     * @return Response
      */
-    public function index(TeamRepository $teamRepository): Response
+    public function index(Classgroup $classgroup, TeamRepository $teamRepository): Response
     {
         return $this->render('team/index.html.twig', [
-            'teams' => $teamRepository->findAll(),
+            'teams' => $teamRepository->findBy(['classgroup'=>$classgroup]),
+            'classgroup' => $classgroup,
         ]);
     }
 
     /**
-     * @Route("/new", name="team_new", methods={"GET","POST"})
+     * @Route("/new/{classgroup}", name="team_new", methods={"GET","POST"})
+     * @param Classgroup $classgroup
+     * @param Request $request
+     * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Classgroup $classgroup, Request $request): Response
     {
         $team = new Team();
+        $team->setClassgroup($classgroup);
         $form = $this->createForm(TeamType::class, $team);
         $form->handleRequest($request);
 
@@ -39,7 +48,7 @@ class TeamController extends AbstractController
             $entityManager->persist($team);
             $entityManager->flush();
 
-            return $this->redirectToRoute('team_index');
+            return $this->redirectToRoute('team_index', ['classgroup'=>$classgroup->getId()]);
         }
 
         return $this->render('team/new.html.twig', [
@@ -49,7 +58,9 @@ class TeamController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="team_show", methods={"GET"})
+     * @Route("/show/{id}", name="team_show", methods={"GET"})
+     * @param Team $team
+     * @return Response
      */
     public function show(Team $team): Response
     {

@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Team index{% endblock %}
+{% block title %}Classe Royale - Les équipes de {{ classgroup.name }}{% endblock %}
 
 {% block body %}
-    <h1>Team index</h1>
+    <h3>Les équipes de {{ classgroup.name }}</h3>
 
     <table class="table">
         <thead>
@@ -31,5 +31,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('team_new') }}">Create new</a>
+    <a href="{{ path('team_new', {'classgroup': classgroup.id}) }}">Create new</a>
 {% endblock %}

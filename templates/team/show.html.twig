@@ -18,7 +18,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('team_index') }}">back to list</a>
+    <a href="{{ path('team_index', {'classgroup': team.classgroup.id}) }}">back to list</a>
 
     <a href="{{ path('team_edit', {'id': team.id}) }}">edit</a>
 
