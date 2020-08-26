@@ -34,7 +34,13 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('team_new', {'classgroup': classgroup.id}) }}">Ajouter une équipe</a>
+</div>
+<div class="col-12 col-md-10 col-lg-7 text-center">
+    <p>
+        <a href="{{ path('team_new', {'classgroup': classgroup.id}) }}">Ajouter une équipe</a>
+    </p>
+    <p>
+        <a href="{{ path('classgroup_show', {'id': classgroup.id}) }}">Retour à la classe</a>
+    </p>
 </div>
     {% endblock %}
