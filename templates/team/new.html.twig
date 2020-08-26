@@ -3,10 +3,13 @@
 {% block title %}Classe Royale - Nouvelle équipe{% endblock %}
 
 {% block body %}
+<div class="col-12 col-md-10 col-lg-7 text-center">
     <h3>{{ team.classgroup.name }}</h3>
     Ajouter une équipe dans cette classe
 
     {{ include('team/_form.html.twig') }}
 
     <a href="{{ path('team_index', {'classgroup': team.classgroup.id}) }}">Retour à toutes les équipes de cette classe</a>
+
+    </div>
 {% endblock %}

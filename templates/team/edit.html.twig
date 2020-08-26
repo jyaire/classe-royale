@@ -1,13 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Team{% endblock %}
+{% block title %}Classe Royale - Modification d'une équipe{% endblock %}
 
 {% block body %}
-    <h1>Edit Team</h1>
+<div class="col-12 col-md-10 col-lg-7 text-center">
+    <h3>Modification d'une équipe</h3>
 
-    {{ include('team/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('team/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('team_index') }}">back to list</a>
+    <a href="{{ path('team_index', {'classgroup': team.classgroup.id}) }}">Retour aux équipes de la classe</a><br>
 
     {{ include('team/_delete_form.html.twig') }}
+    <div class="col-12 col-md-10 col-lg-7">
 {% endblock %}

@@ -3,6 +3,7 @@
 {% block title %}Classe Royale - Les équipes de {{ classgroup.name }}{% endblock %}
 
 {% block body %}
+<div class="col-12 col-md-10 col-lg-7">
     <h3>Les équipes de {{ classgroup.name }}</h3>
 
     <table class="table">
@@ -19,17 +20,18 @@
                 <td>{{ team.id }}</td>
                 <td>{{ team.name }}</td>
                 <td>
-                    <a href="{{ path('team_show', {'id': team.id}) }}">show</a>
-                    <a href="{{ path('team_edit', {'id': team.id}) }}">edit</a>
+                    <a href="{{ path('team_show', {'id': team.id}) }}">Détails</a>
+                    <a href="{{ path('team_edit', {'id': team.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">Aucune équipe dans cette classe</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('team_new', {'classgroup': classgroup.id}) }}">Create new</a>
-{% endblock %}
+    <a href="{{ path('team_new', {'classgroup': classgroup.id}) }}">Ajouter une équipe</a>
+</div>
+    {% endblock %}

@@ -48,6 +48,7 @@ class TeamController extends AbstractController
             $entityManager->persist($team);
             $entityManager->flush();
 
+            $this->addFlash('success', "L'équipe a été ajoutée");
             return $this->redirectToRoute('team_index', ['classgroup'=>$classgroup->getId()]);
         }
 
@@ -71,6 +72,9 @@ class TeamController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="team_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Team $team
+     * @return Response
      */
     public function edit(Request $request, Team $team): Response
     {
@@ -80,7 +84,8 @@ class TeamController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('team_index');
+            $this->addFlash('success', "L'équipe a été modifiée");
+            return $this->redirectToRoute('team_index', ['classgroup'=>$team->getClassgroup()->getId()]);
         }
 
         return $this->render('team/edit.html.twig', [
@@ -91,15 +96,23 @@ class TeamController extends AbstractController
 
     /**
      * @Route("/{id}", name="team_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Team $team
+     * @return Response
      */
     public function delete(Request $request, Team $team): Response
     {
+        if($team->getStudent() == null) {
+        $this->addFlash('danger', "L'équipe doit être vide pour être supprimée");
+        return $this->redirectToRoute('team_show', ['id'=>$team->getId()]);
+        }
         if ($this->isCsrfTokenValid('delete'.$team->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($team);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('team_index');
+        $this->addFlash('success', "L'équipe a été supprimée");
+        return $this->redirectToRoute('team_index', ['classgroup'=>$team->getClassgroup()->getId()]);
     }
 }
