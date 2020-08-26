@@ -99,10 +99,16 @@ class Student
      */
     private $section;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Team::class, mappedBy="student")
+     */
+    private $teams;
+
     public function __construct()
     {
         $this->parent = new ArrayCollection();
         $this->points = new ArrayCollection();
+        $this->teams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -331,6 +337,34 @@ class Student
     public function setSection(?Section $section): self
     {
         $this->section = $section;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Team[]
+     */
+    public function getTeams(): Collection
+    {
+        return $this->teams;
+    }
+
+    public function addTeam(Team $team): self
+    {
+        if (!$this->teams->contains($team)) {
+            $this->teams[] = $team;
+            $team->addStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeam(Team $team): self
+    {
+        if ($this->teams->contains($team)) {
+            $this->teams->removeElement($team);
+            $team->removeStudent($this);
+        }
 
         return $this;
     }

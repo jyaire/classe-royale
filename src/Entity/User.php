@@ -84,11 +84,6 @@ class User implements UserInterface
     private $classgroups;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Team::class, mappedBy="student")
-     */
-    private $teams;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;
@@ -103,7 +98,6 @@ class User implements UserInterface
         $this->directors = new ArrayCollection();
         $this->students = new ArrayCollection();
         $this->classgroups = new ArrayCollection();
-        $this->teams = new ArrayCollection();
         $this->points = new ArrayCollection();
     }
 
@@ -339,34 +333,6 @@ class User implements UserInterface
         if ($this->classgroups->contains($classgroup)) {
             $this->classgroups->removeElement($classgroup);
             $classgroup->removeTeacher($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Team[]
-     */
-    public function getTeams(): Collection
-    {
-        return $this->teams;
-    }
-
-    public function addTeam(Team $team): self
-    {
-        if (!$this->teams->contains($team)) {
-            $this->teams[] = $team;
-            $team->addStudent($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTeam(Team $team): self
-    {
-        if ($this->teams->contains($team)) {
-            $this->teams->removeElement($team);
-            $team->removeStudent($this);
         }
 
         return $this;

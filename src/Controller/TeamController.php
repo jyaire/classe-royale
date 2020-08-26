@@ -78,7 +78,7 @@ class TeamController extends AbstractController
      */
     public function edit(Request $request, Team $team): Response
     {
-        $form = $this->createForm(TeamType::class, $team);
+        $form = $this->createForm(TeamType::class, $team, ['classgroup' => $team->getClassgroup()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

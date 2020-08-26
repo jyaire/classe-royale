@@ -13,6 +13,10 @@
     {% endfor %}
 
     <p>
+        <a href="{{ path('team_edit', {'id': team.id}) }}">Modifier ou ajouter des membres</a>
+    </p>
+
+    <p>
         <a href="{{ path('team_index', {'classgroup': team.classgroup.id}) }}">Retour aux équipes de la classe</a><br>
         <a href="{{ path('team_edit', {'id': team.id}) }}">Modifier</a>
     </p>

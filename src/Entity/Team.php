@@ -25,15 +25,15 @@ class Team
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="teams")
-     */
-    private $student;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Classgroup::class, inversedBy="teams")
      * @ORM\JoinColumn(nullable=false)
      */
     private $classgroup;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Student::class, inversedBy="teams")
+     */
+    private $student;
 
     public function __construct()
     {
@@ -58,14 +58,14 @@ class Team
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection|Student[]
      */
     public function getStudent(): Collection
     {
         return $this->student;
     }
 
-    public function addStudent(User $student): self
+    public function addStudent(Student $student): self
     {
         if (!$this->student->contains($student)) {
             $this->student[] = $student;
@@ -74,7 +74,7 @@ class Team
         return $this;
     }
 
-    public function removeStudent(User $student): self
+    public function removeStudent(Student $student): self
     {
         if ($this->student->contains($student)) {
             $this->student->removeElement($student);
