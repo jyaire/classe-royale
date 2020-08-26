@@ -40,7 +40,7 @@ class TeamController extends AbstractController
     {
         $team = new Team();
         $team->setClassgroup($classgroup);
-        $form = $this->createForm(TeamType::class, $team);
+        $form = $this->createForm(TeamType::class, $team, ['classgroup' => $team->getClassgroup()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -84,6 +84,9 @@ class TeamController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            foreach ($team->getStudent() as $student) {
+                $student->addTeam($team);
+            }
             $this->addFlash('success', "L'équipe a été modifiée");
             return $this->redirectToRoute('team_index', ['classgroup'=>$team->getClassgroup()->getId()]);
         }
