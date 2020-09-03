@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Point;
 use App\Entity\Reason;
 use App\Entity\Student;
+use App\Entity\Team;
 use App\Form\PointMultipleType;
 use App\Form\PointType;
 use App\Repository\PointRepository;
@@ -85,6 +86,80 @@ class PointController extends AbstractController
         return $this->render('point/new.html.twig', [
             'point' => $point,
             'student' => $student,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/team/{id}/{type}", name="point_team_new", methods={"GET","POST"})
+     * @param Team $team
+     * @param StudentRepository $studentRepository
+     * @param ReasonRepository $reasonRepository
+     * @param string $type
+     * @param Request $request
+     * @return Response
+     */
+    public function teamNew(
+        Team $team,
+        StudentRepository $studentRepository,
+        ReasonRepository $reasonRepository,
+        string $type,
+        Request $request): Response
+    {
+        $point = new Point;
+        $students = $team->getStudent();
+        $form = $this->createForm(PointType::class, $point);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $quantity = $point->getQuantity();
+            $reason = $point->getReason();
+            // search if reason already exists
+            $search = $reasonRepository->findOneBy(['sentence'=>$reason->getSentence()]);
+            if(!empty($search)) {
+                $point->setReason($search);
+            } else {
+                $entityManager->persist($reason);
+            }
+            $reason = $point->getReason();
+
+            // give points for each student
+            foreach ($students as $student) {
+                $point = new Point();
+                $point
+                    ->setStudent($student)
+                    ->setReason($reason)
+                    ->setType($type)
+                    ->setQuantity($quantity)
+                    ->setDate(new \DateTime())
+                    ->setAuthor($this->getUser())
+                ;
+
+                switch($type) {
+                    case "gold":
+                        $win = $student->getGold() + $point->getQuantity();
+                        $student->setGold($win);
+                        break;
+                    case "elixir":
+                        $win = $student->getElixir() + $point->getQuantity();
+                        $student->setElixir($win);
+                        break;
+                }
+
+                $student->setXp($student->getXp()+5);
+                $entityManager->persist($point);
+                $entityManager->persist($student);
+            }
+            $entityManager->flush();
+
+            $this->addFlash('success', "Les points ont été ajoutés à l'équipe");
+            return $this->redirectToRoute('team_show', ['id' => $team->getId()]);
+        }
+
+        return $this->render('point/new.html.twig', [
+            'point' => $point,
+            'team' => $team,
             'form' => $form->createView(),
         ]);
     }

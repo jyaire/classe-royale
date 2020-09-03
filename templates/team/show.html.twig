@@ -31,6 +31,24 @@
     {% endfor %}
         </div></div>
     <div class="col-12 text-center">
+        <div class="row justify-content-center">
+            <a href="{{ path('point_team_new', {'id': team.id, 'type': 'gold'}) }}">
+                <div class="student-box bg-light">
+                    <div>
+                        <img src="{{ asset('images/gold.png') }}">
+                        <p>Ajouter de l'or</p>
+                    </div>
+                </div>
+            </a>
+            <a href="{{ path('point_team_new', {'id': team.id, 'type': 'elixir'}) }}">
+                <div class="student-box bg-light">
+                    <div>
+                        <img src="{{ asset('images/elixir.png') }}">
+                        <p>Ajouter de l'elixir</p>
+                    </div>
+                </div>
+            </a>
+        </div>
     <p>
         <a href="{{ path('team_edit', {'id': team.id}) }}">Modifier ou ajouter des membres</a>
     </p>

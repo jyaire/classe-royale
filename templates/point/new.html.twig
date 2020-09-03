@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="col-12 text-center">
-    {% if studentsArray is defined %}
+    {% if studentsArray is defined or team is defined %}
     <h3>Ajout
         {% if point.type == "gold" %}d'Or {% else %}d'Elixir {% endif %} à plusieurs élèves</h3>
     <div class="col-12">
@@ -20,19 +20,22 @@
 <div class="col-12 col-sm-10 col-lg-7 text-center">
     {% endif %}
     <div class="row">
-        {% if studentsArray is defined %}
+        {% if studentsArray is defined or team is defined %}
             <div class="col-12 text-center">
         {% else %}
             <div class="col-6">
                 {{ student.firstname }}
             </div>
             <div class="col-6">
-                {% endif %}
+        {% endif %}
             {{ include('point/_form.html.twig') }}
         </div>
     </div>
     {% if studentsArray is defined %}
         <a href="{{ path('classgroup_show', {'id' : number}) }}">Retour Classe</a>
+    {% elseif team is defined %}
+        <a href="{{ path('team_show', {'id' : team.id}) }}">Retour équipe</a><br>
+        <a href="{{ path('classgroup_show', {'id' : team.classgroup.id}) }}">Retour Classe</a>
     {% else %}
         <a href="{{ path('classgroup_show', {'id' : student.classgroup.id}) }}">Retour Classe</a>
     {% endif %}
