@@ -40,7 +40,7 @@ security:
 
     role_hierarchy:
         ROLE_PARENT: ROLE_USER
-        ROLE_TEACHER: ROLE_PARENT
+        ROLE_TEACHER: ROLE_USER
         ROLE_DIRECTOR: ROLE_TEACHER
         ROLE_ADMIN:  ROLE_DIRECTOR
         ROLE_SUPER_ADMIN: ROLE_ADMIN

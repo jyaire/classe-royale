@@ -16,57 +16,64 @@
                         <img src="{{ asset('images/cr_logo_300.png') }}" class="logo-header">
                     </a>
                 </div>
+                <div class="col-9">
+                    <div class="row justify-content-end h-100">
+                        {% if app.user %}
 
-                {% set status = 'visitor' %}
-                {% if app.user %}
-                    {% for role in app.user.roles %}
-                        {% if role == "ROLE_SUPER_ADMIN" %}
-                            {% set status = "admin" %}
-                        {% elseif role == "ROLE_ADMIN" %}
-                            {% set status = "admin" %}
-                        {% elseif role == "ROLE_DIRECTOR" %}
-                            {% set status = "director" %}
-                        {% elseif role == "ROLE_DIRECTOR" %}
-                            {% set status = "teacher" %}
-                        {% elseif role == "ROLE_PARENT" %}
-                            {% set status = "parent" %}
+                            {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('admin') }}">
+                                        <div class="tab-background col text-center pt-3">
+                                            Administration
+                                        </div>
+                                </a>
+                            {% endif %}
+
+                            {% if is_granted('ROLE_DIRECTOR') %}
+                                <a href="{{ path('director') }}">
+                                    <div class="tab-background col text-center pt-3">
+                                        Direction
+                                    </div>
+                                </a>
+                            {% endif %}
+
+                            {% if is_granted('ROLE_PARENT') %}
+                                <a href="{{ path('parent') }}">
+                                    <div class="tab-background col text-center pt-3">
+                                        Enfants
+                                    </div>
+                                </a>
+                            {% endif %}
+
+                        {% else %}
+                            <a href="{{ path('infos') }}">
+                                <div class="tab-background col text-center pt-3">
+                                    Infos
+                                </div>
+                            </a>
                         {% endif %}
-                    {% endfor %}
-                {% endif %}
 
-                {% if status == "admin" %}
-                    <div class="tab-background col-3 text-center pt-3">
-                        <a href="{{ path('admin') }}">Administration</a>
-                    </div>
-                    {% else %}
-                        <div class="col-3 text-center pt-3">
-                        </div>
-                {% endif %}
+                        {% if app.user %}
+                            <a href="{{ path('user_show', {'id' : app.user.id}) }}">
+                                <div class="tab-background col text-center pt-3">
+                                    {{ app.user.firstname }} {{ app.user.lastname }}
+                                </div>
+                            </a>
+                        {% else %}
+                            <a href="{{ path('app_login') }}">
+                                <div class="tab-background col text-center pt-3">
+                                    Connexion
+                                </div>
+                            </a>
+                        {% endif %}
 
-                {% if status == "director" %}
-                    <div class="tab-background col-3 text-center pt-3">
-                        <a href="{{ path('director') }}">Direction</a>
+                        {% if app.user %}
+                            <a href="{{ path('app_logout') }}">
+                                <div class="tab-background col text-center pt-3">
+                                    déconnexion
+                                </div>
+                            </a>
+                        {% endif %}
                     </div>
-                {% elseif status == "parent" %}
-                    <div class="tab-background col-3 text-center pt-3">
-                        <a href="{{ path('parent') }}">Mes enfants</a>
-                    </div>
-                {% elseif status == "visitor" %}
-                    <div class="tab-background col-3 text-center pt-3">
-                        <a href="{{ path('infos') }}">Infos</a>
-                    </div>
-                {% else %}
-                    <div class="col-3 text-center pt-3">
-                    </div>
-                {% endif %}
-
-                <div class="tab-background col-3 text-center pt-3">
-                    {% if app.user %}
-                        <a href="{{ path('user_show', {'id' : app.user.id}) }}">{{ app.user.firstname }}</a>
-                         - <a href="{{ path('app_logout') }}">déconnexion</a>
-                    {% else %}
-                    <a href="{{ path('app_login') }}">Connexion</a>
-                    {% endif %}
                 </div>
             </div>
 
