@@ -3,37 +3,23 @@
 {% block title %}Classe Royale - Les équipes de {{ classgroup.name }}{% endblock %}
 
 {% block body %}
-<div class="col-12 col-md-10 col-lg-7">
+<div class="col-12 text-center">
     <h3>Les équipes de {{ classgroup.name }}</h3>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nom de l'équipe</th>
-                <th>Membres</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
+</div>
+<div class="col-12">
+    <div class="row justify-content-center">
         {% for team in teams %}
-            <tr>
-                <td>{{ team.name }}</td>
-                <td>{{ team.student | length }}</td>
-                <td>
-                    <a href="{{ path('team_show', {'id': team.id}) }}">Détails</a>
-                </td>
-                <td>
-                    <a href="{{ path('team_edit', {'id': team.id}) }}">Modifier</a>
-                </td>
-            </tr>
+            <a href="{{ path('team_show', {'id': team.id}) }}">
+                <div class="student-box">
+                    <div>
+                        <p>{{ team.name }}</p>
+                    </div>
+                </div>
+            </a>
         {% else %}
-            <tr>
-                <td colspan="3">Aucune équipe dans cette classe</td>
-            </tr>
+                Aucune équipe dans cette classe
         {% endfor %}
-        </tbody>
-    </table>
+    </div>
 </div>
 <div class="col-12 col-md-10 col-lg-7 text-center">
     <p>
