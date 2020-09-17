@@ -18,8 +18,8 @@
 
 ###> User files ###
 /public/uploads/*
-/public/avatars/
-/public/cards/
+/public/avatars/*
+/public/cards/*
 ###< User files ###
 
 ###> jetbrain/phpstorm ###
