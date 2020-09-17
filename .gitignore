@@ -17,7 +17,7 @@
 ###< symfony/phpunit-bridge ###
 
 ###> User files ###
-/public/uploads/
+/public/uploads/*
 /public/avatars/
 /public/cards/
 ###< User files ###
