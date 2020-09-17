@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Classgroup;
+use App\Entity\Student;
 use App\Form\ClassgroupType;
 use App\Repository\ClassgroupRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -84,6 +86,30 @@ class ClassgroupController extends AbstractController
         return $this->render('classgroup/edit.html.twig', [
             'classgroup' => $classgroup,
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/remove", name="classgroup_remove")
+     * @param Classgroup $classgroup
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+    public function removeFromClass(Classgroup $classgroup, EntityManagerInterface $em)
+    {
+        if(isset($_GET["delete"])) {
+            $name = $classgroup->getName();
+            $oldSchool = $classgroup->getSchool();
+            $oldSchoolName = $oldSchool->getName();
+            $classgroup->setSchool(null);
+            $em->persist($classgroup);
+            $em-> flush();
+
+            $this->addFlash('success', "$name est retirée de $oldSchoolName'");
+            return $this->redirectToRoute('school_show', ['id'=>$oldSchool->getId()]);
+        }
+        return $this->render('classgroup/remove.html.twig', [
+            'classgroup' => $classgroup,
         ]);
     }
 

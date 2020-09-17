@@ -8,10 +8,17 @@
 
     {{ include('classgroup/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('classgroup_show', {'id': classgroup.id}) }}">Retour {{ classgroup.name }}</a><br>
-    <a href="{{ path('school_show', {'id': classgroup.school.id}) }}">Retour {{ classgroup.school.name }}</a>
+    <p>
+        <a href="{{ path('classgroup_show', {'id': classgroup.id}) }}">Retour {{ classgroup.name }}</a><br>
+        <a href="{{ path('school_show', {'id': classgroup.school.id}) }}">Retour {{ classgroup.school.name }}</a>
+    </p>
+
+    {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_DIRECTOR') %}
+        <a href="{{ path('classgroup_remove', {'id': classgroup.id }) }}" class="btn btn-danger">Retirer cette classe de {{ classgroup.school.name }}</a>
+    {% endif %}
 
     {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
         {{ include('classgroup/_delete_form.html.twig') }}
     {% endif %}
+</div>
 {% endblock %}

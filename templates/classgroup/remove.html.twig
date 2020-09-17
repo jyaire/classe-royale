@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="col-12 text-center">
+    <h3>{{ classgroup.name }}</h3>
+</div>
+
+<div class="col-12 col-sm-10 col-lg-7 text-center clear-box mt-4">
+    <p>Voulez-vous vraiment retirer {{ classgroup.name }} de {{ classgroup.school.name }} ?</p>
+    <p class="p-1">
+        <a href="{{ path('classgroup_remove', {'id': classgroup.id, 'delete': 1}) }}" class="danger-button">Oui, retirer</a>
+    </p>
+    (les données de la classe sont sauvegardées)
+    <p class="p-1">
+        <a href="{{ path('classgroup_show', {'id': classgroup.id}) }}" class="third-button">Non, retour à la classe</a>
+    </p>
+</div>
+{% endblock %}
+
+{% block title %}
+Classe Royale - Retirer un élève
+{% endblock %}
+

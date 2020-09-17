@@ -31,7 +31,6 @@ class Classgroup
 
     /**
      * @ORM\ManyToOne(targetEntity=School::class, inversedBy="classgroups")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $school;
 
