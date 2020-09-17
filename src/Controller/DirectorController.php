@@ -8,6 +8,7 @@ use App\Entity\Student;
 use App\Entity\User;
 use App\Form\ImportType;
 use App\Repository\ClassgroupRepository;
+use App\Repository\SectionRepository;
 use App\Repository\StudentRepository;
 use App\Repository\UserRepository;
 use DateTime;
@@ -41,6 +42,7 @@ class DirectorController extends AbstractController
      * @param EntityManagerInterface $em
      * @param ClassgroupRepository $classgroupRepository
      * @param StudentRepository $students
+     * @param SectionRepository $sectionRepository
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @return RedirectResponse|Response
      */
@@ -50,6 +52,7 @@ class DirectorController extends AbstractController
         EntityManagerInterface $em,
         ClassgroupRepository $classgroupRepository,
         StudentRepository $students,
+        SectionRepository $sectionRepository,
         UserPasswordEncoderInterface $passwordEncoder
     )
 
@@ -95,11 +98,12 @@ class DirectorController extends AbstractController
                     // if no, add it
                     if(!isset($classgroup)) {
                         $classgroup = new Classgroup();
+                        $section = $sectionRepository->findOneBy(['abbreviation'=>$data[15]]);
                         $classgroup
                             ->setName("Classe n°" . $data[17])
                             ->setRef($data[17])
                             ->setSchool($school)
-                            ->addSection($data[16])
+                            ->addSection($section)
                         ;
                         $em->persist($classgroup);
                         $em->flush();
@@ -132,7 +136,7 @@ class DirectorController extends AbstractController
                         $isGirl = 1;
                     }
                     $ine = $data[5];
-                    $birthdate = DateTime::createFromFormat('d/m/Y', $data[3]);
+                    $birthdate = DateTime::createFromFormat('Y-m-d', $data[3]);
                     $refClassgroup = $data[17];
                     $classgroup = $classgroupRepository->findOneBy(['ref'=>$refClassgroup]);
                     $student = $students->findOneBy(['ine'=> $ine]);
