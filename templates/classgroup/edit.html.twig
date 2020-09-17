@@ -8,6 +8,7 @@
 
     {{ include('classgroup/_form.html.twig', {'button_label': 'Modifier'}) }}
 
+    <a href="{{ path('classgroup_show', {'id': classgroup.id}) }}">Retour {{ classgroup.name }}</a><br>
     <a href="{{ path('school_show', {'id': classgroup.school.id}) }}">Retour {{ classgroup.school.name }}</a>
 
     {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
