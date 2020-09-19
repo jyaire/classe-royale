@@ -47,8 +47,10 @@
             ({% for section in classgroup.section %}
                 {{section.abbreviation }}
             {% endfor %})
+            {% if classgroup.school is not null %}
             <a href="{{ path('school_show', {'id' : classgroup.school.id}) }}">{{ classgroup.school.name }}</a>
             , {{ classgroup.school.city }}
+            {% endif %}
         </p>
         <p class="mt-3 text-center">
             Enseignant(s) de la classe :

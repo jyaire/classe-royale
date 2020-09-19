@@ -10,7 +10,9 @@
                 <a href="{{ path('classgroup_show', {'id': classgroup.id}) }}">
                     <div class="student-box">
                         <p>{{ classgroup.name }}<br>
-                            <span class="small-text">{{ classgroup.school.name }} - {{ classgroup.school.city }}</span>
+                            {% if classgroup.school is not null %}
+                                <span class="small-text">{{ classgroup.school.name }} - {{ classgroup.school.city }}</span>
+                            {% endif %}
                         </p>
                     </div>
                 </a>

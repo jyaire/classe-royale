@@ -10,11 +10,15 @@
 
     <p>
         <a href="{{ path('classgroup_show', {'id': classgroup.id}) }}">Retour {{ classgroup.name }}</a><br>
-        <a href="{{ path('school_show', {'id': classgroup.school.id}) }}">Retour {{ classgroup.school.name }}</a>
+        {% if classgroup.school is not null %}
+            <a href="{{ path('school_show', {'id': classgroup.school.id}) }}">Retour {{ classgroup.school.name }}</a>
+        {% endif %}
     </p>
 
     {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_DIRECTOR') %}
-        <a href="{{ path('classgroup_remove', {'id': classgroup.id }) }}" class="btn btn-danger">Retirer cette classe de {{ classgroup.school.name }}</a>
+        {% if classgroup.school is not null %}
+            <a href="{{ path('classgroup_remove', {'id': classgroup.id }) }}" class="btn btn-danger">Retirer cette classe de {{ classgroup.school.name }}</a>
+        {% endif %}
     {% endif %}
 
     {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
