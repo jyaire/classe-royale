@@ -36,6 +36,14 @@
                                 </a>
                             {% endif %}
 
+                            {% if is_granted('ROLE_TEACHER') %}
+                                <a href="{{ path('teacher') }}">
+                                    <div class="tab-background col text-center pt-3">
+                                        Mes classes
+                                    </div>
+                                </a>
+                            {% endif %}
+
                             {% if is_granted('ROLE_PARENT') %}
                                 <a href="{{ path('parent') }}">
                                     <div class="tab-background col text-center pt-3">
