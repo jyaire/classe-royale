@@ -265,3 +265,14 @@ a{
 .small-icone {
     max-width: 30px;
 }
+
+.win-smallbox {
+    background-color: $fifth-color;
+    padding: 4px;
+    border-radius: 25px;
+    color: $third-color;
+
+    img {
+        max-width: 30px;
+    }
+}

@@ -83,24 +83,26 @@
 
     <div class="col-12 col-sm-10 col-lg-7 text-center dark-box">
         <div class="row">
-            {% for point in student.points %}
+            {% for point in student.points | reverse %}
                 <div class="col-2 p-3">
                     {{ point.date |date("d/m/Y") }}
                 </div>
-                <div class="col-5 p-3">
-                    {{ student.firstname }} a
-                        {% if point.quantity > 0 %}
-                            gagné
-                            {% set quantity = point.quantity %}
-                        {% else %}
-                            perdu
-                            {% set quantity = -point.quantity %}
-                        {% endif %}
-                    {{ quantity }} {{ point.type }}<br>
+                <div class="col-6 p-3">
                     "{{ point.reason.sentence }}"
                 </div>
-                <div class="col-3 p-3">
-                    ici
+                <div class="col-2 p-3">
+                    <div class="win-smallbox">
+                        {% if point.quantity > 0 %}
+                            + {{ point.quantity }}
+                        {% else %}
+                            - {{ -point.quantity }}
+                        {% endif %}
+                        {% if point.type == "gold" %}
+                            <img src="{{ asset('images/gold.png') }}" alt="Or">
+                        {% else %}
+                            <img src="{{ asset('images/elixir.png') }}" alt="Elixir">
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="col-2 p-3">
                     <form method="post" action="{{ path('point_delete', {'id': point.id, 'student': student.id}) }}"
