@@ -87,7 +87,7 @@
                 <div class="col-2 p-3">
                     {{ point.date |date("d/m/Y") }}
                 </div>
-                <div class="col-7 p-3">
+                <div class="col-5 p-3">
                     {{ student.firstname }} a
                         {% if point.quantity > 0 %}
                             gagné
@@ -100,11 +100,14 @@
                     "{{ point.reason.sentence }}"
                 </div>
                 <div class="col-3 p-3">
+                    ici
+                </div>
+                <div class="col-2 p-3">
                     <form method="post" action="{{ path('point_delete', {'id': point.id, 'student': student.id}) }}"
                           onsubmit="return confirm('Voulez-vous vraiment supprimer cette action ?');">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ point.id) }}">
-                        <button class="btn">Supprimer</button>
+                        <button class="btn"><img src="{{ asset('images/icone-delete.png') }}" class="small-icone"></button>
                     </form>
                 </div>
             {% else %}
