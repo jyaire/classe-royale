@@ -1,38 +1,58 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="col-12">
-        <h3 class=" text-center">En savoir plus sur Classe Royale</h3>
+    <div class="row align-items-center mb-3">
+        <div class="col-12">
+            <h3 class=" text-center">En savoir plus sur Classe Royale</h3>
+        </div>
+        <div class="col-4 offset-md-1 col-md-3 offset-lg-2 col-lg-2 pt-3 text-center p-2">
+            <img src="{{ asset('images/emoticon-pouces-f.png') }}" alt="Classe Royale" class="img-fluid emoticon-info">
+        </div>
+        <div class="col-8 col-md-7 col-lg-7 pt-3">
+            Classe Royale est un système d'évaluation ludique destiné aux élèves de la Maternelle au CM2.<br>
+            <br>Cette plate-forme reprend les classiques de la motivation ludique&nbsp;:<br>
+        </div>
     </div>
-    <div class="col-4 offset-md-1 col-md-3 offset-lg-2 col-lg-2 pt-3 text-center">
-       <img src="{{ asset('images/emoticon-pouces-f.png') }}" alt="Classe Royale" class="img-fluid emoticon-info">
-    </div>
-    <div class="col-8 col-md-7 col-lg-7 pt-3">
-        Classe Royale est un système d'évaluation ludique destiné aux élèves de la Maternelle au CM2.<br>
-        <br>Cette plate-forme reprend les classiques de la motivation ludique&nbsp;:<br>
-    </div>
-    <div class="col-12 col-md-10 col-lg-6 pt-3">
+
+    <div class="col-12 col-md-7 pt-3 bg-light text-dark">
+        <div class="row align-items-center">
+            <div class="col-4 text-center">
+                Pièces d'or<br>
+            </div>
+            <div class="col-4 text-center">
+                Elixir<br>
+            </div>
+            <div class="col-4 text-center">
+                Cartes<br>
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-4 text-center">
+                <img src="{{ asset('images/gold.png') }}" class="elixir-gold" alt="Or">
+            </div>
+            <div class="col-4 text-center">
+                <img src="{{ asset('images/elixir.png') }}" class="elixir-gold" alt="Elixir">
+            </div>
+            <div class="col-4 text-center">
+                <img src="{{ asset('images/emoticon-v-m.png') }}" class="emoticon-info" alt="Carte d'apprentissage">
+            </div>
+        </div>
         <div class="row">
             <div class="col-4">
-                Cartes d'apprentissage<br>
-                <img src="{{ asset('images/card-dab.png') }}">
+                <p class="small-text">
+                    Les pièces d'Or sont récoltées après des défis ou des travaux scolaires remarquables, elles permettent d'acheter des objets magiques ou débloquer des niveaux
+                </p>
             </div>
             <div class="col-4">
-                Pièces d'or<br>
-                <img src="{{ asset('images/gold.png') }}">
+                <p class="small-text">
+                    Tu reçois des gouttes d'Elixir si tu as des comportements exemplaires (tu aides les copains, tu as une responsabilité dans ta classe, tu as amélioré ton comportement...)
+                </p>
             </div>
             <div class="col-4">
-                Elixir<br>
-                <img src="{{ asset('images/elixir.png') }}">
-            </div>
-            <div class="col-4">
-                Les cartes gagnées s'améliorent en débloquant des niveaux
-            </div>
-            <div class="col-4">
-                Les pièces d'Or sont récoltées après des défis ou des travaux scolaires remarquables, elles permettent d'acheter des objets magiques ou débloquer des niveaux
-            </div>
-            <div class="col-4">
-                Tu reçois des gouttes d'Elixir si tu as des comportements exemplaires (tu aides les copains, tu as une responsabilité dans ta classe, tu as amélioré ton comportement...)
+                <p class="small-text">
+                    Les cartes gagnées s'améliorent en débloquant des niveaux<br><br>
+                    Collectionne-les toutes !
+                </p>
             </div>
         </div>
         <a href="{{ path('app_register') }}" class="third-button">Inscris-toi</a>
