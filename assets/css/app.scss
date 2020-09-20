@@ -205,6 +205,15 @@ a{
     &:hover {
         background-color: #00AFFE;
     }
+
+    .win-text {
+        font-size: 0.7em;
+        color: white;
+    }
+
+    .win-image {
+        max-width: 15px;
+    }
 }
 
 .clear-box {

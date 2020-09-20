@@ -21,6 +21,10 @@
                                      alt="{{ student.firstname }}">
                             {% endif %}
                             <p>{{ student.firstname }}</p>
+                            <p class="win-text">
+                                {{ student.gold }} <img src="{{ asset('images/gold.png') }}" class="win-image"> -
+                                {{ student.elixir }} <img src="{{ asset('images/elixir.png') }}" class="win-image">
+                            </p>
                         </div>
                     </div>
                 </a>
