@@ -164,8 +164,8 @@ class DirectorController extends AbstractController
                             ->setDateCreate(new DateTime())
                             ->setIsLead(0)
                             ->setXp(5)
-                            ->setGold(50)
-                            ->setElixir(50)
+                            ->setGold(10)
+                            ->setElixir(10)
                             ->setBirthdate($birthdate)
                         ;
                         $em->persist($student);
