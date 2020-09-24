@@ -1,4 +1,5 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_row(form.quantity) }}
+    {{ form_widget(form.reason) }}
     <button class="third-button">{{ button_label|default('Ajouter') }}</button>
 {{ form_end(form) }}

@@ -3,41 +3,74 @@
 {% block title %}Classe Royale - Ajout de points{% endblock %}
 
 {% block body %}
-<div class="col-12 text-center">
     {% if studentsArray is defined or team is defined %}
-    <h3>Ajout
-        {% if point.type == "gold" %}d'Or {% else %}d'Elixir {% endif %} à plusieurs élèves</h3>
-    <div class="col-12">
+        <div class="col-12 text-center">
+            <h3>Ajout
+            {% if point.type == "gold" %}d'Or {% else %}d'Elixir {% endif %} à plusieurs élèves</h3>
+        </div>
     {% else %}
-    <h3>Ajout
-        {% if point.type == "gold" %}d'Or {% else %}d'Elixir {% endif %} à {{ student.firstname }}</h3>
-</div>
-<div class="col-12 text-center">
-   <a href="{{ path('point_multiple_new', {'number': student.classgroup.id, 'type': point.type, 'winner': 'classgroup'}) }}">
-       Ajout à plusieurs élèves ?
-   </a>
-</div>
-<div class="col-12 col-sm-10 col-lg-7 text-center">
+        <div class="col-12 text-center">
+            <h3>Ajout
+            {% if point.type == "gold" %}d'Or {% else %}d'Elixir {% endif %} à {{ student.firstname }}</h3>
+        </div>
+        <div class="col-12 text-center p-2">
+           <a href="{{ path('point_multiple_new', {'number': student.classgroup.id, 'type': point.type, 'winner': 'classgroup'}) }}">
+               Ajout à plusieurs élèves ?
+           </a>
+        </div>
     {% endif %}
-    <div class="row">
-        {% if studentsArray is defined or team is defined %}
-            <div class="col-12 text-center">
-        {% else %}
-            <div class="col-6">
-                {{ student.firstname }}
+
+    {% if studentsArray is defined or team is defined %}
+        <div class="col-4 text-center">
+            <div class="form-check">
+                {{ form_start(form) }}
+                {{ form_row(form.student) }}
             </div>
-            <div class="col-6">
-        {% endif %}
+        </div>
+        <div class="col-4 text-center">
+            {{ form_row(form.quantity) }}
+            {{ form_widget(form.reason) }}
+        </div>
+        <div class="col-4 text-center pt-5">
+            <button class="third-button">{{ button_label|default('Ajouter') }}</button>
+            {{ form_end(form) }}
+        </div>
+    {% else %}
+        <div class="col-8 offset-sm-2 col-sm-5 offset-lg-3 col-lg-4 text-center">
             {{ include('point/_form.html.twig') }}
         </div>
-    </div>
-    {% if studentsArray is defined %}
-        <a href="{{ path('classgroup_show', {'id' : number}) }}">Retour Classe</a>
-    {% elseif team is defined %}
-        <a href="{{ path('team_show', {'id' : team.id}) }}">Retour équipe</a><br>
-        <a href="{{ path('classgroup_show', {'id' : team.classgroup.id}) }}">Retour Classe</a>
-    {% else %}
-        <a href="{{ path('classgroup_show', {'id' : student.classgroup.id}) }}">Retour Classe</a>
+        <div class="col-4 col-sm-3 col-lg-2 text-center">
+            <div class="clear-box">
+            {% if student.avatar is empty %}
+                {%  if student.isGirl == 1 %}
+                    <img src="{{ asset('images/emoticon-pouces-f.png') }}"
+                         alt="{{ student.firstname }} {{ student.lastname }}"
+                         class="emoticon-info">
+                {% else %}
+                    <img src="{{ asset('images/emoticon-pouces-m.png') }}"
+                         alt="{{ student.firstname }} {{ student.lastname }}"
+                         class="emoticon-info">
+                {% endif %}
+            {% else %}
+                <img src="{{ asset('avatars/' ~ student.avatar) }}"
+                     alt="{{ student.firstname }} {{ student.lastname }}"
+                     class="emoticon-info">
+            {% endif %}
+                <img src="{{ asset('images/gold.png') }}" alt="Or">
+                <img src="{{ asset('images/elixir.png') }}" alt="Elixir">
+            </div>
+        </div>
     {% endif %}
-</div>
+
+    <div class="col-12 text-center">
+        {% if studentsArray is defined %}
+            <a href="{{ path('classgroup_show', {'id' : number}) }}">Retour Classe</a>
+        {% elseif team is defined %}
+            <a href="{{ path('team_show', {'id' : team.id}) }}">Retour équipe</a><br>
+            <a href="{{ path('classgroup_show', {'id' : team.classgroup.id}) }}">Retour Classe</a>
+        {% else %}
+            <a href="{{ path('classgroup_show', {'id' : student.classgroup.id}) }}">Retour Classe</a>
+        {% endif %}
+    </div>
+
 {% endblock %}
