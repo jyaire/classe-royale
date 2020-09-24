@@ -3,30 +3,39 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="home")
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     * @return RedirectResponse|Response
      */
-    public function index()
+    public function index(AuthorizationCheckerInterface $authorizationChecker)
     {
         if ($this->getUser()) {
-            foreach ($this->getUser()->getRoles() as $role) {
-                if ($role == "ROLE_ADMIN") {
-                    return $this->redirectToRoute('admin');
-                }
-                elseif ($role == "ROLE_DIRECTOR") {
-                    return $this->redirectToRoute('director');
-                }
-                elseif ($role == "ROLE_TEACHER") {
+            $accessTeacher = $authorizationChecker->isGranted("ROLE_TEACHER");
+            $accessDirector = $authorizationChecker->isGranted("ROLE_DIRECTOR");
+            $accessAdmin = $authorizationChecker->isGranted("ROLE_ADMIN");
+            $accessParent = $authorizationChecker->isGranted("ROLE_PARENT");
+
+                if ($accessTeacher) {
                     return $this->redirectToRoute('teacher');
                 }
-                elseif ($role == "ROLE_PARENT") {
+                elseif ($accessDirector) {
+                    return $this->redirectToRoute('director');
+                }
+                elseif ($accessAdmin) {
+                    return $this->redirectToRoute('admin');
+                }
+                elseif ($accessParent) {
                     return $this->redirectToRoute('parent');
                 }
-            }
         }
         else {
             return $this->redirectToRoute('app_login');
