@@ -63,8 +63,8 @@ class StudentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $student
-                ->setElixir(50)
-                ->setGold(50)
+                ->setElixir(10)
+                ->setGold(10)
                 ->setXp(5)
                 ->setIsLead(0)
                 ->setDateCreate(new \DateTime())
