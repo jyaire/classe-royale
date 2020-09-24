@@ -30,19 +30,25 @@
             </div>
             <div class="col-6 pt-3">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-4">
                         <div class="win-box">
-                            <a href="{{ path('point_new', {'id' : student.id, 'type' : 'gold'}) }}">
-                                <img src="{{ asset('images/gold.png') }}" alt="Or">{{ student.gold }}
-                            </a>
+                            <img src="{{ asset('images/gold.png') }}" alt="Or">{{ student.gold }}
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-1 my-auto">
+                        <a href="{{ path('point_new', {'id' : student.id, 'type' : 'gold'}) }}">
+                            <img src="{{ asset('images/add.png') }}" class="add-icone">
+                        </a>
+                    </div>
+                    <div class="offset-2 col-4">
                         <div class="win-box">
-                            <a href="{{ path('point_new', {'id' : student.id, 'type' : 'elixir'}) }}">
                                 <img src="{{ asset('images/elixir.png') }}" alt="Elixir"> {{ student.elixir }}
-                            </a>
                         </div>
+                    </div>
+                    <div class="col-1 my-auto">
+                        <a href="{{ path('point_new', {'id' : student.id, 'type' : 'elixir'}) }}">
+                            <img src="{{ asset('images/add.png') }}" class="add-icone">
+                        </a>
                     </div>
                     <div class="col-12 pt-4">
                         Cartes : 0
