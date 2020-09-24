@@ -20,7 +20,7 @@
         </div>
     {% endif %}
 
-    {% if studentsArray is defined or team is defined %}
+    {% if studentsArray is defined %}
         <div class="col-4 text-center">
             <div class="form-check">
                 {{ form_start(form) }}
@@ -39,32 +39,44 @@
         <div class="col-8 col-sm-5 col-lg-4 text-center">
             {{ include('point/_form.html.twig') }}
         </div>
-        <div class="col-4 col-sm-3 col-lg-2 text-center">
-            <a href="{{ path('student_show', {'id': student.id}) }}">
-                <div class="clear-box">
-                    {% if student.avatar is empty %}
-                        {%  if student.isGirl == 1 %}
-                            <img src="{{ asset('images/emoticon-pouces-f.png') }}"
-                                 alt="{{ student.firstname }} {{ student.lastname }}"
-                                 class="emoticon-info">
+        <div class="col-4 col-sm-3 col-lg-2 text-center my-auto">
+            {% if team is defined %}
+                <a href="{{ path('team_show', {'id': team.id}) }}" class="clear-box">
+                    {{ team.name }}
+                </a>
+                <br>
+                {% if point.type == 'gold' %}
+                    <img src="{{ asset('images/gold.png') }}" alt="Or" class="small-icone">
+                {% else %}
+                    <img src="{{ asset('images/elixir.png') }}" alt="Elixir"  class="small-icone">
+                {% endif %}
+            {% else %}
+                <a href="{{ path('student_show', {'id': student.id}) }}">
+                    <div class="clear-box">
+                        {% if student.avatar is empty %}
+                            {%  if student.isGirl == 1 %}
+                                <img src="{{ asset('images/emoticon-pouces-f.png') }}"
+                                     alt="{{ student.firstname }} {{ student.lastname }}"
+                                     class="emoticon-info">
+                            {% else %}
+                                <img src="{{ asset('images/emoticon-pouces-m.png') }}"
+                                     alt="{{ student.firstname }} {{ student.lastname }}"
+                                     class="emoticon-info">
+                            {% endif %}
                         {% else %}
-                            <img src="{{ asset('images/emoticon-pouces-m.png') }}"
+                            <img src="{{ asset('avatars/' ~ student.avatar) }}"
                                  alt="{{ student.firstname }} {{ student.lastname }}"
                                  class="emoticon-info">
                         {% endif %}
-                    {% else %}
-                        <img src="{{ asset('avatars/' ~ student.avatar) }}"
-                             alt="{{ student.firstname }} {{ student.lastname }}"
-                             class="emoticon-info">
-                    {% endif %}
-                    <br>
-                    {% if point.type == 'gold' %}
-                        <img src="{{ asset('images/gold.png') }}" alt="Or" class="small-icone">
-                    {% else %}
-                        <img src="{{ asset('images/elixir.png') }}" alt="Elixir"  class="small-icone">
-                    {% endif %}
-                </div>
-            </a>
+                        <br>
+                        {% if point.type == 'gold' %}
+                            <img src="{{ asset('images/gold.png') }}" alt="Or" class="small-icone">
+                        {% else %}
+                            <img src="{{ asset('images/elixir.png') }}" alt="Elixir"  class="small-icone">
+                        {% endif %}
+                    </div>
+                </a>
+            {% endif %}
         </div>
     {% endif %}
 
