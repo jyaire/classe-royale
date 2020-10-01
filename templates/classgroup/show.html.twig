@@ -6,6 +6,14 @@
     </div>
     <div class="col-12">
         <div class="row justify-content-center">
+            <a href="{{ path('team_index', {'classgroup' : classgroup.id}) }}">
+                <div class="student-box bg-light">
+                    <div>
+                        <img src="{{ asset('uploads/team-logo.png') }}" alt="Equipes">
+                        Equipes
+                    </div>
+                </div>
+            </a>
             {% for student in classgroup.students %}
                 <a href="{{ path('student_show', {'id': student.id}) }}">
                     <div class="student-box">
@@ -35,13 +43,6 @@
                         <img src="{{ asset('images/add.png') }}"
                              alt="Ajouter un élève" class="add-button"
                              title="Ajouter un élève">
-                    </div>
-                </div>
-            </a>
-            <a href="{{ path('team_index', {'classgroup' : classgroup.id}) }}">
-                <div class="student-box bg-light">
-                    <div>
-                        Equipes de la classe
                     </div>
                 </div>
             </a>
