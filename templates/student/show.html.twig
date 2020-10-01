@@ -66,11 +66,11 @@
         </div>
     </div>
     <div class="col-12 text-center mt-3">
+        <a href="{{ path('classgroup_show', {'id' : student.classgroup.id}) }}">
+            Retour à la classe
+        </a>
         {% if is_granted('ROLE_DIRECTOR') or is_granted('ROLE_TEACHER') or is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('classgroup_show', {'id' : student.classgroup.id}) }}">
-                Retour à la classe
-            </a><br>
-            <a href="{{ path('student_edit', {'id': student.id}) }}">
+            <br><a href="{{ path('student_edit', {'id': student.id}) }}">
                 Modifier l'élève
             </a><br>
         {% endif %}
