@@ -7,6 +7,28 @@
     <h3 class="text-center">{{ team.name }} ({{ team.student | length }})</h3>
 </div>
     <div class="col-12">
+        <div class="row justify-content-center clear-box">
+            <div class="col-1 text-right">
+                <a href="{{ path('point_team_new', {'id': team.id, 'type': 'gold'}) }}">
+                    <img src="{{ asset('images/add.png') }}" title="Ajouter de l'or à toute l'équipe" class="add-icone">
+                </a>
+            </div>
+            <div class="col-1 text-left">
+                <a href="{{ path('point_team_new', {'id': team.id, 'type': 'gold'}) }}">
+                    <img src="{{ asset('images/gold.png') }}" title="Ajouter de l'or à toute l'équipe" class="add-icone">
+                </a>
+            </div>
+            <div class="col-1 text-right">
+                <a href="{{ path('point_team_new', {'id': team.id, 'type': 'elixir'}) }}">
+                    <img src="{{ asset('images/add.png') }}" title="Ajouter de l'elixir à toute l'équipe" class="add-icone">
+                </a>
+            </div>
+            <div class="col-1 text-left">
+                <a href="{{ path('point_team_new', {'id': team.id, 'type': 'elixir'}) }}">
+                    <img src="{{ asset('images/elixir.png') }}" title="Ajouter de l'elixir à toute l'équipe" class="add-icone">
+                </a>
+            </div>
+        </div>
         <div class="row justify-content-center">
     {% for student in team.student %}
         <a href="{{ path('student_show', {'id': student.id}) }}">
@@ -31,24 +53,6 @@
     {% endfor %}
         </div></div>
     <div class="col-12 text-center">
-        <div class="row justify-content-center">
-            <a href="{{ path('point_team_new', {'id': team.id, 'type': 'gold'}) }}">
-                <div class="student-box bg-light">
-                    <div>
-                        <img src="{{ asset('images/gold.png') }}">
-                        <p>Ajouter de l'or</p>
-                    </div>
-                </div>
-            </a>
-            <a href="{{ path('point_team_new', {'id': team.id, 'type': 'elixir'}) }}">
-                <div class="student-box bg-light">
-                    <div>
-                        <img src="{{ asset('images/elixir.png') }}">
-                        <p>Ajouter de l'elixir</p>
-                    </div>
-                </div>
-            </a>
-        </div>
     <p>
         <a href="{{ path('team_edit', {'id': team.id}) }}">Modifier ou ajouter des membres</a>
     </p>
