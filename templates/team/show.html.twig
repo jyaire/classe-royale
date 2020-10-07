@@ -7,27 +7,21 @@
     <h3 class="text-center">{{ team.name }} ({{ team.student | length }})</h3>
 </div>
     <div class="col-12">
-        <div class="row justify-content-center clear-box">
-            <div class="col-1 text-right">
-                <a href="{{ path('point_team_new', {'id': team.id, 'type': 'gold'}) }}">
+        <div class="row justify-content-center">
+
+            <a href="{{ path('point_team_new', {'id': team.id, 'type': 'gold'}) }}">
+                <div class="add-box">
                     <img src="{{ asset('images/add.png') }}" title="Ajouter de l'or à toute l'équipe" class="add-icone">
-                </a>
-            </div>
-            <div class="col-1 text-left">
-                <a href="{{ path('point_team_new', {'id': team.id, 'type': 'gold'}) }}">
                     <img src="{{ asset('images/gold.png') }}" title="Ajouter de l'or à toute l'équipe" class="add-icone">
-                </a>
-            </div>
-            <div class="col-1 text-right">
-                <a href="{{ path('point_team_new', {'id': team.id, 'type': 'elixir'}) }}">
+                </div>
+            </a>
+            <a href="{{ path('point_team_new', {'id': team.id, 'type': 'elixir'}) }}">
+                <div class="add-box">
                     <img src="{{ asset('images/add.png') }}" title="Ajouter de l'elixir à toute l'équipe" class="add-icone">
-                </a>
-            </div>
-            <div class="col-1 text-left">
-                <a href="{{ path('point_team_new', {'id': team.id, 'type': 'elixir'}) }}">
                     <img src="{{ asset('images/elixir.png') }}" title="Ajouter de l'elixir à toute l'équipe" class="add-icone">
-                </a>
-            </div>
+                </div>
+            </a>
+
         </div>
         <div class="row justify-content-center">
     {% for student in team.student %}
