@@ -8,7 +8,6 @@
 </div>
     <div class="col-12">
         <div class="row justify-content-center">
-
             <a href="{{ path('point_team_new', {'id': team.id, 'type': 'gold'}) }}">
                 <div class="add-box">
                     <img src="{{ asset('images/add.png') }}" title="Ajouter de l'or à toute l'équipe" class="add-icone">
@@ -21,7 +20,6 @@
                     <img src="{{ asset('images/elixir.png') }}" title="Ajouter de l'elixir à toute l'équipe" class="add-icone">
                 </div>
             </a>
-
         </div>
         <div class="row justify-content-center">
     {% for student in team.student %}

@@ -4,6 +4,20 @@
     <div class="col-12 text-center">
         <h3>{{ classgroup.name }}</h3>
     </div>
+    <div class="row justify-content-center">
+        <a href="{{ path('point_multiple_new', {'winner': 'classgroup', 'number': classgroup.id, 'type': 'gold'}) }}">
+            <div class="add-box">
+                <img src="{{ asset('images/add.png') }}" title="Ajouter de l'or à toute l'équipe" class="add-icone">
+                <img src="{{ asset('images/gold.png') }}" title="Ajouter de l'or à toute l'équipe" class="add-icone">
+            </div>
+        </a>
+        <a href="{{ path('point_multiple_new', {'winner': 'classgroup', 'number': classgroup.id, 'type': 'elixir'}) }}">
+            <div class="add-box">
+                <img src="{{ asset('images/add.png') }}" title="Ajouter de l'elixir à toute l'équipe" class="add-icone">
+                <img src="{{ asset('images/elixir.png') }}" title="Ajouter de l'elixir à toute l'équipe" class="add-icone">
+            </div>
+        </a>
+    </div>
     <div class="col-12">
         <div class="row justify-content-center">
             <a href="{{ path('team_index', {'classgroup' : classgroup.id}) }}">
