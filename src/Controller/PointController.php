@@ -107,6 +107,7 @@ class PointController extends AbstractController
         Request $request): Response
     {
         $point = new Point;
+        $point->setType($type);
         $students = $team->getStudent();
         $form = $this->createForm(PointType::class, $point);
         $form->handleRequest($request);
