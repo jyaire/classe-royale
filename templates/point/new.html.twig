@@ -41,6 +41,17 @@
         <div class="col-4 text-center pt-5">
             <button class="third-button">{{ button_label|default('Ajouter') }}</button>
             {{ form_end(form) }}
+            <div class="p-4">
+                {% if point.type == "gold" %}
+                    <a href="{{ path('point_multiple_new', {'winner': 'classgroup', 'number': number, 'type': 'elixir'}) }}">
+                        Elixir ?
+                    </a>
+                {% else %}
+                    <a href="{{ path('point_multiple_new', {'winner': 'classgroup', 'number': number, 'type': 'gold'}) }}">
+                        Or ?
+                    </a>
+                {% endif %}
+            </div>
         </div>
     {% else %}
         <div class="col-8 col-sm-5 col-lg-4 text-center">
@@ -94,6 +105,17 @@
                         {% endif %}
                     </div>
                 </a>
+                <div class="p-4">
+                    {% if point.type == "gold" %}
+                        <a href="{{ path('point_new', {'id': student.id, 'type':'elixir'}) }}">
+                            Elixir ?
+                        </a>
+                    {% else %}
+                        <a href="{{ path('point_new', {'id': student.id, 'type':'gold'}) }}">
+                            Or ?
+                        </a>
+                    {% endif %}
+                </div>
             {% endif %}
         </div>
     {% endif %}
