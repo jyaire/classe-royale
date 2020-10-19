@@ -3,36 +3,16 @@
 {% block title %}Point index{% endblock %}
 
 {% block body %}
-    <h1>Point index</h1>
+    {% if user is defined %}
+        {% if user == 'student' %}
+            <h2>Les points d'un élève</h2>
+        {% elseif user == 'classgroup' %}
+            <h2>Les points de la classe</h2>
+        {% endif %}
+    {% else %}
+        <h2>Tous les points</h2>
+    {% endif %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Type</th>
-                <th>Quantity</th>
-                <th>Date</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for point in points %}
-            <tr>
-                <td>{{ point.id }}</td>
-                <td>{{ point.type }}</td>
-                <td>{{ point.quantity }}</td>
-                <td>{{ point.date ? point.date|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('point_show', {'id': point.id}) }}">show</a>
-                    <a href="{{ path('point_edit', {'id': point.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% include "point/last.html.twig" %}
 
 {% endblock %}

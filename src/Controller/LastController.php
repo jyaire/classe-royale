@@ -47,11 +47,13 @@ class LastController extends AbstractController
             }
         }
         else {
+            $user = null;
             $points = $pointRepository->findAll();
         }
         
         return $this->render('point/index.html.twig', [
             'points' => $points,
+            'user' => $user,
         ]);
     }
 }
