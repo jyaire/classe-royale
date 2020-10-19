@@ -23,14 +23,11 @@ class PointController extends AbstractController
 {
     /**
      * @Route("/", name="point_index", methods={"GET"})
-     * @param PointRepository $pointRepository
      * @return Response
      */
-    public function index(PointRepository $pointRepository): Response
+    public function index(): Response
     {
-        return $this->render('point/index.html.twig', [
-            'points' => $pointRepository->findAll(),
-        ]);
+        return $this->redirectToRoute('last_index');
     }
 
     /**
