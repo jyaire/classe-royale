@@ -39,15 +39,12 @@ class LastController extends AbstractController
             $points = $pointRepository->findBy(['student'=>$id]);
         }
         elseif($user == 'classgroup') {
-            /* to be debugged
             $points = [];
             $students = $studentRepository->findBy(['classgroup'=>$id]);
             foreach($students as $student) {
-                $points = $pointRepository->findBy(['student'=>$student]);
-                array_push($points, $points);
+                $pointsStudent = $pointRepository->findBy(['student'=>$student]);
+                $points = array_merge($points, $pointsStudent);
             }
-            */
-            $points = $pointRepository->findBy(['student'=>$id]);
         }
         else {
             $points = $pointRepository->findAll();
