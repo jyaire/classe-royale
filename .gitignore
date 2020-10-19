@@ -24,6 +24,7 @@
 
 ###> jetbrain/phpstorm ###
 /.idea/
+/.vscode/
 ###< jetbrain/phpstorm ###
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
