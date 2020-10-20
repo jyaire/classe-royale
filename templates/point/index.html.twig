@@ -3,15 +3,17 @@
 {% block title %}Point index{% endblock %}
 
 {% block body %}
-    {% if user is defined %}
-        {% if user == 'student' %}
-            <h2>Les points d'un élève</h2>
-        {% elseif user == 'classgroup' %}
-            <h2>Les points de la classe</h2>
+    <div class="col-12 text-center">
+        {% if user is defined %}
+            {% if user == 'student' %}
+                <h2>Les points d'un élève</h2>
+            {% elseif user == 'classgroup' %}
+                <h2>Les points de la classe</h2>
+            {% endif %}
+        {% else %}
+            <h2>Tous les points</h2>
         {% endif %}
-    {% else %}
-        <h2>Tous les points</h2>
-    {% endif %}
+    </div>
 
     {% include "point/last.html.twig" %}
 

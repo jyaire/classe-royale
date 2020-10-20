@@ -1,31 +1,58 @@
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Student</th>
-                <th>Type</th>
-                <th>Quantity</th>
-                <th>Date</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for point in points %}
-            <tr>
-                <td>{{ point.id }}</td>
-                <td>{{ point.Student.id }}</td>
-                <td>{{ point.type }}</td>
-                <td>{{ point.quantity }}</td>
-                <td>{{ point.date ? point.date|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('point_show', {'id': point.id}) }}">show</a>
-                    <a href="{{ path('point_edit', {'id': point.id}) }}">edit</a>
-                </td>
-            </tr>
+<div class="col-12 col-sm-10 col-lg-7 text-center dark-box">
+    <div class="row align-items-center">
+        {% for point in points | sort((b, a) => a.date <=> b.date) |slice(0, 50) %}
+            <div class="col-3">
+                <a href="{{ path('student_show', {'id': point.student.id}) }}">
+                    {% if point.student.avatar is empty %}
+                        {%  if point.student.isGirl == 1 %}
+                            <img src="{{ asset('images/emoticon-pouces-f.png') }}"
+                                alt="{{ point.student.firstname }} {{ point.student.lastname }}"
+                                class="emoticon-info-small">
+                        {% else %}
+                            <img src="{{ asset('images/emoticon-pouces-m.png') }}"
+                                alt="{{ point.student.firstname }} {{ point.student.lastname }}"
+                                class="emoticon-info-small">
+                        {% endif %}
+                    {% else %}
+                        <img src="{{ asset('avatars/' ~ student.avatar) }}"
+                            alt="{{ point.student.firstname }} {{ point.student.lastname }}"
+                            class="emoticon-info-small">
+                    {% endif %}
+                    <br>{{ point.student.firstname }} {{ point.student.avatar }}
+                </a>
+            </div>
+            <div class="col-3">
+                {{ point.reason.sentence }}
+            </div>
+            <div class="col-2">
+                <div class="win-smallbox">
+                        {% if point.quantity > 0 %}
+                            + {{ point.quantity }}
+                        {% else %}
+                            - {{ -point.quantity }}
+                        {% endif %}
+                        {% if point.type == "gold" %}
+                            <img src="{{ asset('images/gold.png') }}" alt="Or">
+                        {% else %}
+                            <img src="{{ asset('images/elixir.png') }}" alt="Elixir">
+                        {% endif %}
+                    </div>
+            </div>
+            <div class="col-2">
+                {{ point.date ? point.date|date('d/m/Y à H:i') : '' }}
+            </div>
+            <div class="col-2">
+                    <form method="post" action="{{ path('point_delete', {'id': point.id, 'student': point.student.id}) }}"
+                          onsubmit="return confirm('Voulez-vous vraiment supprimer cette action ?');">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ point.id) }}">
+                        <button class="btn"><img src="{{ asset('images/icone-delete.png') }}" class="small-icone"></button>
+                    </form>
+                </div>
         {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
+            <div class="col-12 text-center">
+                Aucune activité pour l'instant
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
+    </div>
+</div>
