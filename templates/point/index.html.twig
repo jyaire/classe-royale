@@ -6,12 +6,22 @@
     <div class="col-12 text-center">
         {% if user is defined %}
             {% if user == 'student' %}
-                <h2>Les points d'un élève</h2>
+                <h3>
+                    Derniers points de 
+                    {% for point in points|slice(0, 1) %}
+                        {{ point.student.firstname }}
+                    {% endfor %}
+                </h3>
             {% elseif user == 'classgroup' %}
-                <h2>Les points de la classe</h2>
+                <h3>
+                    Derniers points - 
+                    {% for point in points|slice(0, 1) %}
+                        {{ point.student.classgroup.name }}
+                    {% endfor %}
+                </h3>
             {% endif %}
         {% else %}
-            <h2>Tous les points</h2>
+            <h3>Tous les points</h3>
         {% endif %}
     </div>
 
