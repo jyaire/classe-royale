@@ -5,24 +5,38 @@
 {% block body %}
     <div class="col-12 text-center">
         {% if user is defined %}
+        {% set classgroup = '' %}
             {% if user == 'student' %}
                 <h3>
                     Derniers points de 
                     {% for point in points|slice(0, 1) %}
                         {{ point.student.firstname }}
+                        {% set classgroup = point.student.classgroup %}
                     {% endfor %}
                 </h3>
+                <div class="p-2">
+                    <a href="{{ path('classgroup_show', {'id': classgroup.id}) }}">
+                        Retour à la classe
+                    </a>
+                </div>
             {% elseif user == 'classgroup' %}
                 <h3>
                     Derniers points - 
                     {% for point in points|slice(0, 1) %}
                         {{ point.student.classgroup.name }}
+                        {% set classgroup = point.student.classgroup %}
                     {% endfor %}
                 </h3>
+                <div class="p-2">
+                    <a href="{{ path('classgroup_show', {'id': classgroup.id}) }}">
+                        Retour à la classe
+                    </a>
+                </div>
             {% endif %}
         {% else %}
             <h3>Tous les points</h3>
         {% endif %}
+        
     </div>
 
     {% include "point/last.html.twig" %}
