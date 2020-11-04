@@ -16,20 +16,20 @@ class UserType extends AbstractType
             ->add('email')
             ->add('roles', ChoiceType::class, [
                 'required' => true,
-                'multiple' => false,
-                'expanded' => false,
+                'multiple' => true,
+                'expanded' => true,
                 'choices' => [
-                    'User' => 'ROLE_USER',
-                    'Partner' => 'ROLE_PARTNER',
+                    'Utilisateur' => 'ROLE_USER',
+                    'Parent' => 'ROLE_PARENT',
+                    'Enseignant' => 'ROLE_TEACHER',
+                    'Directeur' => 'ROLE_DIRECTOR',
                     'Admin' => 'ROLE_ADMIN',
+                    'Super Administrateur' => 'ROLE_SUPER_ADMIN',
                 ],
             ])
-            ->add('password')
             ->add('lastname')
             ->add('firstname')
             ->add('isWoman')
-            ->add('dateCreate')
-            ->add('dateModif')
             ->add('isVerified');
     }
 
