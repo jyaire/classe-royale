@@ -7,15 +7,44 @@
         <h3>Profil de {{ user.firstname }} {{ user.lastname }}</h3>
     </div>
     <div class="col-12 col-md-10 col-lg-7">
-        Id : {{ user.id }}<br>
+        <div class="row">
+            {% for role in user.roles %}
+                {% if role == "ROLE_SUPER_ADMIN" %}
+                    <div class="add-box">Super Administrateur</div>
+                {% endif %}
+                {% if role == "ROLE_ADMIN" %}
+                    <div class="add-box">Administrateur</div>
+                {% endif %}
+                {% if role == "ROLE_DIRECTOR" %}
+                    <div class="add-box">Chef d'établissement</div>
+                {% endif %}
+                {% if role == "ROLE_TEACHER" %}
+                    <div class="add-box">Enseignant</div>
+                {% endif %}
+                {% if role == "ROLE_PARENT" %}
+                    <div class="add-box">Parent</div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <br>
         Email : {{ user.email }}<br>
-        Roles : {{ user.roles ? user.roles|json_encode : '' }}<br>
-        Nom : {{ user.lastname }}<br>
-        Prénom : {{ user.firstname }}<br>
-        Féminin ? {{ user.isWoman ? 'Oui' : 'Non' }}<br>
-        Date création : {{ user.dateCreate ? user.dateCreate|date('d/m/Y H:i:s') : '' }}<br>
-        Date modif : {{ user.dateModif ? user.dateModif|date('d/m/Y H:i:s') : '' }}<br>
-        Email est vérifiée : {{ user.isVerified ? 'Yes' : 'No' }}<br>
+        {% if user.isWoman == true %}
+            Femme
+        {% else %}
+            Homme
+        {% endif %}<br>
+        Utilisateur créé le {{ user.dateCreate ? user.dateCreate|date('d/m/Y à H:i:s') : '' }}<br>
+        {% if user.dateModif is null %}
+            Profil jamais modifié
+        {% else %}
+            Modifié le {{ user.dateModif ? user.dateModif|date('d/m/Y à H:i:s') : '' }}
+        {% endif %}
+        <br>
+        {% if user.isVerified == true %}
+            Profil vérifié
+        {% else %}
+            Profil non vérifié
+        {% endif %}<br>
     </div>
     <div class="col-12 col-md-10 col-lg-7">
 
