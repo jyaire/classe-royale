@@ -29,32 +29,6 @@ class CardController extends AbstractController
     }
 
     /**
-     * @Route("/{type}", name="card_index_type", methods={"GET"})
-     * @param CardRepository $cardRepository
-     * @param string $type
-     * @return Response
-     */
-    public function indexType(string $type, CardRepository $cardRepository): Response
-    {
-        return $this->render('card/index.html.twig', [
-            'cards' => $cardRepository->findBy(['type'=>$type]),
-        ]);
-    }
-
-    /**
-     * @Route("/subject/{id}", name="card_index_subject", methods={"GET"})
-     * @param CardRepository $cardRepository
-     * @param Subject $subject
-     * @return Response
-     */
-    public function indexSubject(Subject $subject, CardRepository $cardRepository): Response
-    {
-        return $this->render('card/index.html.twig', [
-            'cards' => $cardRepository->findBy(['subject'=>$subject]),
-        ]);
-    }
-
-    /**
      * @Route("/new", name="card_new", methods={"GET","POST"})
      * @param Request $request
      * @return Response
@@ -156,5 +130,31 @@ class CardController extends AbstractController
         }
 
         return $this->redirectToRoute('card_index');
+    }
+
+     /**
+     * @Route("/type/{type}", name="card_index_type", methods={"GET"})
+     * @param CardRepository $cardRepository
+     * @param string $type
+     * @return Response
+     */
+    public function indexType(string $type, CardRepository $cardRepository): Response
+    {
+        return $this->render('card/index.html.twig', [
+            'cards' => $cardRepository->findBy(['type'=>$type]),
+        ]);
+    }
+
+    /**
+     * @Route("/subject/{id}", name="card_index_subject", methods={"GET"})
+     * @param CardRepository $cardRepository
+     * @param Subject $subject
+     * @return Response
+     */
+    public function indexSubject(Subject $subject, CardRepository $cardRepository): Response
+    {
+        return $this->render('card/index.html.twig', [
+            'cards' => $cardRepository->findBy(['subject'=>$subject]),
+        ]);
     }
 }

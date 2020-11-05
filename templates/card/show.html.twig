@@ -15,10 +15,26 @@
             </div>
         </div>
         <div class="col-7 mt-3">
-            <div class="row justify-content-end">
-                <p class="add-box">{{ card.type }}</p>
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <p class="add-box">
+                        <a href="{{ path('card_index_subject', {'id': card.subject.id}) }}">
+                            {{ card.subject.name }}
+                        </a>
+                    </p>
+                </div>
+                <div class="col-6">
+                    <p class="add-box">
+                        <a href="{{ path('card_index_type', {'type': card.type}) }}">
+                            {{ card.type }}
+                        </a>
+                    </p>
+                </div>
+                
             </div>
-            <p class="text-left">{{ card.description }}</p>
+            <p class="text-left">
+                {{ card.description }}
+            </p>
 
         </div>
     </div>
