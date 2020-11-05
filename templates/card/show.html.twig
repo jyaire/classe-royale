@@ -4,7 +4,6 @@
 
 {% block body %}
 <div class="col-12 col-md-10 col-lg-7 text-center dark-box mt-2">
-    <h3>{{ card.name }} - niveau {{ card.level }}</h3>
     <div class="row justify-content-center">
         <div class="offset-1 col-3">
             <div class="card-box">
@@ -16,8 +15,11 @@
             </div>
         </div>
         <div class="col-7 mt-3">
-            <p>{{ card.description }}</p>
-            <p>Type : {{ card.type }}</p>
+            <div class="row justify-content-end">
+                <p class="add-box">{{ card.type }}</p>
+            </div>
+            <p class="text-left">{{ card.description }}</p>
+
         </div>
     </div>
 </div>
