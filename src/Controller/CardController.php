@@ -142,6 +142,7 @@ class CardController extends AbstractController
     {
         return $this->render('card/index.html.twig', [
             'cards' => $cardRepository->findBy(['type'=>$type]),
+            'type' => $type,
         ]);
     }
 
@@ -155,6 +156,7 @@ class CardController extends AbstractController
     {
         return $this->render('card/index.html.twig', [
             'cards' => $cardRepository->findBy(['subject'=>$subject]),
+            'subject' => $subject,
         ]);
     }
 }

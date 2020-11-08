@@ -1,43 +1,40 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Card index{% endblock %}
+{% block title %}Classe Royale - Les cartes{% endblock %}
 
 {% block body %}
-    <h1>Card index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Level</th>
-                <th>Type</th>
-                <th>Image</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+<div class="col-12 text-center">
+{% if subject is defined %}
+    <h2>Cartes {{ subject.name }}</h2>
+{% elseif type is defined %}
+    <h2>Cartes {{ type }}</h2>
+{% else %}
+    <h2>Toutes les cartes</h2>
+{% endif %}
+
+    <div class="row justify-content-center">
         {% for card in cards %}
-            <tr>
-                <td>{{ card.id }}</td>
-                <td>{{ card.name }}</td>
-                <td>{{ card.description }}</td>
-                <td>{{ card.level }}</td>
-                <td>{{ card.type }}</td>
-                <td>{{ card.image }}</td>
-                <td>
-                    <a href="{{ path('card_show', {'id': card.id}) }}">show</a>
-                    <a href="{{ path('card_edit', {'id': card.id}) }}">edit</a>
-                </td>
-            </tr>
+        <a href="{{ path('card_show', {'id': card.id}) }}">
+            <div class="card-box">
+                <div>
+                    <p>{{ card.name }}<br>
+                    <span class="level-text">niveau {{ card.level }}</span></p>
+                    <img src="{{ asset('cards/' ~ card.image) }}" alt="{{ card.name }}">
+                </div>
+            </div>    
+        </a>        
         {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
+            Aucune carte trouvée
         {% endfor %}
-        </tbody>
-    </table>
+    </div>
+</div>
 
-    <a href="{{ path('card_new') }}">Create new</a>
+<div class="col-12 text-center">
+    {% if subject is defined or type is defined %}
+        <a href="{{ path('card_index') }}">Toutes les cartes</a>
+    {% endif %}
+    <br>
+    <a href="{{ path('card_new') }}">Ajouter une carte</a>
+</div>
 {% endblock %}
