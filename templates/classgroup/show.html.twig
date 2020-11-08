@@ -4,24 +4,39 @@
     <div class="col-12 text-center">
         <h3>{{ classgroup.name }}</h3>
     </div>
-    <div class="row justify-content-center align-items-center">
-        <a href="{{ path('point_multiple_new', {'winner': 'classgroup', 'number': classgroup.id, 'type': 'gold'}) }}">
-            <div class="add-box">
-                <img src="{{ asset('images/add.png') }}" title="Ajouter de l'or à toute la classe" class="add-icone" alt="Or">
-                <img src="{{ asset('images/gold.png') }}" title="Ajouter de l'or à toute la classe" class="add-icone" alt="Or">
-            </div>
-        </a>
-        <a href="{{ path('point_multiple_new', {'winner': 'classgroup', 'number': classgroup.id, 'type': 'elixir'}) }}">
-            <div class="add-box">
-                <img src="{{ asset('images/add.png') }}" title="Ajouter de l'elixir à toute la classe" class="add-icone" alt="Elixir">
-                <img src="{{ asset('images/elixir.png') }}" title="Ajouter de l'elixir à toute la classe" class="add-icone" alt="Elixir">
-            </div>
-        </a>
-        <a href="{{ path('last_custom', {'user': 'classgroup', 'id': classgroup.id}) }}">
-            <div class="add-box">
-                50 dernières actions
-            </div>
-        </a>
+        <div class="row justify-content-center align-items-center">
+
+            <a href="{{ path('classgroup_show', {'id': classgroup.id, 'ranking': 'gold'}) }}">
+                <div class="add-box">
+                    par OR
+                </div>
+            </a>
+            <a href="{{ path('classgroup_show', {'id': classgroup.id, 'ranking': 'elixir'}) }}">
+                <div class="add-box">
+                    par ELIXIR
+                </div>
+            </a>
+
+            <a href="{{ path('point_multiple_new', {'winner': 'classgroup', 'number': classgroup.id, 'type': 'gold'}) }}">
+                <div class="add-box">
+                    <img src="{{ asset('images/add.png') }}" title="Ajouter de l'or à toute la classe" class="add-icone" alt="Or">
+                    <img src="{{ asset('images/gold.png') }}" title="Ajouter de l'or à toute la classe" class="add-icone" alt="Or">
+                </div>
+            </a>
+            <a href="{{ path('point_multiple_new', {'winner': 'classgroup', 'number': classgroup.id, 'type': 'elixir'}) }}">
+                <div class="add-box">
+                    <img src="{{ asset('images/add.png') }}" title="Ajouter de l'elixir à toute la classe" class="add-icone" alt="Elixir">
+                    <img src="{{ asset('images/elixir.png') }}" title="Ajouter de l'elixir à toute la classe" class="add-icone" alt="Elixir">
+                </div>
+            </a>
+
+            <a href="{{ path('last_custom', {'user': 'classgroup', 'id': classgroup.id}) }}">
+                <div class="add-box">
+                    50 dernières actions
+                </div>
+            </a>
+
+        </div>
     </div>
     <div class="col-12">
         <div class="row justify-content-center">
@@ -38,8 +53,12 @@
                     {% for student in classgroup.students | sort((a, b) => b.gold <=> a.gold) %}
                         {% include 'classgroup/cards_students.html.twig' %}
                     {% endfor %}
-                {% else %}
+                {% elseif ranking == "elixir" %}
                     {% for student in classgroup.students | sort((a, b) => b.elixir <=> a.elixir) %}
+                        {% include 'classgroup/cards_students.html.twig' %}
+                    {% endfor %}
+                {% else %}
+                    {% for student in classgroup.students %}
                         {% include 'classgroup/cards_students.html.twig' %}
                     {% endfor %}
                 {% endif %}
