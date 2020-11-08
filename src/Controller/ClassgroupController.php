@@ -55,14 +55,16 @@ class ClassgroupController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="classgroup_show", methods={"GET"})
+     * @Route("/{id}/{ranking}", name="classgroup_show", methods={"GET"}, defaults={"ranking": null})
      * @param Classgroup $classgroup
+     * @param string $ranking
      * @return Response
      */
-    public function show(Classgroup $classgroup): Response
+    public function show(Classgroup $classgroup, ?string $ranking): Response
     {
         return $this->render('classgroup/show.html.twig', [
             'classgroup' => $classgroup,
+            'ranking' => $ranking,
             ]);
     }
 

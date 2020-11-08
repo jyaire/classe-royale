@@ -1,0 +1,22 @@
+<a href="{{ path('student_show', {'id': student.id}) }}">
+                    <div class="student-box">
+                        <div>
+                            {% if student.avatar is empty %}
+                                {% if student.isGirl == 1 %}
+                                    <img src="{{ asset('images/emoticon-pouces-f.png') }}" alt="{{ student.firstname }}">
+                                {% else %}
+                                    <img src="{{ asset('images/emoticon-pouces-m.png') }}" alt="{{ student.firstname }}">
+                                {% endif %}
+                            {% else %}
+                                <img src="{{ asset('avatars/' ~ student.avatar) }}"
+                                     alt="{{ student.firstname }}">
+                            {% endif %}
+                            <p>{{ student.firstname }}</p>
+                            <p class="win-text">
+                                {{ student.gold }} <img src="{{ asset('images/gold.png') }}" class="win-image mr-2">
+                                {{ student.elixir }} <img src="{{ asset('images/elixir.png') }}" class="win-image">
+                            </p>
+                        </div>
+                    </div>
+                </a>
+                
