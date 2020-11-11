@@ -245,6 +245,21 @@ a{
             padding-right: 20px;
         }
     }
+
+    .win-box-cards {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color:$primary-color;
+        font-size: 1.3rem;
+
+        img {
+            width: 70px;
+            height: auto;
+            border: none;
+            padding-right: 20px;
+        }
+    }
 }
 
 .add-icone {
