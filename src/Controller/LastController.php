@@ -23,7 +23,7 @@ class LastController extends AbstractController
     }
 
     /**
-     * @Route("/{user}/{id}/last", name="last_custom", methods={"GET"})
+     * @Route("/last/{user}/{id}", name="last_custom", methods={"GET"})
      * @param PointRepository $pointRepository
      * @param StudentRepository $studentRepository
      * @return Response
