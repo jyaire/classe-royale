@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Card;
 use App\Entity\Subject;
+use App\Entity\Student;
 use App\Form\CardType;
 use App\Repository\CardRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -143,6 +144,20 @@ class CardController extends AbstractController
         return $this->render('card/index.html.twig', [
             'cards' => $cardRepository->findBy(['type'=>$type]),
             'type' => $type,
+        ]);
+    }
+
+    /**
+     * @Route("/student/{student}", name="card_index_student", methods={"GET"})
+     * @param CardRepository $cardRepository
+     * @param Student $student
+     * @return Response
+     */
+    public function indexStudent(Student $student, CardRepository $cardRepository): Response
+    {
+        return $this->render('card/index.html.twig', [
+            'cards' => $cardRepository->findAll(),
+            'student' => $student,
         ]);
     }
 
