@@ -51,7 +51,9 @@
                         </a>
                     </div>
                     <div class="col-12 pt-4 win-box-cards">
-                        <img src="{{ asset('images/cards.png') }}"> 0
+                        <a href="{{ path('card_index_student', {'student' : student.id}) }}">
+                            <img src="{{ asset('images/cards.png') }}">
+                        </a> {{ student.cards | length }}
                     </div>
                     <div class="col-12 pt-5 small-text">
                         {% if student.section is not null %}
