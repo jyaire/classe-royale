@@ -9,6 +9,8 @@
     <h2>Cartes {{ subject.name }}</h2>
 {% elseif type is defined %}
     <h2>Cartes {{ type }}</h2>
+{% elseif student is defined %}
+    <h2>Cartes de {{ student.firstname }}</h2>
 {% else %}
     <h2>Toutes les cartes</h2>
 {% endif %}

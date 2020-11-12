@@ -134,6 +134,20 @@ class CardController extends AbstractController
     }
 
      /**
+     * @Route("/student/{student}", name="card_index_student", methods={"GET"})
+     * @param CardRepository $cardRepository
+     * @param Student $student
+     * @return Response
+     */
+    public function indexStudent(Student $student, CardRepository $cardRepository): Response
+    {
+        return $this->render('card/index.html.twig', [
+            'cards' => $cardRepository->findAll(),
+            'student' => $student,
+        ]);
+    }
+
+     /**
      * @Route("/type/{type}", name="card_index_type", methods={"GET"})
      * @param CardRepository $cardRepository
      * @param string $type
@@ -148,20 +162,6 @@ class CardController extends AbstractController
     }
 
     /**
-     * @Route("/student/{student}", name="card_index_student", methods={"GET"})
-     * @param CardRepository $cardRepository
-     * @param Student $student
-     * @return Response
-     */
-    public function indexStudent(Student $student, CardRepository $cardRepository): Response
-    {
-        return $this->render('card/index.html.twig', [
-            'cards' => $cardRepository->findAll(),
-            'student' => $student,
-        ]);
-    }
-
-    /**
      * @Route("/subject/{id}", name="card_index_subject", methods={"GET"})
      * @param CardRepository $cardRepository
      * @param Subject $subject
@@ -172,6 +172,22 @@ class CardController extends AbstractController
         return $this->render('card/index.html.twig', [
             'cards' => $cardRepository->findBy(['subject'=>$subject]),
             'subject' => $subject,
+        ]);
+    }
+
+     /**
+     * @Route("/win/{card}/{student}", name="card_win", methods={"GET"})
+     * @param Card $card
+     * @param Student $student
+     * @return Response
+     */
+    public function win(Student $student, Card $card): Response
+    {
+        
+        dd($card);
+        return $this->render('card/index.html.twig', [
+            'card' => $card,
+            'student' => $student,
         ]);
     }
 }
