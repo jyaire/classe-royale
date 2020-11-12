@@ -183,11 +183,16 @@ class CardController extends AbstractController
      */
     public function win(Student $student, Card $card): Response
     {
-        
-        dd($card);
-        return $this->render('card/index.html.twig', [
-            'card' => $card,
-            'student' => $student,
+        $card->addStudent($student);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($card);
+        $entityManager->flush();
+
+        $message = $student->getFirstname() . ' a gagné la carte ' . $card->getName();
+        $this->addFlash('success', $message);
+
+        return $this->redirectToRoute('card_index_student', [
+            'student' => $student->getId(),
         ]);
     }
 }
