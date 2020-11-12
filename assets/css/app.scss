@@ -276,7 +276,8 @@ a{
 .card-box {
     display: flex;
     justify-content: center;
-    background-color: $primary-color;
+    background-color: $third-color;
+    color: $primary-color;
     margin: 5px;
     align-items: center;
     text-align: center;
@@ -296,7 +297,37 @@ a{
     }
 
     &:hover {
-        background-color: $secondary-color;
+        background-color: $fourth-color;
+    }
+}
+
+.card-box-grey {
+    display: flex;
+    justify-content: center;
+    background-color: $primary-color;
+    color: grey;
+    margin: 5px;
+    align-items: center;
+    text-align: center;
+    width: 130px;
+    height: 150px;
+    font-size: 0.8rem;
+
+    .level-text {
+        font-size: 0.6rem; 
+    }
+
+    img {
+        width: 60px;
+        height: auto;
+        border: solid 2px black;
+        border-radius: 5px;
+        filter: grayscale(1);
+    }
+
+    &:hover {
+        background-color: grey;
+        color: $primary-color;
     }
 }
 
