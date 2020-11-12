@@ -104,11 +104,17 @@ class Student
      */
     private $teams;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Card::class, mappedBy="student")
+     */
+    private $cards;
+
     public function __construct()
     {
         $this->parent = new ArrayCollection();
         $this->points = new ArrayCollection();
         $this->teams = new ArrayCollection();
+        $this->cards = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -364,6 +370,34 @@ class Student
         if ($this->teams->contains($team)) {
             $this->teams->removeElement($team);
             $team->removeStudent($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Card[]
+     */
+    public function getCards(): Collection
+    {
+        return $this->cards;
+    }
+
+    public function addCard(Card $card): self
+    {
+        if (!$this->cards->contains($card)) {
+            $this->cards[] = $card;
+            $card->addStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCard(Card $card): self
+    {
+        if ($this->cards->contains($card)) {
+            $this->cards->removeElement($card);
+            $card->removeStudent($this);
         }
 
         return $this;
