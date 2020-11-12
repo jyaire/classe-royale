@@ -44,6 +44,9 @@
     {% if subject is defined or type is defined %}
         <a href="{{ path('card_index') }}">Toutes les cartes</a>
     {% endif %}
+    {% if student is defined %}
+        <a href="{{ path('classgroup_show', {'id': student.classgroup.id}) }}">Retour à la classe</a>
+    {% endif %}
     <br>
     <a href="{{ path('card_new') }}">Ajouter une carte</a>
 </div>
