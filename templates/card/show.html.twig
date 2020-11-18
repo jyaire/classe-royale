@@ -7,15 +7,16 @@
     <div class="row justify-content-center">
         <div class="offset-1 col-3">
         {% if student is not null %}
-            {% for ownedCard in student.cards %}
-                    {% if card == ownedCard %}
+            {% set flag = '' %}
+                {% for ownedCard in student.cards %}
+                    {% if card == ownedCard and flag != 1 %}
                         <div class="card-box">
-                    {% else %}
-                        <div class="card-box-grey">
+                        {% set flag = 1 %}
                     {% endif %}
-                {% else %}
-                    <div class="card-box-grey">
-            {% endfor %}
+                {% endfor %}
+                {% if flag != 1 %}
+                        <div class="card-box-grey">
+                {% endif %}
         {% else %}
             <div class="card-box">
         {% endif %}
@@ -52,27 +53,31 @@
                 {{ card.description }}
             </p>
             {% if student is not null %}
-                {% for ownedCard in student.cards %}
-                    {% if card == ownedCard %}
-                        <p class="text-center">
-                            <a href="{{ path('card_win', {'card': card.id, 'student': student.id, 'remove': 'remove'}) }}">
-                                Retirer cette carte à {{ student.firstname }}
-                            </a>
-                        </p>
-                    {% else %}
+                {% set flag = '' %}
+                    {% for ownedCard in student.cards %}
+                        {% if card == ownedCard and flag != 1 %}
+                            <p class="text-center">
+                                <a href="{{ path('card_win', {'card': card.id, 'student': student.id, 'remove': 'remove'}) }}">
+                                    Retirer cette carte à {{ student.firstname }}
+                                </a>
+                            </p>
+                            {% set flag = 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if flag != 1 %}
                         <p class="text-center">
                             <a href="{{ path('card_win', {'card': card.id, 'student': student.id}) }}">
                                 Débloquer la carte pour {{ student.firstname }}
                             </a>
                         </p>
                     {% endif %}
-                {% else %}
+            {% else %}
+                <p class="text-center">
                     <a href="{{ path('card_win', {'card': card.id, 'student': student.id}) }}">
                         Débloquer la carte pour {{ student.firstname }}
                     </a>
-                {% endfor %}
+                </p>
             {% endif %}
-
         </div>
     </div>
 </div>
