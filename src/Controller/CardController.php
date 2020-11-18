@@ -192,40 +192,62 @@ class CardController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
 
+        $point = new Point;
+
         if ($remove == "remove") {
+            $point->setQuantity(-$card->getLevel());
+            $action = "Perte";
             $student->removeCard($card);
-            $message = 'La carte ' . $card->getName() . 'a été retirée à ' . $student->getFirstname();
+            $message = 'La carte "' . $card->getName() . '" a été retirée à ' . $student->getFirstname();
         } else {
+            $point->setQuantity($card->getLevel());
+            $action = "Gain";
             $student->addCard($card);
-            $message = $student->getFirstname() . ' a gagné la carte ' . $card->getName();
-            $point = new Point;
-            if($card->getType()=="apprentissage") {
-                $type = "gold";
-                $sentence = 'Gain de la carte d\'apprentissage "' . $card->getName() . '" - Niveau ' . $card->getLevel();
-            } else {
-                $type = "elixir";
-                $sentence = 'Gain de la carte de comportement "' . $card->getName() . '" - Niveau ' . $card->getLevel();
-            }
-            // search if reason already exists
-            $search = $reasonRepository->findOneBy(['sentence'=>$sentence]);
-            if(!empty($search)) {
-                $point->setReason($search);
-            } else {
-                $reason = new Reason;
-                $reason->setSentence($sentence);
-                $entityManager->persist($reason);
-                $point->setReason($reason);
-            }
-            $point
-                ->setStudent($student)
-                ->setType($type)
-                ->setQuantity($card->getLevel())
-                ->setDate(new \DateTime())
-                ->setAuthor($this->getUser());
+            $message = $student->getFirstname() . ' a gagné la carte "' . $card->getName() . '"';
         }
-        
-        $entityManager->persist($student);
+            
+        if($card->getType()=="apprentissage") {
+            $type = "gold";
+            $sentence = $action . ' de la carte d\'apprentissage "' . $card->getName() . '" - Niveau ' . $card->getLevel();
+        } else {
+            $type = "elixir";
+            $sentence = $action . ' de la carte de comportement "' . $card->getName() . '" - Niveau ' . $card->getLevel();
+        }
+        // search if reason already exists
+        $search = $reasonRepository->findOneBy(['sentence'=>$sentence]);
+        if(!empty($search)) {
+            $point->setReason($search);
+        } else {
+            $reason = new Reason;
+            $reason->setSentence($sentence);
+            $entityManager->persist($reason);
+            $point->setReason($reason);
+        }
+        $point
+            ->setStudent($student)
+            ->setType($type)
+            ->setDate(new \DateTime())
+            ->setAuthor($this->getUser());
         $entityManager->persist($point);
+
+        switch($type) {
+            case "gold":
+                $win = $student->getGold() + $point->getQuantity();
+                $student->setGold($win);
+                break;
+            case "elixir":
+                $win = $student->getElixir() + $point->getQuantity();
+                $student->setElixir($win);
+                break;
+        }
+
+        if($remove == "remove") {
+            $student->setXp($student->getXp()-5);
+        } else {
+           $student->setXp($student->getXp()+5); 
+        }
+
+        $entityManager->persist($student);
         $entityManager->flush();
 
         $this->addFlash('success', $message);
