@@ -23,7 +23,7 @@
                 <p>{{ card.name }}<br>
                 niveau {{ card.level }}</p>
                 {% if card.image is null %}
-                        <img src="{{ asset('cards/cards.png') }}" alt="{{ card.name }}">
+                        <img src="{{ asset('images/default-card.png') }}" alt="{{ card.name }}">
                     {% else %}
                         <img src="{{ asset('cards/' ~ card.image) }}" alt="{{ card.name }}">
                 {% endif %}
