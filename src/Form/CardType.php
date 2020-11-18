@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Card;
-use App\Entity\Section;
 use App\Entity\Subject;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;

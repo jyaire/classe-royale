@@ -35,7 +35,11 @@
                 <div>
                     <p>{{ card.name }}<br>
                     <span class="level-text">niveau {{ card.level }}</span></p>
-                    <img src="{{ asset('cards/' ~ card.image) }}" alt="{{ card.name }}">
+                    {% if card.image is null %}
+                        <img src="{{ asset('cards/cards.png') }}" alt="{{ card.name }}">
+                    {% else %}
+                        <img src="{{ asset('cards/' ~ card.image) }}" alt="{{ card.name }}">
+                    {% endif %}
                 </div>
             </div>    
         </a>        
