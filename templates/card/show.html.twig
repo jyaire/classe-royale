@@ -69,6 +69,9 @@
     </div>
 </div>
 <div class="col-12 col-md-10 col-lg-7 text-center mt-2">
+{% if student is not null %}
+    <a href="{{ path('card_index_student', {'student': student.id}) }}">Les cartes de {{ student.firstname }}</a><br>
+{% endif %}
     <a href="{{ path('card_edit', {'id': card.id}) }}">Modifier la carte</a><br>
     <a href="{{ path('card_index') }}">Toutes les cartes</a>
 </div>
