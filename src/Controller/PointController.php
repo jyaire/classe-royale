@@ -8,7 +8,6 @@ use App\Entity\Student;
 use App\Entity\Team;
 use App\Form\PointMultipleType;
 use App\Form\PointType;
-use App\Repository\PointRepository;
 use App\Repository\ReasonRepository;
 use App\Repository\StudentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

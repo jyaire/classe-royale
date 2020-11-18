@@ -5,8 +5,11 @@ namespace App\Controller;
 use App\Entity\Card;
 use App\Entity\Subject;
 use App\Entity\Student;
+use App\Entity\Point;
+use App\Entity\Reason;
 use App\Form\CardType;
 use App\Repository\CardRepository;
+use App\Repository\ReasonRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -181,21 +184,48 @@ class CardController extends AbstractController
      * @Route("/win/{card}/{student}/{remove}", name="card_win", methods={"GET"}, defaults={"remove"=null})
      * @param Card $card
      * @param Student $student
+     * @param ReasonRepository $reasonRepository
      * @param ?string $remove
      * @return Response
      */
-    public function win(Student $student, Card $card, ?string $remove): Response
+    public function win(Card $card, Student $student, ReasonRepository $reasonRepository, ?string $remove): Response
     {
+        $entityManager = $this->getDoctrine()->getManager();
+
         if ($remove == "remove") {
             $student->removeCard($card);
             $message = 'La carte ' . $card->getName() . 'a été retirée à ' . $student->getFirstname();
         } else {
             $student->addCard($card);
             $message = $student->getFirstname() . ' a gagné la carte ' . $card->getName();
+            $point = new Point;
+            if($card->getType()=="apprentissage") {
+                $type = "gold";
+                $sentence = 'Gain de la carte d\'apprentissage "' . $card->getName() . '" - Niveau ' . $card->getLevel();
+            } else {
+                $type = "elixir";
+                $sentence = 'Gain de la carte de comportement "' . $card->getName() . '" - Niveau ' . $card->getLevel();
+            }
+            // search if reason already exists
+            $search = $reasonRepository->findOneBy(['sentence'=>$sentence]);
+            if(!empty($search)) {
+                $point->setReason($search);
+            } else {
+                $reason = new Reason;
+                $reason->setSentence($sentence);
+                $entityManager->persist($reason);
+                $point->setReason($reason);
+            }
+            $point
+                ->setStudent($student)
+                ->setType($type)
+                ->setQuantity($card->getLevel())
+                ->setDate(new \DateTime())
+                ->setAuthor($this->getUser());
         }
         
-        $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($student);
+        $entityManager->persist($point);
         $entityManager->flush();
 
         $this->addFlash('success', $message);
