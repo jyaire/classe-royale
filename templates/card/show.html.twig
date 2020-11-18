@@ -35,6 +35,13 @@
             <p class="text-left">
                 {{ card.description }}
             </p>
+            {% if student is not null %}
+                <p class="text-center">
+                    <a href="{{ path('card_win', {'card': card.id, 'student': student.id}) }}">
+                        Débloquer la carte pour {{ student.firstname }}
+                    </a>
+                </p>
+            {% endif %}
 
         </div>
     </div>

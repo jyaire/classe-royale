@@ -17,8 +17,8 @@
 
     <div class="row justify-content-center">
         {% for card in cards %}
-        <a href="{{ path('card_show', {'id': card.id}) }}">
             {% if student is defined %}
+                <a href="{{ path('card_show', {'id': card.id, 'student': student.id}) }}">
                 {% for ownedCard in student.cards %}
                     {% if card == ownedCard %}
                         <div class="card-box">
@@ -29,6 +29,7 @@
                     <div class="card-box-grey">
                 {% endfor %}
             {% else %}
+                <a href="{{ path('card_show', {'id': card.id}) }}">
                 <div class="card-box">
             {% endif %}
                 <div>
