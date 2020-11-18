@@ -178,19 +178,26 @@ class CardController extends AbstractController
     }
 
      /**
-     * @Route("/win/{card}/{student}", name="card_win", methods={"GET"})
+     * @Route("/win/{card}/{student}/{remove}", name="card_win", methods={"GET"}, defaults={"remove"=null})
      * @param Card $card
      * @param Student $student
+     * @param ?string $remove
      * @return Response
      */
-    public function win(Student $student, Card $card): Response
+    public function win(Student $student, Card $card, ?string $remove): Response
     {
-        $card->addStudent($student);
+        if ($remove == "remove") {
+            $student->removeCard($card);
+            $message = 'La carte ' . $card->getName() . 'a été retirée à ' . $student->getFirstname();
+        } else {
+            $student->addCard($card);
+            $message = $student->getFirstname() . ' a gagné la carte ' . $card->getName();
+        }
+        
         $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($card);
+        $entityManager->persist($student);
         $entityManager->flush();
 
-        $message = $student->getFirstname() . ' a gagné la carte ' . $card->getName();
         $this->addFlash('success', $message);
 
         return $this->redirectToRoute('card_index_student', [

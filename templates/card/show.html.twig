@@ -6,7 +6,15 @@
 <div class="col-12 col-md-10 col-lg-7 text-center dark-box mt-2">
     <div class="row justify-content-center">
         <div class="offset-1 col-3">
-            <div class="card-box">
+            {% for ownedCard in student.cards %}
+                    {% if card == ownedCard %}
+                        <div class="card-box">
+                    {% else %}
+                        <div class="card-box-grey">
+                    {% endif %}
+                {% else %}
+                    <div class="card-box-grey">
+            {% endfor %}
                 <div>
                 <p>{{ card.name }}<br>
                 niveau {{ card.level }}</p>
@@ -36,11 +44,25 @@
                 {{ card.description }}
             </p>
             {% if student is not null %}
-                <p class="text-center">
+                {% for ownedCard in student.cards %}
+                    {% if card == ownedCard %}
+                        <p class="text-center">
+                            <a href="{{ path('card_win', {'card': card.id, 'student': student.id, 'remove': 'remove'}) }}">
+                                Retirer cette carte à {{ student.firstname }}
+                            </a>
+                        </p>
+                    {% else %}
+                        <p class="text-center">
+                            <a href="{{ path('card_win', {'card': card.id, 'student': student.id}) }}">
+                                Débloquer la carte pour {{ student.firstname }}
+                            </a>
+                        </p>
+                    {% endif %}
+                {% else %}
                     <a href="{{ path('card_win', {'card': card.id, 'student': student.id}) }}">
                         Débloquer la carte pour {{ student.firstname }}
                     </a>
-                </p>
+                {% endfor %}
             {% endif %}
 
         </div>
