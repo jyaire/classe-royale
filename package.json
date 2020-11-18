@@ -19,6 +19,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "node-forge": "^0.10.0"
+        "node-forge": "^0.10.0",
+        "object-path": "^0.11.5"
     }
 }
