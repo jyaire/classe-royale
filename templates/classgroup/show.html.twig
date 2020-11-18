@@ -8,12 +8,22 @@
 
             <a href="{{ path('classgroup_show', {'id': classgroup.id, 'ranking': 'gold'}) }}">
                 <div class="add-box">
-                    par OR
+                    par OR 
+                    {% if ranking == "gold" %}
+                        <a href="{{ path('classgroup_show', {'id': classgroup.id}) }}">
+                            <img src="{{ asset('images/icone-delete.png') }}" class="small-icone">
+                        </a>
+                    {% endif %}
                 </div>
             </a>
             <a href="{{ path('classgroup_show', {'id': classgroup.id, 'ranking': 'elixir'}) }}">
                 <div class="add-box">
-                    par ELIXIR
+                    par ELIXIR 
+                    {% if ranking == "elixir" %}
+                        <a href="{{ path('classgroup_show', {'id': classgroup.id}) }}">
+                            <img src="{{ asset('images/icone-delete.png') }}" class="small-icone">
+                        </a>
+                    {% endif %}
                 </div>
             </a>
 
