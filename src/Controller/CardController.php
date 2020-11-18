@@ -197,11 +197,13 @@ class CardController extends AbstractController
         if ($remove == "remove") {
             $point->setQuantity(-$card->getLevel());
             $action = "Perte";
+            $verb = "perdue";
             $student->removeCard($card);
             $message = 'La carte "' . $card->getName() . '" a été retirée à ' . $student->getFirstname();
         } else {
             $point->setQuantity($card->getLevel());
             $action = "Gain";
+            $verb = "ajoutée";
             $student->addCard($card);
             $message = $student->getFirstname() . ' a gagné la carte "' . $card->getName() . '"';
         }
@@ -209,9 +211,19 @@ class CardController extends AbstractController
         if($card->getType()=="apprentissage") {
             $type = "gold";
             $sentence = $action . ' de la carte d\'apprentissage "' . $card->getName() . '" - Niveau ' . $card->getLevel();
+            if($card->getLevel()==1) {
+                $message2 = $card->getLevel() . " pièce d'or a été " . $verb;
+            } else {
+                $message2 = $card->getLevel() . " pièces d'or ont été " . $verb . 's';
+            }
         } else {
             $type = "elixir";
             $sentence = $action . ' de la carte de comportement "' . $card->getName() . '" - Niveau ' . $card->getLevel();
+            if($card->getLevel()==1) {
+                $message2 = $card->getLevel() . " goutte d'élixir a été " . $verb;
+            } else {
+                $message2 = $card->getLevel() . " gouttes d'élixir ont été " . $verb . 's';
+            }
         }
         // search if reason already exists
         $search = $reasonRepository->findOneBy(['sentence'=>$sentence]);
@@ -251,6 +263,7 @@ class CardController extends AbstractController
         $entityManager->flush();
 
         $this->addFlash('success', $message);
+        $this->addFlash('success', $message2);
 
         return $this->redirectToRoute('card_index_student', [
             'student' => $student->getId(),
