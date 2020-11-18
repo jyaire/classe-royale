@@ -6,6 +6,7 @@
 <div class="col-12 col-md-10 col-lg-7 text-center dark-box mt-2">
     <div class="row justify-content-center">
         <div class="offset-1 col-3">
+        {% if student is not null %}
             {% for ownedCard in student.cards %}
                     {% if card == ownedCard %}
                         <div class="card-box">
@@ -15,6 +16,9 @@
                 {% else %}
                     <div class="card-box-grey">
             {% endfor %}
+        {% else %}
+            <div class="card-box">
+        {% endif %}
                 <div>
                 <p>{{ card.name }}<br>
                 niveau {{ card.level }}</p>
