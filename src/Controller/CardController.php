@@ -111,21 +111,7 @@ class CardController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/{student}", name="card_show", methods={"GET"}, defaults={"student": null}))
-     * @param Card $card
-     * @param ?Student $student
-     * @return Response
-     */
-    public function show(Card $card, ?Student $student): Response
-    {
-        return $this->render('card/show.html.twig', [
-            'card' => $card,
-            'student' => $student,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="card_edit", methods={"GET","POST"})
+     * @Route("/edit/{id}", name="card_edit", methods={"GET","POST"})
      * @param Request $request
      * @param Card $card
      * @return Response
@@ -160,6 +146,20 @@ class CardController extends AbstractController
         return $this->render('card/edit.html.twig', [
             'card' => $card,
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/{student}", name="card_show", methods={"GET"}, defaults={"student": null}))
+     * @param Card $card
+     * @param ?Student $student
+     * @return Response
+     */
+    public function show(Card $card, ?Student $student): Response
+    {
+        return $this->render('card/show.html.twig', [
+            'card' => $card,
+            'student' => $student,
         ]);
     }
 
