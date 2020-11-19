@@ -277,6 +277,7 @@ a{
     display: flex;
     justify-content: center;
     background-color: $third-color;
+    box-shadow: 2px 2px 5px black;
     color: $primary-color;
     margin: 5px;
     align-items: center;
@@ -298,6 +299,7 @@ a{
 
     &:hover {
         background-color: $fourth-color;
+        box-shadow: 4px 4px 5px black;
     }
 }
 
@@ -305,6 +307,7 @@ a{
     display: flex;
     justify-content: center;
     background-color: $primary-color;
+    box-shadow: 2px 2px 5px black;
     color: grey;
     margin: 5px;
     align-items: center;
@@ -328,6 +331,7 @@ a{
     &:hover {
         background-color: grey;
         color: $primary-color;
+        box-shadow: 4px 4px 5px black;
     }
 }
 
