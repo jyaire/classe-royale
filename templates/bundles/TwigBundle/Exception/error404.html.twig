@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Erreur{% endblock %}
+
+{% block body %}
+    <div class="col-6 offset-md-1 col-md-5 mt-4">
+        <h2 class="text-center mb-4">Perdu !</h2>
+        <p>La page que vous cherchez n'a pas été trouvée ou une erreur est apparue.</p>
+        <p>Erreur {{status_code}} : {{status_text}}</p>
+        <p>{{exception.message}}</p>
+        <a href="javascript:history.go(-1)">
+            <div class="clear-box text-center">Retour</div>
+        </a>
+    </div>
+    <div class="col-4 col-md-3 text-center mt-4">
+        <img src="{{ asset('images/404.png') }}" alt="Classe Royale" class="img-fluid">
+        
+    </div>
+{% endblock %}
