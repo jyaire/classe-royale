@@ -9,18 +9,20 @@ use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/student")
+ * @IsGranted("ROLE_USER")
  */
 class StudentController extends AbstractController
 {
     /**
      * @Route("/", name="student_index", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      * @param StudentRepository $studentRepository
      * @return Response
      */
@@ -33,6 +35,7 @@ class StudentController extends AbstractController
 
     /**
      * @Route("/{id}/new", name="student_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_TEATCHER")
      * @param Request $request
      * @param Classgroup $classgroup
      * @param StudentRepository $studentRepository
@@ -98,6 +101,7 @@ class StudentController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="student_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_TEACHER")
      * @param Request $request
      * @param Student $student
      * @return Response
@@ -122,6 +126,7 @@ class StudentController extends AbstractController
 
     /**
      * @Route("/{id}/remove", name="student_remove")
+     * @IsGranted("ROLE_TEACHER")
      * @param Student $student
      * @param EntityManagerInterface $em
      * @return Response
@@ -145,6 +150,7 @@ class StudentController extends AbstractController
 
     /**
      * @Route("/{id}", name="student_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param Student $student
      * @return Response
@@ -162,6 +168,7 @@ class StudentController extends AbstractController
 
     /**
      * @Route("/{id}/edit/avatar", name="student_edit_avatar", methods={"GET","POST"})
+     * @IsGranted("ROLE_TEACHER")
      * @param Request $request
      * @param Student $student
      * @return Response

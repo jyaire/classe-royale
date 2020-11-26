@@ -6,17 +6,20 @@ use App\Entity\School;
 use App\Form\SchoolType;
 use App\Repository\SchoolRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("school")
+ * @IsGranted("ROLE_USER")
  */
 class SchoolController extends AbstractController
 {
     /**
      * @Route("/", name="school_index", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      * @param SchoolRepository $schoolRepository
      * @return Response
      */
@@ -29,6 +32,7 @@ class SchoolController extends AbstractController
 
     /**
      * @Route("/new", name="school_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_DIRECTOR")
      * @param Request $request
      * @return Response
      */
@@ -69,6 +73,7 @@ class SchoolController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="school_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_DIRECTOR")
      * @param Request $request
      * @param School $school
      * @return Response
@@ -94,6 +99,7 @@ class SchoolController extends AbstractController
 
     /**
      * @Route("/{id}", name="school_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, School $school): Response
     {

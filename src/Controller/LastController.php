@@ -7,11 +7,13 @@ use App\Repository\StudentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class LastController extends AbstractController
 {
     /**
      * @Route("/last", name="last_index", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      * @param PointRepository $pointRepository
      * @return Response
      */
@@ -24,6 +26,7 @@ class LastController extends AbstractController
 
     /**
      * @Route("/last/{user}/{id}", name="last_custom", methods={"GET"})
+     * @IsGranted("ROLE_USER")
      * @param PointRepository $pointRepository
      * @param StudentRepository $studentRepository
      * @return Response

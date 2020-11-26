@@ -3,17 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\Classgroup;
-use App\Entity\Student;
 use App\Form\ClassgroupType;
 use App\Repository\ClassgroupRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/classgroup")
+ * @IsGranted("ROLE_USER")
  */
 class ClassgroupController extends AbstractController
 {
@@ -31,6 +32,7 @@ class ClassgroupController extends AbstractController
 
     /**
      * @Route("/new", name="classgroup_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_DIRECTOR")
      * @param Request $request
      * @return Response
      */
@@ -70,6 +72,7 @@ class ClassgroupController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="classgroup_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_TEACHER")
      * @param Request $request
      * @param Classgroup $classgroup
      * @return Response
@@ -93,6 +96,7 @@ class ClassgroupController extends AbstractController
 
     /**
      * @Route("/{id}/remove", name="classgroup_remove")
+     * @IsGranted("ROLE_DIRECTOR")
      * @param Classgroup $classgroup
      * @param EntityManagerInterface $em
      * @return Response
@@ -117,6 +121,7 @@ class ClassgroupController extends AbstractController
 
     /**
      * @Route("/{id}", name="classgroup_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Classgroup $classgroup): Response
     {

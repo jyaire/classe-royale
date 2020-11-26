@@ -6,12 +6,14 @@ use App\Entity\Reason;
 use App\Form\ReasonType;
 use App\Repository\ReasonRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/reason")
+ * @IsGranted("ROLE_ADMIN")
  */
 class ReasonController extends AbstractController
 {

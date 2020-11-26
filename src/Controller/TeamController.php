@@ -7,12 +7,14 @@ use App\Entity\Team;
 use App\Form\TeamType;
 use App\Repository\TeamRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/team")
+ * @IsGranted("ROLE_USER")
  */
 class TeamController extends AbstractController
 {
@@ -32,6 +34,7 @@ class TeamController extends AbstractController
 
     /**
      * @Route("/new/{classgroup}", name="team_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_TEACHER")
      * @param Classgroup $classgroup
      * @param Request $request
      * @return Response
@@ -72,6 +75,7 @@ class TeamController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="team_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_TEACHER")
      * @param Request $request
      * @param Team $team
      * @return Response
@@ -99,6 +103,7 @@ class TeamController extends AbstractController
 
     /**
      * @Route("/{id}", name="team_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_TEACHER")
      * @param Request $request
      * @param Team $team
      * @return Response
