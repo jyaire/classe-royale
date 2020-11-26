@@ -5,18 +5,20 @@
 {% block body %}
 
 <div class="col-12 text-center">
-{% if subject is defined %}
-    <h2>Cartes {{ subject.name }}</h2>
-{% elseif type is defined %}
-    <h2>Cartes {{ type }}</h2>
-{% elseif student is defined %}
-    <h2>Cartes de {{ student.firstname }}</h2>
-{% else %}
-    <h2>Toutes les cartes</h2>
-{% endif %}
+    {% if subject is defined %}
+        <h2>Cartes {{ subject.name }}</h2>
+    {% elseif type is defined %}
+        <h2>Cartes {{ type }}</h2>
+    {% elseif student is defined %}
+        <h2>Cartes de {{ student.firstname }}</h2>
+    {% else %}
+        <h2>Toutes les cartes</h2>
+    {% endif %}
 
-    <div class="row justify-content-center">
-        {% for card in cards %}
+    {% for subject in subjects %}
+        <h4>{{ subject.name }}</h4>
+        <div class="row justify-content-center">
+        {% for card in subject.cards | sort((a, b) => a.name <=> b.name) %}
             {% if student is defined %}
             <a href="{{ path('card_show', {'id': card.id, 'student': student.id}) }}">
                 {% set flag = '' %}
@@ -47,7 +49,10 @@
         {% else %}
             Aucune carte trouvée
         {% endfor %}
-    </div>
+        </div>
+    {% else %}
+        Aucune matière scolaire définie
+    {% endfor %}
 </div>
 
 <div class="col-12 text-center">

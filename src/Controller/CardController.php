@@ -10,6 +10,7 @@ use App\Entity\Reason;
 use App\Form\CardType;
 use App\Repository\CardRepository;
 use App\Repository\ReasonRepository;
+use App\Repository\SubjectRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,12 +24,14 @@ class CardController extends AbstractController
     /**
      * @Route("/", name="card_index", methods={"GET"})
      * @param CardRepository $cardRepository
+     * @param SubjectRepository $subjectRepository
      * @return Response
      */
-    public function index(CardRepository $cardRepository): Response
+    public function index(CardRepository $cardRepository, SubjectRepository $subjectRepository): Response
     {
         return $this->render('card/index.html.twig', [
             'cards' => $cardRepository->findAll(),
+            'subjects' => $subjectRepository->findAll(),
         ]);
     }
 
@@ -73,15 +76,17 @@ class CardController extends AbstractController
 
     /**
      * @Route("/student/{student}", name="card_index_student", methods={"GET"})
-     * @param CardRepository $cardRepository
      * @param Student $student
+     * @param CardRepository $cardRepository
+     * @param SubjectRepository $subjectRepository
      * @return Response
      */
-    public function indexStudent(Student $student, CardRepository $cardRepository): Response
+    public function indexStudent(Student $student, CardRepository $cardRepository, SubjectRepository $subjectRepository): Response
     {
         return $this->render('card/index.html.twig', [
-            'cards' => $cardRepository->findAll(),
             'student' => $student,
+            'cards' => $cardRepository->findAll(),
+            'subjects' => $subjectRepository->findAll(),
         ]);
     }
 

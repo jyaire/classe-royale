@@ -91,6 +91,17 @@ a{
     }
 }
 
+/* TITLES */
+
+h4 {
+    background-color: $primary-color;
+    font-size: 1.2rem;
+    text-align: center;
+    padding: 5px;
+    margin-inline: 30%;
+    margin-top: 20px;;
+}
+
 /* BUTTONS */
 
 @mixin button($color) {
