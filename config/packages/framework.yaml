@@ -8,6 +8,8 @@ framework:
     # Remove or comment this section to explicitly disable session support.
     session:
         handler_id: null
+        # 2 Days lifetime (172800 seconds)
+        cookie_lifetime: 172800
         cookie_secure: auto
         cookie_samesite: lax
 
