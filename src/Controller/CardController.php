@@ -11,6 +11,7 @@ use App\Form\CardType;
 use App\Repository\CardRepository;
 use App\Repository\ReasonRepository;
 use App\Repository\SubjectRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/card")
+ * @IsGranted("ROLE_USER")
  */
 class CardController extends AbstractController
 {
@@ -37,6 +39,7 @@ class CardController extends AbstractController
 
     /**
      * @Route("/new", name="card_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @return Response
      */
@@ -120,6 +123,7 @@ class CardController extends AbstractController
 
     /**
      * @Route("/edit/{id}", name="card_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param Card $card
      * @return Response
@@ -173,6 +177,7 @@ class CardController extends AbstractController
 
     /**
      * @Route("/{id}", name="card_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Card $card): Response
     {
@@ -187,6 +192,7 @@ class CardController extends AbstractController
 
      /**
      * @Route("/win/{card}/{student}/{remove}", name="card_win", methods={"GET"}, defaults={"remove"=null})
+     * @IsGranted("ROLE_TEACHER")
      * @param Card $card
      * @param Student $student
      * @param ReasonRepository $reasonRepository

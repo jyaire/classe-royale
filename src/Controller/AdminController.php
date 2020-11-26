@@ -24,6 +24,7 @@ class AdminController extends AbstractController
 
     /**
      * @Route("/admin/addAdmin", name="admin_addAdmin")
+     * @IsGranted("ROLE_ADMIN")
      * @param Request $request
      * @param UserRepository $userRepository
      * @return RedirectResponse|Response
