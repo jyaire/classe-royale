@@ -67,10 +67,12 @@ class PointController extends AbstractController
                 case "gold":
                     $win = $student->getGold() + $point->getQuantity();
                     $student->setGold($win);
+                    $pointText = "pièce(s) d'or";
                     break;
                 case "elixir":
                     $win = $student->getElixir() + $point->getQuantity();
                     $student->setElixir($win);
+                    $pointText = "goutte(s) d'élixir";
                     break;
             }
             $student->setXp($student->getXp()+5);
@@ -78,6 +80,8 @@ class PointController extends AbstractController
             $entityManager->persist($student);
             $entityManager->flush();
 
+            $message = $point->getQuantity() . " " . $pointText . " ont été ajoutées à " . $student->getFirstname() ." !";
+            $this->addFlash('success', $message);
             return $this->redirectToRoute('student_show', ['id' => $student->getId()]);
         }
 
