@@ -94,9 +94,22 @@ class StudentController extends AbstractController
      */
     public function show(Student $student): Response
     {
-        foreach($this->getUser() as $parent) {
-            dd($parent);
+        // if parent is connected, verify user can view the student
+        if($this->isGranted('ROLE_PARENT')) {
+            foreach($this->getUser()->getStudents() as $child) {
+                $classChild = $child->getClassgroup();
+                if($student->getClassgroup() == $classChild) {
+                    return $this->render('student/show.html.twig', [
+                        'student' => $student,
+                    ]);
+                }
+                else {
+                    $this->addFlash('danger', "Vous ne pouvez voir que les élèves dans les classes de vos enfants");
+                    return $this->redirectToRoute('parent');
+                }
+            }
         }
+
         return $this->render('student/show.html.twig', [
             'student' => $student,
         ]);

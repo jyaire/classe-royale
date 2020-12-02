@@ -79,7 +79,6 @@ class ClassgroupController extends AbstractController
                     return $this->redirectToRoute('parent');
                 }
             }
-            
         }
         
         return $this->render('classgroup/show.html.twig', [
