@@ -94,6 +94,9 @@ class StudentController extends AbstractController
      */
     public function show(Student $student): Response
     {
+        foreach($this->getUser() as $parent) {
+            dd($parent);
+        }
         return $this->render('student/show.html.twig', [
             'student' => $student,
         ]);
@@ -168,13 +171,19 @@ class StudentController extends AbstractController
 
     /**
      * @Route("/{id}/edit/avatar", name="student_edit_avatar", methods={"GET","POST"})
-     * @IsGranted("ROLE_TEACHER")
+     * @IsGranted("ROLE_USER")
      * @param Request $request
      * @param Student $student
      * @return Response
      */
     public function editAvatar(Request $request, Student $student): Response
     {
+        foreach($this->getUser()->getStudents() as $child) {
+            if($child != $student) {
+                $this->addFlash('danger', 'Vous ne pouvez modifer que l\'avatar de vos propres enfants');
+                return $this->redirectToRoute('parent');
+            }
+        }
         $form = $this->createFormBuilder()
             ->add('avatar', FileType::class)
             ->getForm();
