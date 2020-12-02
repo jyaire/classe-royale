@@ -64,6 +64,24 @@ class ClassgroupController extends AbstractController
      */
     public function show(Classgroup $classgroup, ?string $ranking): Response
     {
+        // if parent connected, verify user can view the classgroup
+        if($this->isGranted('ROLE_PARENT')) {
+            foreach($this->getUser()->getStudents() as $child) {
+                $classChild = $child->getClassgroup();
+                if($classgroup == $classChild) {
+                    return $this->render('classgroup/show.html.twig', [
+                        'classgroup' => $classgroup,
+                        'ranking' => $ranking,
+                        ]);
+                }
+                else {
+                    $this->addFlash('danger', "Vous ne pouvez voir que les classes de vos enfants");
+                    return $this->redirectToRoute('parent');
+                }
+            }
+            
+        }
+        
         return $this->render('classgroup/show.html.twig', [
             'classgroup' => $classgroup,
             'ranking' => $ranking,
