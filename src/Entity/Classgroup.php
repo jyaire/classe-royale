@@ -54,12 +54,18 @@ class Classgroup
      */
     private $teams;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Purchase::class, mappedBy="classgroup")
+     */
+    private $purchases;
+
     public function __construct()
     {
         $this->students = new ArrayCollection();
         $this->teacher = new ArrayCollection();
         $this->section = new ArrayCollection();
         $this->teams = new ArrayCollection();
+        $this->purchases = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -211,6 +217,37 @@ class Classgroup
             // set the owning side to null (unless already changed)
             if ($team->getClassgroup() === $this) {
                 $team->setClassgroup(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Purchase[]
+     */
+    public function getPurchases(): Collection
+    {
+        return $this->purchases;
+    }
+
+    public function addPurchase(Purchase $purchase): self
+    {
+        if (!$this->purchases->contains($purchase)) {
+            $this->purchases[] = $purchase;
+            $purchase->setClassgroup($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchase(Purchase $purchase): self
+    {
+        if ($this->purchases->contains($purchase)) {
+            $this->purchases->removeElement($purchase);
+            // set the owning side to null (unless already changed)
+            if ($purchase->getClassgroup() === $this) {
+                $purchase->setClassgroup(null);
             }
         }
 
