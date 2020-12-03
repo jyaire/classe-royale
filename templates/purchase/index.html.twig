@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Purchase index{% endblock %}
+
+{% block body %}
+    <h1>Purchase index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Currency</th>
+                <th>Avatar</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for purchase in purchases %}
+            <tr>
+                <td>{{ purchase.id }}</td>
+                <td>{{ purchase.name }}</td>
+                <td>{{ purchase.description }}</td>
+                <td>{{ purchase.price }}</td>
+                <td>{{ purchase.currency }}</td>
+                <td>{{ purchase.avatar }}</td>
+                <td>
+                    <a href="{{ path('purchase_show', {'id': purchase.id}) }}">show</a>
+                    <a href="{{ path('purchase_edit', {'id': purchase.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('purchase_new') }}">Create new</a>
+{% endblock %}
