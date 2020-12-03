@@ -38,25 +38,66 @@ class LastController extends AbstractController
         int $id
         ): Response
     {
+        // for points for a student
         if($user == 'student') {
             $points = $pointRepository->findBy(['student'=>$id]);
+            $classGroupId = $studentRepository->findOneBy(['id'=>$id])->getClassgroup()->getId();
         }
+        // for points for a classgroup
         elseif($user == 'classgroup') {
             $points = [];
-            $students = $studentRepository->findBy(['classgroup'=>$id]);
+            $classGroupId = $id;
+            $students = $studentRepository->findBy(['classgroup'=>$classGroupId]);
             foreach($students as $student) {
                 $pointsStudent = $pointRepository->findBy(['student'=>$student]);
                 $points = array_merge($points, $pointsStudent);
             }
         }
+        // for all points for admin
         else {
             $user = null;
             $points = $pointRepository->findAll();
+            $classGroupId = null;
+        }
+
+        // if parent is connected, verify user can view the student
+        if($this->isGranted('ROLE_PARENT')) {
+            foreach($this->getUser()->getStudents() as $child) {
+                $classGroupId = $child->getClassgroup()->getId();
+                $studentId = $child->getId();
+                if($user == 'student') { 
+                    if($id == $studentId) {
+                        return $this->render('point/index.html.twig', [
+                            'points' => $points,
+                            'user' => $user,
+                            'classgroupId' => $classGroupId,
+                        ]);
+                    }
+                    else {
+                        $this->addFlash('danger', "Vous ne pouvez voir que les activités de vos enfants");
+                        return $this->redirectToRoute('parent');
+                    }
+                } 
+                elseif($user == 'classgroup') { 
+                    if($id == $classGroupId) {
+                        return $this->render('point/index.html.twig', [
+                            'points' => $points,
+                            'user' => $user,
+                            'classgroupId' => $id,
+                        ]);
+                    }
+                    else {
+                        $this->addFlash('danger', "Vous ne pouvez voir que les activités des classes de vos enfants");
+                        return $this->redirectToRoute('parent');
+                    }
+                }
+            }
         }
         
         return $this->render('point/index.html.twig', [
             'points' => $points,
             'user' => $user,
+            'classgroupId' => $classGroupId,
         ]);
     }
 }

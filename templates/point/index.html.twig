@@ -11,11 +11,10 @@
                     Derniers points de 
                     {% for point in points|slice(0, 1) %}
                         {{ point.student.firstname }}
-                        {% set classgroup = point.student.classgroup %}
                     {% endfor %}
                 </h3>
                 <div class="p-2">
-                    <a href="{{ path('classgroup_show', {'id': classgroup.id}) }}">
+                    <a href="{{ path('classgroup_show', {'id': classgroupId}) }}">
                         Retour à la classe
                     </a>
                 </div>
@@ -24,11 +23,10 @@
                     Derniers points - 
                     {% for point in points|slice(0, 1) %}
                         {{ point.student.classgroup.name }}
-                        {% set classgroup = point.student.classgroup %}
                     {% endfor %}
                 </h3>
                 <div class="p-2">
-                    <a href="{{ path('classgroup_show', {'id': classgroup.id}) }}">
+                    <a href="{{ path('classgroup_show', {'id': classgroupId}) }}">
                         Retour à la classe
                     </a>
                 </div>
