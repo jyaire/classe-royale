@@ -94,18 +94,18 @@ class CardController extends AbstractController
     }
 
     /**
-     * @Route("/type/{type}", name="card_index_type", methods={"GET"})
+     * @Route("/type/{type}/{student}", name="card_index_type", methods={"GET"}, defaults={"student": null})
      * @param CardRepository $cardRepository
-     * @param SubjectRepository $subjectRepository
+     * @param ?Student $student
      * @param string $type
      * @return Response
      */
-    public function indexType(string $type, CardRepository $cardRepository, SubjectRepository $subjectRepository): Response
+    public function indexType(string $type, CardRepository $cardRepository, ?Student $student): Response
     {
-        return $this->render('card/index.html.twig', [
+        return $this->render('card/type.html.twig', [
             'cards' => $cardRepository->findBy(['type'=>$type]),
             'type' => $type,
-            'subjects' => $subjectRepository->findAll(),
+            'student' => $student,
         ]);
     }
 
@@ -115,12 +115,11 @@ class CardController extends AbstractController
      * @param Subject $subject
      * @return Response
      */
-    public function indexSubject(Subject $subject, CardRepository $cardRepository): Response
+    public function indexSubject(Subject $subject): Response
     {
         $subjects=[];
         array_push($subjects, $subject);
         return $this->render('card/index.html.twig', [
-            'cards' => $cardRepository->findBy(['subject'=>$subject]),
             'subject' => $subject,
             'subjects' => $subjects,
         ]);
