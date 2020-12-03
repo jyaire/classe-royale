@@ -35,16 +35,24 @@
             <div class="row justify-content-center">
                 <div class="col-6">
                     <p class="add-box">
-                        <a href="{{ path('card_index_subject', {'id': card.subject.id}) }}">
+                        {% if student is not defined %}
+                            <a href="{{ path('card_index_subject', {'id': card.subject.id}) }}">
+                                {{ card.subject.name }}
+                            </a>
+                        {% else %}
                             {{ card.subject.name }}
-                        </a>
+                        {% endif %}
                     </p>
                 </div>
                 <div class="col-6">
                     <p class="add-box">
-                        <a href="{{ path('card_index_type', {'type': card.type}) }}">
+                        {% if student is not defined %}
+                            <a href="{{ path('card_index_type', {'type': card.type}) }}">
+                                {{ card.type }}
+                            </a>
+                        {% else %}
                             {{ card.type }}
-                        </a>
+                        {% endif %}
                     </p>
                 </div>
                 
