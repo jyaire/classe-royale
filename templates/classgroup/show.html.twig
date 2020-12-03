@@ -45,19 +45,21 @@
                     50 dernières actions
                 </div>
             </a>
-
         </div>
     </div>
+
     <div class="col-12">
         <div class="row justify-content-center">
-            <a href="{{ path('team_index', {'classgroup' : classgroup.id}) }}">
-                <div class="student-box">
-                    <div>
-                        <img src="{{ asset('images/logo-team.png') }}" alt="Equipes">
-                        Equipes
+            {% if is_granted('ROLE_TEACHER') %}
+                <a href="{{ path('team_index', {'classgroup' : classgroup.id}) }}">
+                    <div class="student-box">
+                        <div>
+                            <img src="{{ asset('images/logo-team.png') }}" alt="Equipes">
+                            Equipes
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
+            {% endif %}
             {% if ranking is not null %}
                 {% if ranking == "gold" %}
                     {% for student in classgroup.students | sort((a, b) => b.gold <=> a.gold) %}
@@ -77,15 +79,17 @@
                     {% include 'classgroup/cards_students.html.twig' %}
                 {% endfor %}
             {% endif %}
-            <a href="{{ path('student_new', {'id' : classgroup.id}) }}">
-                <div class="student-box bg-light">
-                    <div>
-                        <img src="{{ asset('images/add.png') }}"
-                             alt="Ajouter un élève" class="add-button"
-                             title="Ajouter un élève">
+            {% if is_granted('ROLE_TEACHER') %}
+                <a href="{{ path('student_new', {'id' : classgroup.id}) }}">
+                    <div class="student-box bg-light">
+                        <div>
+                            <img src="{{ asset('images/add.png') }}"
+                                alt="Ajouter un élève" class="add-button"
+                                title="Ajouter un élève">
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
+            {% endif %}
         </div>
         <p class="mt-3 text-center">
             {{ classgroup.students | length }} élèves
