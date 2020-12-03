@@ -38,17 +38,23 @@
                         {% endif %}
                     </div>
             </div>
-            <div class="col-2">
+            {% if is_granted('ROLE_TEACHER') %}
+                <div class="col-2">
+            {% else %}
+                <div class="col-4">
+            {% endif %}
                 {{ point.date ? point.date|date('d/m/Y à H:i') : '' }}
             </div>
-            <div class="col-2">
+            {% if is_granted('ROLE_TEACHER') %}
+                <div class="col-2">
                     <form method="post" action="{{ path('point_delete', {'id': point.id, 'student': point.student.id}) }}"
-                          onsubmit="return confirm('Voulez-vous vraiment supprimer cette action ?');">
+                            onsubmit="return confirm('Voulez-vous vraiment supprimer cette action ?');">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ point.id) }}">
                         <button class="btn"><img src="{{ asset('images/icone-delete.png') }}" class="small-icone"></button>
                     </form>
                 </div>
+            {% endif %}
         {% else %}
             <div class="col-12 text-center">
                 Aucune activité pour l'instant
