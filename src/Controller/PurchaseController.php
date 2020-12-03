@@ -6,17 +6,20 @@ use App\Entity\Purchase;
 use App\Form\PurchaseType;
 use App\Repository\PurchaseRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/purchase")
+ * @IsGranted("ROLE_USER")
  */
 class PurchaseController extends AbstractController
 {
     /**
      * @Route("/", name="purchase_index", methods={"GET"})
+     * @IsGranted("ROLE_TEACHER")
      */
     public function index(PurchaseRepository $purchaseRepository): Response
     {
@@ -27,6 +30,7 @@ class PurchaseController extends AbstractController
 
     /**
      * @Route("/new", name="purchase_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_TEACHER")
      */
     public function new(Request $request): Response
     {
@@ -60,6 +64,7 @@ class PurchaseController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="purchase_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_TEACHER")
      */
     public function edit(Request $request, Purchase $purchase): Response
     {
@@ -80,6 +85,7 @@ class PurchaseController extends AbstractController
 
     /**
      * @Route("/{id}", name="purchase_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_TEACHER")
      */
     public function delete(Request $request, Purchase $purchase): Response
     {

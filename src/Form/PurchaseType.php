@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Purchase;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,10 +16,15 @@ class PurchaseType extends AbstractType
             ->add('name')
             ->add('description')
             ->add('price')
-            ->add('currency')
+            ->add('currency', ChoiceType::class, [
+                'choices'  => [
+                    'Or' => 'gold',
+                    'Elixir' => 'elixir',
+                ],
+                'expanded' => true,
+                'multiple' => false,
+            ])
             ->add('avatar')
-            ->add('student')
-            ->add('classgroup')
         ;
     }
 
