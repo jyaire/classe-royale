@@ -63,7 +63,7 @@
         <a href="{{ path('classgroup_show', {'id': student.classgroup.id}) }}">Retour à la classe</a>
         <br><a href="{{ path('student_show', {'id': student.id}) }}">Profil de {{ student.firstname }}</a>
     {% endif %}
-    {% if is_granted('ROLE_ADMIN') %}
+    {% if is_granted('ROLE_ADMIN') and student is not defined %}
     <br>
     <a href="{{ path('card_new') }}">Ajouter une carte</a>
     {% endif %}
