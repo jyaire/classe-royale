@@ -4,7 +4,14 @@
 
 {% block body %}
     <div class="col-12 text-center">
-        <h2>Magasin{% if student is not null %} de {{ student.firstname }}{% endif %}</h2>
+        {% if student is not null %}
+            <h2>Magasin de {{ student.firstname }}</h2>
+            <a href="{{ path('student_show', {'id': student.id}) }}">
+                Profil de {{ student.firstname }}
+            </a>
+        {% else %}
+        <h2>Magasin</h2>
+        {% endif %}
     </div>
     <div class="col-12 text-center">
         {% for purchase in purchases %}
@@ -44,6 +51,17 @@
                     {% if student is null %}
                         <a href="{{ path('purchase_show', {'id': purchase.id}) }}">Détails</a>
                     {% else %}
+                        {% set numberOldPurchase = 0 %}
+                        {% for oldPurchase in student.purchases %}
+                            {% if oldPurchase == purchase %}
+                                {% set numberOldPurchase = numberOldPurchase + 1 %}
+                            {% endif %}     
+                        {% endfor %}
+                        {% if numberOldPurchase == 0 %}
+                            Jamais acheté
+                        {% else %}
+                            Acheté {{ numberOldPurchase }} fois
+                        {% endif %}
                         <a href="{{ path('purchase_show', {'id': purchase.id, 'student': student.id}) }}">Détails</a>
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') and student is null %}
