@@ -9,13 +9,26 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractType
+class UserAdminType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('email', TextType::class, [
                 'label' => 'Adresse Mail',
+            ])
+            ->add('roles', ChoiceType::class, [
+                'required' => true,
+                'multiple' => true,
+                'expanded' => true,
+                'choices' => [
+                    'Utilisateur' => 'ROLE_USER',
+                    'Parent' => 'ROLE_PARENT',
+                    'Enseignant' => 'ROLE_TEACHER',
+                    'Directeur' => 'ROLE_DIRECTOR',
+                    'Admin' => 'ROLE_ADMIN',
+                    'Super Administrateur' => 'ROLE_SUPER_ADMIN',
+                ],
             ])
             ->add('lastname', TextType::class, [
                 'label' => 'Nom de famille',
@@ -29,7 +42,8 @@ class UserType extends AbstractType
                     'une femme' => true,
                     'un homme' => false,
                 ],
-            ]);
+            ])
+            ->add('isVerified');
     }
 
     public function configureOptions(OptionsResolver $resolver)

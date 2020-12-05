@@ -48,8 +48,6 @@
     </div>
     <div class="col-12 col-md-10 col-lg-7">
 
-        <a href="{{ path('user_edit', {'id': user.id}) }}">Modifier mon profil</a>
-
-        {{ include('user/_delete_form.html.twig') }}
+        <a href="{{ path('user_edit', {'id': user.id}) }}" class="third-button">Modifier mon profil</a>
     </div>
 {% endblock %}

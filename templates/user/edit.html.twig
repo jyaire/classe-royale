@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit User{% endblock %}
+{% block title %}Modification d'un utilisateur{% endblock %}
 
 {% block body %}
 <div class="col-12 text-center">
@@ -11,6 +11,8 @@
     {{ include('user/_form.html.twig', {'button_label': 'Modifier'}) }}
 </div>
 <div class="col-12 text-center">
+{% if is_granted('ROLE_TEACHER') %}
     {{ include('user/_delete_form.html.twig') }}
+{% endif %}
 </div>
 {% endblock %}

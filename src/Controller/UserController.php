@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\UserAdminType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -56,6 +57,14 @@ class UserController extends AbstractController
      */
     public function show(User $user): Response
     {
+        if ($this->isGranted('ROLE_ADMIN') == false) {
+            if ($this->getUser() != $user) {
+                $this->addFlash('danger', "Vous ne pouvez voir que votre propre profil");
+                return $this->redirectToRoute('user_show', [
+                    'id' => $this->getUser()->getId(),
+                ]);
+            }
+        }
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
@@ -67,13 +76,28 @@ class UserController extends AbstractController
      */
     public function edit(Request $request, User $user): Response
     {
-        $form = $this->createForm(UserType::class, $user);
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $form = $this->createForm(UserAdminType::class, $user);
+        }
+        else {
+            if ($this->getUser() != $user) {
+                $this->addFlash('danger', "Vous ne pouvez modifier que votre propre profil");
+                return $this->redirectToRoute('user_show', [
+                    'id' => $this->getUser()->getId(),
+                ]);
+            }
+            $form = $this->createForm(UserType::class, $user);
+        }
+        
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('user_index');
+            $this->addFlash('success', "Votre profil a été modifié");
+            return $this->redirectToRoute('user_show', [
+                'id' => $this->getUser()->getId(),
+            ]);
         }
 
         return $this->render('user/edit.html.twig', [
