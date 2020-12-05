@@ -27,7 +27,7 @@
                 <td>{{ purchase.currency }}</td>
                 <td>{{ purchase.avatar }}</td>
                 <td>
-                    <a href="{{ path('purchase_show', {'id': purchase.id}) }}">show</a>
+                    <a href="{{ path('purchase_show', {'id': purchase.id, 'student': student.id}) }}">show</a>
                     <a href="{{ path('purchase_edit', {'id': purchase.id}) }}">edit</a>
                 </td>
             </tr>

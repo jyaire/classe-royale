@@ -19,13 +19,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class PurchaseController extends AbstractController
 {
     /**
-     * @Route("/", name="purchase_index", methods={"GET"})
+     * @Route("/all/{student}", name="purchase_index", methods={"GET"}, defaults={"student": null})
      * @IsGranted("ROLE_TEACHER")
+     * @param ?Student $student
      */
-    public function index(PurchaseRepository $purchaseRepository): Response
+    public function index(PurchaseRepository $purchaseRepository, ?Student $student): Response
     {
         return $this->render('purchase/index.html.twig', [
             'purchases' => $purchaseRepository->findAll(),
+            'student' => $student,
         ]);
     }
 

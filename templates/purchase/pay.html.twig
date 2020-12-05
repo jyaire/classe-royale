@@ -51,6 +51,8 @@
     <a href="{{ path('purchase_confirm', {'id': purchase.id, 'student': student.id}) }}">
         <button class="third-button">Oui, acheter</button>
     </a>
+    <a href="{{ path('purchase_index', {'student': student.id}) }}">
         <button class="primary-button">Non, retour au magasin</button>
+    </a>
     </div>
 {% endblock %}

@@ -8,7 +8,15 @@
     </div>
 
     <div class="col-3 text-center">            
-        <p>{{ purchase.avatar }}ici</p>
+        {% if purchase.avatar is empty %}
+            <img src="{{ asset('images/shop.png') }}"
+                    alt="{{ purchase.name }}"
+                    class="emoticon-info">
+        {% else %}
+            <img src="{{ asset('purchase/' ~ purchase.avatar) }}"
+                    alt="{{ purchase.name }}"
+                    class="emoticon-info">
+        {% endif %}
     </div>
 
     <div class="col-6 text-center">
