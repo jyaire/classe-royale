@@ -1,42 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Purchase{% endblock %}
+{% block title %}Magasin - page article{% endblock %}
 
 {% block body %}
-    <h1>Purchase</h1>
+    <div class="col-12 text-center">
+        <h2>{{ purchase.name }}</h2>
+    </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ purchase.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ purchase.name }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ purchase.description }}</td>
-            </tr>
-            <tr>
-                <th>Price</th>
-                <td>{{ purchase.price }}</td>
-            </tr>
-            <tr>
-                <th>Currency</th>
-                <td>{{ purchase.currency }}</td>
-            </tr>
-            <tr>
-                <th>Avatar</th>
-                <td>{{ purchase.avatar }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="col-3 text-center">            
+        <p>{{ purchase.avatar }}ici</p>
+    </div>
 
-    <a href="{{ path('purchase_index') }}">back to list</a>
+    <div class="col-6 text-center">
+        <p>{{ purchase.description }}</p>
+    </div>
 
-    <a href="{{ path('purchase_edit', {'id': purchase.id}) }}">edit</a>
+    <div class="col-3 text-center">            
+        <p>{{ purchase.price }} {{ purchase.currency }}</p>
+    </div>
 
-    {{ include('purchase/_delete_form.html.twig') }}
+    <div class="col-12 text-center">
+    {% if student is not null %}
+        <a href="{{ path('purchase_pay', {'id': purchase.id, 'student': student.id}) }}" class="third-button">Acheter pour {{ student.firstname }}</a><br>
+    {% endif %}
+        <a href="{{ path('purchase_index') }}">Retour au magasin</a><br>
+        {% if is_granted('ROLE_TEACHER') %}
+            {% for classgroup in app.user.classgroups %}
+                {% if purchase.classgroup == app.user.classgroups %}
+                    {% set modif = 1%}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') or modif == 1 %}
+            <a href="{{ path('purchase_edit', {'id': purchase.id}) }}">Modifier</a>
+        {% endif %}
+    </div>
 {% endblock %}

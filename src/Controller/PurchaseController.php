@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Purchase;
+use App\Entity\Student;
 use App\Form\PurchaseType;
 use App\Repository\PurchaseRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,16 +54,6 @@ class PurchaseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="purchase_show", methods={"GET"})
-     */
-    public function show(Purchase $purchase): Response
-    {
-        return $this->render('purchase/show.html.twig', [
-            'purchase' => $purchase,
-        ]);
-    }
-
-    /**
      * @Route("/{id}/edit", name="purchase_edit", methods={"GET","POST"})
      * @IsGranted("ROLE_TEACHER")
      */
@@ -80,6 +71,46 @@ class PurchaseController extends AbstractController
         return $this->render('purchase/edit.html.twig', [
             'purchase' => $purchase,
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/{student}", name="purchase_show", methods={"GET"}, defaults={"student": null})
+     * @param Purchase $purchase
+     * @param ?Student $student
+     */
+    public function show(Purchase $purchase, ?Student $student): Response
+    {
+        return $this->render('purchase/show.html.twig', [
+            'purchase' => $purchase,
+            'student'=> $student,
+        ]);
+    }
+
+    /**
+     * @Route("/pay/{id}/{student}", name="purchase_pay", methods={"GET"})
+     * @param Purchase $purchase
+     * @param Student $student
+     */
+    public function pay(Purchase $purchase, Student $student): Response
+    {
+        return $this->render('purchase/pay.html.twig', [
+            'purchase' => $purchase,
+            'student'=> $student,
+        ]);
+    }
+
+    /**
+     * @Route("/confirm/{id}/{student}", name="purchase_confirm", methods={"GET"})
+     * @param Purchase $purchase
+     * @param Student $student
+     */
+    public function confirm(Purchase $purchase, Student $student): Response
+    {
+        $message = $student->getFirstname() . ' a acheté "' . $purchase->getName() . '"';
+        $this->addFlash('success', $message);
+        return $this->redirectToRoute('student_show', [
+            'id' => $student->getId(),
         ]);
     }
 

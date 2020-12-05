@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Achat d'un article{% endblock %}
+
+{% block body %}
+    <div class="col-12 text-center">
+        <h2>Achat : {{ purchase.name }}</h2>
+    </div>
+    <div class="col-2 text-center bg-light p-3">
+        <a href = "{{ path('purchase_show', {'id': purchase.id, 'student': student.id}) }}">
+            {% if purchase.avatar is empty %}
+                <img src="{{ asset('images/shop.png') }}"
+                        alt="{{ purchase.name }}"
+                        class="emoticon-info">
+            {% else %}
+                <img src="{{ asset('purchase/' ~ purchase.avatar) }}"
+                        alt="{{ purchase.name }}"
+                        class="emoticon-info">
+            {% endif %}
+            <br>{{ purchase.name }}
+        </a>
+    </div>
+    <div class="col-2 text-center bg-light p-3">
+        <img src="{{ asset('images/greenArrow.png') }}"
+                    alt="->"
+                    class="emoticon-info">
+    </div>
+    <div class="col-2 text-center bg-light p-3">
+        <a href = "{{ path('student_show', {'id': student.id}) }}">
+            {% if student.avatar is empty %}
+                {%  if student.isGirl == 1 %}
+                    <img src="{{ asset('images/emoticon-pouces-f.png') }}"
+                            alt="{{ student.firstname }} {{ student.lastname }}"
+                            class="emoticon-info">
+                {% else %}
+                    <img src="{{ asset('images/emoticon-pouces-m.png') }}"
+                            alt="{{ student.firstname }} {{ student.lastname }}"
+                            class="emoticon-info">
+                {% endif %}
+            {% else %}
+                <img src="{{ asset('avatars/' ~ student.avatar) }}"
+                        alt="{{ student.firstname }} {{ student.lastname }}"
+                        class="emoticon-info">
+            {% endif %}
+            <br>{{ student.firstname }}
+        </a>
+    </div>
+    <div class="col-12 text-center mt-3">
+    Voulez-vous vraiment effectuer cet achat ?<br>
+
+    <a href="{{ path('purchase_confirm', {'id': purchase.id, 'student': student.id}) }}">
+        <button class="third-button">Oui, acheter</button>
+    </a>
+        <button class="primary-button">Non, retour au magasin</button>
+    </div>
+{% endblock %}
