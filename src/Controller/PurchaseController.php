@@ -109,6 +109,7 @@ class PurchaseController extends AbstractController
      */
     public function confirm(Purchase $purchase, Student $student): Response
     {
+        
         $message = $student->getFirstname() . ' a acheté "' . $purchase->getName() . '"';
         $this->addFlash('success', $message);
         return $this->redirectToRoute('student_show', [

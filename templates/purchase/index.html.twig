@@ -3,41 +3,61 @@
 {% block title %}Magasin{% endblock %}
 
 {% block body %}
-    <h2>Magasin</h2>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Currency</th>
-                <th>Avatar</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="col-12 text-center">
+        <h2>Magasin{% if student is not null %} de {{ student.firstname }}{% endif %}</h2>
+    </div>
+    <div class="col-12 text-center">
         {% for purchase in purchases %}
-            <tr>
-                <td>{{ purchase.id }}</td>
-                <td>{{ purchase.name }}</td>
-                <td>{{ purchase.description }}</td>
-                <td>{{ purchase.price }}</td>
-                <td>{{ purchase.currency }}</td>
-                <td>{{ purchase.avatar }}</td>
-                <td>
-                    <a href="{{ path('purchase_show', {'id': purchase.id, 'student': student.id}) }}">show</a>
-                    <a href="{{ path('purchase_edit', {'id': purchase.id}) }}">edit</a>
-                </td>
-            </tr>
+            <div class="row align-items-center dark-box m-2">
+                <div class="col-2 text-center">
+                    {% if purchase.avatar is empty %}
+                        <img src="{{ asset('images/shop.png') }}"
+                                alt="{{ purchase.name }}"
+                                class="emoticon-info">
+                    {% else %}
+                        <img src="{{ asset('purchase/' ~ purchase.avatar) }}"
+                                alt="{{ purchase.name }}"
+                                class="emoticon-info">
+                    {% endif %}
+                    <br>{{ purchase.name }}
+                </div>
+                <div class="col-2 text-center">
+                    {% if student is not null %}
+                        <a href="{{ path('purchase_pay', {'id': purchase.id, 'student': student.id}) }}" 
+                        class="third-button">Acheter</a>
+                    {% endif %}
+                </div>
+                <div class="col-3 text-left">
+                    {{ purchase.description }}
+                </div>
+                <div class="col-2 text-center">
+                    <div class="win-smallbox">
+                        - {{ purchase.price }}
+                        {% if purchase.currency == "gold" %}
+                            <img src="{{ asset('images/gold.png') }}" alt="Or">
+                        {% else %}
+                            <img src="{{ asset('images/elixir.png') }}" alt="Elixir">
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-2 text-center">
+                    {% if student is null %}
+                        <a href="{{ path('purchase_show', {'id': purchase.id}) }}">Détails</a>
+                    {% else %}
+                        <a href="{{ path('purchase_show', {'id': purchase.id, 'student': student.id}) }}">Détails</a>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') and student is null %}
+                        <a href="{{ path('purchase_edit', {'id': purchase.id}) }}">Modifier</a>
+                    {% endif %}  
+                </div>
+            </div>
         {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
+            <div class="col-12 text-center">
+                Aucun achat possible
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('purchase_new') }}">Create new</a>
+    </div>
+    <div class="col-12 text-center">
+        <a href="{{ path('purchase_new') }}">Ajouter un produit</a>
+    </div>
 {% endblock %}

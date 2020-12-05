@@ -28,10 +28,12 @@
     </div>
 
     <div class="col-12 text-center">
-    {% if student is not null %}
-        <a href="{{ path('purchase_pay', {'id': purchase.id, 'student': student.id}) }}" class="third-button">Acheter pour {{ student.firstname }}</a><br>
-    {% endif %}
-        <a href="{{ path('purchase_index') }}">Retour au magasin</a><br>
+        {% if student is not null %}
+            <a href="{{ path('purchase_pay', {'id': purchase.id, 'student': student.id}) }}" class="third-button">Acheter pour {{ student.firstname }}</a><br>
+            <a href="{{ path('purchase_index', {'student': student.id}) }}">Retour au magasin</a><br>
+        {% else %}
+            <a href="{{ path('purchase_index') }}">Retour au magasin</a><br>
+        {% endif %}
         {% if is_granted('ROLE_TEACHER') %}
             {% for classgroup in app.user.classgroups %}
                 {% if purchase.classgroup == app.user.classgroups %}
@@ -39,7 +41,7 @@
                 {% endif %}
             {% endfor %}
         {% endif %}
-        {% if is_granted('ROLE_ADMIN') or modif == 1 %}
+        {% if (is_granted('ROLE_ADMIN') or modif == 1) and student is null %}
             <a href="{{ path('purchase_edit', {'id': purchase.id}) }}">Modifier</a>
         {% endif %}
     </div>
