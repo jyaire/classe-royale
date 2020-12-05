@@ -89,6 +89,7 @@ class StudentController extends AbstractController
 
     /**
      * @Route("/{id}", name="student_show", methods={"GET"})
+     * @IsGranted("ROLE_USER")
      * @param Student $student
      * @return Response
      */
