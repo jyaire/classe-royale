@@ -46,6 +46,7 @@
         </a>
     </div>
     <div class="col-12 text-center mt-3">
+    <p>Info : {{ purchase.description }}</p>
     Voulez-vous vraiment effectuer cet achat ?<br>
 
     <a href="{{ path('purchase_confirm', {'id': purchase.id, 'student': student.id}) }}">
