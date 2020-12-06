@@ -26,7 +26,8 @@
                     {% endif %}
                 </div>
             </a>
-
+            
+            {% if is_granted('ROLE_TEACHER') %}
             <a href="{{ path('point_multiple_new', {'winner': 'classgroup', 'number': classgroup.id, 'type': 'gold'}) }}">
                 <div class="add-box">
                     <img src="{{ asset('images/add.png') }}" title="Ajouter de l'or à toute la classe" class="add-icone" alt="Or">
@@ -39,6 +40,7 @@
                     <img src="{{ asset('images/elixir.png') }}" title="Ajouter de l'elixir à toute la classe" class="add-icone" alt="Elixir">
                 </div>
             </a>
+            {% endif %}
 
             <a href="{{ path('last_custom', {'user': 'classgroup', 'id': classgroup.id}) }}">
                 <div class="add-box">
