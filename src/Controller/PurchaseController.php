@@ -46,6 +46,12 @@ class PurchaseController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            if ($this->isGranted('ROLE_TEACHER')) {
+                foreach ($this->getUser()->getClassgroups() as $classgroup) {
+                    $classg = $classgroup;
+                }
+                $purchase->setClassgroup($classg);
+            }
             $entityManager->persist($purchase);
             $entityManager->flush();
 
