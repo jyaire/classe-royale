@@ -5,7 +5,12 @@
 {% block body %}
     <div class="col-12 col-md-7">
         <p>Bienvenue {{ app.user.firstname }} {{ app.user.lastname }}</p>
-        <h3>Mes classes</h3>
+        {% for classgroup in app.user.classgroups %}
+            {{ classgroup.school.name }} ({{ classgroup.school.city }})
+        {% else %}
+            Aucune école actuellement - Choisir une école
+        {% endfor %}
+        <h3 class="pt-4">Mes classes</h3>
         <div class="row">
             {% for classgroup in app.user.classgroups %}
                     <a href="{{ path('classgroup_show', {id : classgroup.id}) }}">
