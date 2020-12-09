@@ -50,7 +50,10 @@ class PurchaseController extends AbstractController
                 foreach ($this->getUser()->getClassgroups() as $classgroup) {
                     $classg = $classgroup;
                 }
-                $purchase->setClassgroup($classg);
+                $purchase
+                    ->setClassgroup($classg)
+                    ->setCreator($this->getUser())
+                    ;
             }
             $entityManager->persist($purchase);
             $entityManager->flush();
