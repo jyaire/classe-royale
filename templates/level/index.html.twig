@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Level index{% endblock %}
+
+{% block body %}
+    <h1>Level index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Xp</th>
+                <th>Image</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for level in levels %}
+            <tr>
+                <td>{{ level.id }}</td>
+                <td>{{ level.name }}</td>
+                <td>{{ level.xp }}</td>
+                <td>{{ level.image }}</td>
+                <td>
+                    <a href="{{ path('level_show', {'id': level.id}) }}">show</a>
+                    <a href="{{ path('level_edit', {'id': level.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('level_new') }}">Create new</a>
+{% endblock %}
