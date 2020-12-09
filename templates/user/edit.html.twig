@@ -7,11 +7,11 @@
     <h3>Modification d'un utilisateur</h3>
 </div>
     
-<div class="col-12 col-md-10 col-lg-7">
+<div class="col-12 col-md-10 col-lg-7 pt-3">
     {{ include('user/_form.html.twig', {'button_label': 'Modifier'}) }}
 </div>
 <div class="col-12 text-center">
-{% if is_granted('ROLE_TEACHER') %}
+{% if is_granted('ROLE_ADMIN') %}
     {{ include('user/_delete_form.html.twig') }}
 {% endif %}
 </div>
