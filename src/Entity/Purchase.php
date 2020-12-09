@@ -54,6 +54,11 @@ class Purchase
      */
     private $classgroup;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="purchases")
+     */
+    private $creator;
+
     public function __construct()
     {
         $this->student = new ArrayCollection();
@@ -158,6 +163,18 @@ class Purchase
     public function setClassgroup(?Classgroup $classgroup): self
     {
         $this->classgroup = $classgroup;
+
+        return $this;
+    }
+
+    public function getCreator(): ?User
+    {
+        return $this->creator;
+    }
+
+    public function setCreator(?User $creator): self
+    {
+        $this->creator = $creator;
 
         return $this;
     }

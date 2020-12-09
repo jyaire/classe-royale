@@ -80,7 +80,7 @@
                         {% if student.classgroup is not null %}
                             {{ student.classgroup.name }}<br>
                         {% else %}
-                            Rattaché à aucune classe<br>
+                            Aucune classe<br>
                         {% endif %}
                         Joueur depuis le {{ student.dateCreate ? student.dateCreate|date('d/m/Y') : '' }}<br>
                         Responsable des élèves : {{ student.isLead ? 'Oui' : 'Non' }}<br>

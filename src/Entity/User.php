@@ -93,12 +93,18 @@ class User implements UserInterface
      */
     private $points;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Purchase::class, mappedBy="creator")
+     */
+    private $purchases;
+
     public function __construct()
     {
         $this->directors = new ArrayCollection();
         $this->students = new ArrayCollection();
         $this->classgroups = new ArrayCollection();
         $this->points = new ArrayCollection();
+        $this->purchases = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -375,6 +381,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($point->getAuthor() === $this) {
                 $point->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Purchase[]
+     */
+    public function getPurchases(): Collection
+    {
+        return $this->purchases;
+    }
+
+    public function addPurchase(Purchase $purchase): self
+    {
+        if (!$this->purchases->contains($purchase)) {
+            $this->purchases[] = $purchase;
+            $purchase->setCreator($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchase(Purchase $purchase): self
+    {
+        if ($this->purchases->contains($purchase)) {
+            $this->purchases->removeElement($purchase);
+            // set the owning side to null (unless already changed)
+            if ($purchase->getCreator() === $this) {
+                $purchase->setCreator(null);
             }
         }
 
