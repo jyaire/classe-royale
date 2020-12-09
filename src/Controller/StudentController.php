@@ -21,15 +21,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class StudentController extends AbstractController
 {
     /**
-     * @Route("/", name="student_index", methods={"GET"})
+     * @Route("/all/{order}", name="student_index", methods={"GET"}, defaults={"order": null})
      * @IsGranted("ROLE_ADMIN")
      * @param StudentRepository $studentRepository
      * @return Response
      */
-    public function index(StudentRepository $studentRepository): Response
+    public function index(?string $order, StudentRepository $studentRepository): Response
     {
+        if($order == "alone") {
+            $students = $studentRepository->findBy(['classgroup'=>null]);
+        } 
+        else { 
+            $students = $studentRepository->findAll();
+        }
         return $this->render('student/index.html.twig', [
-            'students' => $studentRepository->findAll(),
+            'students' => $students,
+            'order' => $order,
         ]);
     }
 

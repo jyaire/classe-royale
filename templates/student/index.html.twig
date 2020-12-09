@@ -1,10 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Classe Royale - Tous les élèves{% endblock %}
+{% block title %}Classe Royale - Les élèves{% endblock %}
 
 {% block body %}
     <div class="col-12 text-center">
-    <h3>Tous les élèves</h3>
+    {% if order == "alone" %}
+        <h3>Les élèves sans classe</h3>
+    {% else %}
+        <h3>Tous les élèves</h3>
+    {% endif %}
         <div class="row justify-content-center">
             {% for student in students %}
                 <a href="{{ path('student_show', {'id': student.id}) }}">
