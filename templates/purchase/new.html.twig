@@ -1,11 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Purchase{% endblock %}
+{% block title %}Nouveau produit{% endblock %}
 
 {% block body %}
-    <h1>Create new Purchase</h1>
+    <div class="col-12 text-center">
+        <h2>Nouveau produit</h2>
+    </div>
+    <div class="col-12 col-sm-10 col-lg-7 pt-3 text-center">
+        {{ include('purchase/_form.html.twig') }}
 
-    {{ include('purchase/_form.html.twig') }}
-
-    <a href="{{ path('purchase_index') }}">back to list</a>
+        <a href="{{ path('purchase_index') }}">Retour au magasin</a>
+</div>
 {% endblock %}
