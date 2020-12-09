@@ -42,7 +42,7 @@ class StudentController extends AbstractController
 
     /**
      * @Route("/{id}/new", name="student_new", methods={"GET","POST"})
-     * @IsGranted("ROLE_TEATCHER")
+     * @IsGranted("ROLE_TEACHER")
      * @param Request $request
      * @param Classgroup $classgroup
      * @param StudentRepository $studentRepository
