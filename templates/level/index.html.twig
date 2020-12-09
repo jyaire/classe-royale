@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Level index{% endblock %}
+{% block title %}Classe Royale - Levels de jeu{% endblock %}
 
 {% block body %}
-    <h1>Level index</h1>
+    <h1>Levels de jeu</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Name</th>
-                <th>Xp</th>
+                <th>Nom</th>
+                <th>XP de base</th>
                 <th>Image</th>
                 <th>actions</th>
             </tr>
@@ -23,17 +23,17 @@
                 <td>{{ level.xp }}</td>
                 <td>{{ level.image }}</td>
                 <td>
-                    <a href="{{ path('level_show', {'id': level.id}) }}">show</a>
-                    <a href="{{ path('level_edit', {'id': level.id}) }}">edit</a>
+                    <a href="{{ path('level_show', {'id': level.id}) }}">Détails</a>
+                    <a href="{{ path('level_edit', {'id': level.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">Aucun level trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('level_new') }}">Create new</a>
+    <a href="{{ path('level_new') }}">Nouveau level</a>
 {% endblock %}

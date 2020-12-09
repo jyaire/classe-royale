@@ -1,13 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Level{% endblock %}
+{% block title %}Classe Royale - Level de jeu{% endblock %}
 
 {% block body %}
-    <h1>Edit Level</h1>
+    <div class="col-12 col-sm-10 col-lg-7 text-center dark-box">
+        <h3>Modifier un level de jeu</h3>
 
-    {{ include('level/_form.html.twig', {'button_label': 'Update'}) }}
+        {{ include('level/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('level_index') }}">back to list</a>
+        <a href="{{ path('level_index') }}">Retour à la liste</a>
 
-    {{ include('level/_delete_form.html.twig') }}
+        {{ include('level/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

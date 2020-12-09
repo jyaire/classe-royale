@@ -1,11 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Level{% endblock %}
+{% block title %}Classe Royale - Nouveau level{% endblock %}
 
 {% block body %}
-    <h1>Create new Level</h1>
+    <div class="col-12 col-sm-10 col-lg-7 text-center dark-box">
+        <h3>Nouveau level</h3>
 
-    {{ include('level/_form.html.twig') }}
+        {{ include('level/_form.html.twig') }}
 
-    <a href="{{ path('level_index') }}">back to list</a>
+        <a href="{{ path('level_index') }}">Retour à la liste</a>
+    </div>
 {% endblock %}
