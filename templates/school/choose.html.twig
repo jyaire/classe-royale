@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Classe Royale - Choisir une école{% endblock %}
+
+{% block body %}
+    <div class="col-12 text-center">
+        <h3>Choisissez l'école où vous enseignez</h3>
+        <div class="row justify-content-center">
+            {% for school in schools %}
+                <a href="{{ path('classgroup_choose', {'school': school.id}) }}">
+                    <div class="student-box">
+                            <p>{{ school.name }}<br>
+                                <span class="small-text">{{ school.city }}</span>
+                            </p>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -31,6 +31,19 @@ class SchoolController extends AbstractController
     }
 
     /**
+     * @Route("/choose/", name="school_choose", methods={"GET","POST"})
+     * @IsGranted("ROLE_TEACHER")
+     * @param SchoolRepository $schoolRepository
+     * @return Response
+     */
+    public function choose(SchoolRepository $schoolRepository): Response
+    {
+        return $this->render('school/choose.html.twig', [
+            'schools' => $schoolRepository->findAll(),
+        ]);
+    }
+
+    /**
      * @Route("/new", name="school_new", methods={"GET","POST"})
      * @IsGranted("ROLE_DIRECTOR")
      * @param Request $request

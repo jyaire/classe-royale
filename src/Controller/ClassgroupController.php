@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Classgroup;
+use App\Entity\School;
 use App\Form\ClassgroupType;
 use App\Repository\ClassgroupRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,6 +28,20 @@ class ClassgroupController extends AbstractController
     {
         return $this->render('classgroup/index.html.twig', [
             'classgroups' => $classgroupRepository->findAll(),
+        ]);
+    }
+
+     /**
+     * @Route("/choose/{school}", name="classgroup_choose", methods={"GET","POST"})
+     * @IsGranted("ROLE_TEACHER")
+     * @param School $school
+     * @param ClassgroupRepository $classgroupRepository
+     * @return Response
+     */
+    public function choose(School $school, ClassgroupRepository $classgroupRepository): Response
+    {
+        return $this->render('classgroup/choose.html.twig', [
+            'school' => $school,
         ]);
     }
 

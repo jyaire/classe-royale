@@ -5,30 +5,32 @@
 {% block body %}
     <div class="col-12 col-md-7">
         <p>Bienvenue {{ app.user.firstname }} {{ app.user.lastname }}</p>
-        {% for classgroup in app.user.classgroups %}
-            {{ classgroup.school.name }} ({{ classgroup.school.city }})
+        {% if school is null %}
+            Aucune école actuellement - <a href="{{ path('school_choose') }}">Choisir une école</a>
         {% else %}
-            Aucune école actuellement - Choisir une école
-        {% endfor %}
-        <h3 class="pt-4">Mes classes</h3>
-        <div class="row">
-            {% for classgroup in app.user.classgroups %}
-                    <a href="{{ path('classgroup_show', {id : classgroup.id}) }}">
-                        <div class="choice-button text-center">
-                           {{ classgroup.name }}
-                        </div>
-                    </a>
-            {% else %}
-                    Aucune classe rattachée
-            {% endfor %}
-            <a href="{{ path('classgroup_new') }}">
-                <div class="choice-button">
-                    <img src="{{ asset('images/add.png') }}"
-                         alt="Ajouter une classe" class="add-button"
-                         title="Ajouter une classe">
-                </div>
-            </a>
-        </div>
-
+            {{ school.name }} ({{ school.city }})
+        {% endif %}
+        {% if school is not null %}
+            <h3 class="pt-4">Mes classes</h3>
+            <div class="row">
+                {% for classgroup in app.user.classgroups %}
+                        <a href="{{ path('classgroup_show', {id : classgroup.id}) }}">
+                            <div class="choice-button text-center">
+                            {{ classgroup.name }}
+                            </div>
+                        </a>
+                {% else %}
+                        Aucune classe rattachée
+                {% endfor %}
+            
+                <a href="{{ path('classgroup_choose', {school : school.id}) }}">
+                    <div class="choice-button">
+                        <img src="{{ asset('images/add.png') }}"
+                            alt="Ajouter une classe" class="add-button"
+                            title="Ajouter une classe">
+                    </div>
+                </a>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
