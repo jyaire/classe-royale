@@ -72,37 +72,6 @@ class ClassgroupController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/{ranking}", name="classgroup_show", methods={"GET"}, defaults={"ranking": null})
-     * @param Classgroup $classgroup
-     * @param string $ranking
-     * @return Response
-     */
-    public function show(Classgroup $classgroup, ?string $ranking): Response
-    {
-        // if parent connected, verify user can view the classgroup
-        if($this->isGranted('ROLE_PARENT')) {
-            foreach($this->getUser()->getStudents() as $child) {
-                $classChild = $child->getClassgroup();
-                if($classgroup == $classChild) {
-                    return $this->render('classgroup/show.html.twig', [
-                        'classgroup' => $classgroup,
-                        'ranking' => $ranking,
-                        ]);
-                }
-                else {
-                    $this->addFlash('danger', "Vous ne pouvez voir que les classes de vos enfants");
-                    return $this->redirectToRoute('parent');
-                }
-            }
-        }
-        
-        return $this->render('classgroup/show.html.twig', [
-            'classgroup' => $classgroup,
-            'ranking' => $ranking,
-            ]);
-    }
-
-    /**
      * @Route("/{id}/edit", name="classgroup_edit", methods={"GET","POST"})
      * @IsGranted("ROLE_TEACHER")
      * @param Request $request
@@ -164,5 +133,36 @@ class ClassgroupController extends AbstractController
         }
 
         return $this->redirectToRoute('classgroup_index');
+    }
+
+    /**
+     * @Route("/{id}/{ranking}", name="classgroup_show", methods={"GET"}, defaults={"ranking": null})
+     * @param Classgroup $classgroup
+     * @param string $ranking
+     * @return Response
+     */
+    public function show(Classgroup $classgroup, ?string $ranking): Response
+    {
+        // if parent connected, verify user can view the classgroup
+        if($this->isGranted('ROLE_PARENT')) {
+            foreach($this->getUser()->getStudents() as $child) {
+                $classChild = $child->getClassgroup();
+                if($classgroup == $classChild) {
+                    return $this->render('classgroup/show.html.twig', [
+                        'classgroup' => $classgroup,
+                        'ranking' => $ranking,
+                        ]);
+                }
+                else {
+                    $this->addFlash('danger', "Vous ne pouvez voir que les classes de vos enfants");
+                    return $this->redirectToRoute('parent');
+                }
+            }
+        }
+        
+        return $this->render('classgroup/show.html.twig', [
+            'classgroup' => $classgroup,
+            'ranking' => $ranking,
+            ]);
     }
 }

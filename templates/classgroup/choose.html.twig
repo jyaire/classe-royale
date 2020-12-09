@@ -5,7 +5,19 @@
 {% block body %}
 <div class="col-12 col-md-10 col-lg-7 text-center">
     <h3>Choisir une classe</h3>
-
+    <div class="row justify-content-left">
+        {% for classgroup in school.classgroups %}
+            <a href="{{ path('teacher_addClassgroup', {'classgroup': classgroup.id}) }}">
+                <div class="student-box">
+                    <p>{{ classgroup.name }}<br>
+                        <span class="small-text text-white">({{ classgroup.students | length }} élèves)</span>
+                    </p>
+                </div>
+            </a>
+        {% else %}
+            Aucune classe dans cette école
+        {% endfor %}
+    </div>
     <p>
         <a href="{{ path('teacher') }}">Profil enseignant</a>
     </p>

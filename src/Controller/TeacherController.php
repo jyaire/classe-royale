@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Classgroup;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,5 +29,23 @@ class TeacherController extends AbstractController
                 'school' => null,
             ]);
         }
+    }
+
+    /**
+     * @Route("/addTeacher/{classgroup}", name="teacher_addClassgroup")
+     * @param Request $request
+     * @param Classgroup $classgroup
+     */
+    public function addTeacher(Classgroup $classgroup)
+    {
+        $user = $this->getUser();
+        $user->addClassgroup($classgroup);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        $message = $user->getFirstname() . ' ' . $user->getLastname() . ' est associé(e) à ' . $classgroup->getName();
+        $this->addFlash('success', $message);
+        return $this->redirectToRoute('teacher');
     }
 }
