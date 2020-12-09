@@ -35,9 +35,10 @@
             <a href="{{ path('purchase_index') }}">Retour au magasin</a><br>
         {% endif %}
         {% if is_granted('ROLE_TEACHER') %}
+        {% set modif = 0 %}
             {% for classgroup in app.user.classgroups %}
                 {% if purchase.classgroup == app.user.classgroups %}
-                    {% set modif = 1%}
+                    {% set modif = 1 %}
                 {% endif %}
             {% endfor %}
         {% endif %}
