@@ -41,9 +41,8 @@ a{
 /* HEADER */
 
 .header {
-    margin: 0;
+    padding:0;
     height: 4rem;
-    width: 100%;
     font-size: 1rem;
     background: linear-gradient($primary-color, black);
 
@@ -62,7 +61,7 @@ a{
         z-index: 2;
         left: 10px;
         top: 10px;
-        width: 100px;
+        width: 180px;
         @include media-breakpoint-up(sm) {
             width: 200px;
         }
@@ -72,6 +71,9 @@ a{
     }
 
     .tab-background {
+        z-index: 3;
+        padding-left: 15px;
+        padding-right: 15px;
         height: 100%;
     }
 

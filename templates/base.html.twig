@@ -10,80 +10,99 @@
     </head>
     <body>
         <div class="container-fluid">
-            <div class="row header">
-                <div class="col-3 text-center">
-                    <a href="{{ path('home') }}">
-                        <img src="{{ asset('images/cr_logo_300.png') }}" class="logo-header">
-                    </a>
-                </div>
-                <div class="col-9">
-                    <div class="row justify-content-end h-100">
-                        {% if app.user %}
 
+            <nav class="navbar navbar-expand-lg navbar-dark header p-0">
+                <a href="{{ path('home') }}" class="navbar-brand">
+                    <img src="{{ asset('images/cr_logo_300.png') }}" class="logo-header">
+                </a>
+                <button class="navbar-toggler mt-1 mr-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon mt-1 mr-2"></span>
+                </button>
+
+                <div class="collapse navbar-collapse h-100 justify-content-end" id="navbarSupportedContent">
+                    <ul class="navbar-nav h-100">
+                        
+                        {% if app.user %}
                             {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') %}
-                                <a href="{{ path('admin') }}">
-                                        <div class="tab-background col text-center pt-3">
+                                <li class="nav-item active">
+                                    <a href="{{ path('admin') }}">
+                                        <div class="tab-background text-right pt-3">
                                             Administration
                                         </div>
-                                </a>
+                                    </a>
+                                </li>
                             {% endif %}
 
                             {% if is_granted('ROLE_DIRECTOR') %}
-                                <a href="{{ path('director') }}">
-                                    <div class="tab-background col text-center pt-3">
-                                        Direction
-                                    </div>
-                                </a>
+                                <li class="nav-item active">
+                                    <a href="{{ path('director') }}">
+                                        <div class="tab-background text-right pt-3">
+                                            Direction
+                                        </div>
+                                    </a>
+                                </li>
                             {% endif %}
 
                             {% if is_granted('ROLE_TEACHER') %}
-                                <a href="{{ path('teacher') }}">
-                                    <div class="tab-background col text-center pt-3">
-                                        Mes classes
-                                    </div>
-                                </a>
+                                <li class="nav-item active">
+                                    <a href="{{ path('teacher') }}">
+                                        <div class="tab-background text-right pt-3">
+                                            Mes classes
+                                        </div>
+                                    </a>
+                                </li>
                             {% endif %}
 
                             {% if is_granted('ROLE_PARENT') %}
-                                <a href="{{ path('parent') }}">
-                                    <div class="tab-background col text-center pt-3">
-                                        Enfants
-                                    </div>
-                                </a>
+                                <li class="nav-item active">
+                                    <a href="{{ path('parent') }}">
+                                        <div class="tab-background text-right pt-3">
+                                            Enfants
+                                        </div>
+                                    </a>
+                                </li>
                             {% endif %}
 
                         {% else %}
-                            <a href="{{ path('infos') }}">
-                                <div class="tab-background col text-center pt-3">
-                                    Infos
-                                </div>
-                            </a>
+                            <li class="nav-item active">
+                                <a href="{{ path('infos') }}">
+                                    <div class="tab-background text-right pt-3">
+                                        Infos
+                                    </div>
+                                </a>
+                            </li>
                         {% endif %}
 
                         {% if app.user %}
-                            <a href="{{ path('user_show', {'id' : app.user.id}) }}">
-                                <div class="tab-background col text-center pt-3">
-                                    {{ app.user.firstname }} {{ app.user.lastname }}
-                                </div>
-                            </a>
+                            <li class="nav-item active">
+                                <a href="{{ path('user_show', {'id' : app.user.id}) }}">
+                                    <div class="tab-background text-right pt-3">
+                                        {{ app.user.firstname }} {{ app.user.lastname }}
+                                    </div>
+                                </a>
+                            </li>
                         {% else %}
-                            <a href="{{ path('app_login') }}">
-                                <div class="tab-background col text-center pt-3">
-                                    Connexion
-                                </div>
-                            </a>
+                            <li class="nav-item active">
+                                <a href="{{ path('app_login') }}">
+                                    <div class="tab-background text-right pt-3">
+                                        Connexion
+                                    </div>
+                                </a>
+                            </li>
                         {% endif %}
 
                         {% if app.user %}
-                            <a href="{{ path('app_logout') }}">
-                                <div class="tab-background col text-center pt-3">
-                                    déconnexion
-                                </div>
-                            </a>
+                            <li class="nav-item active">
+                                <a href="{{ path('app_logout') }}">
+                                    <div class="tab-background text-right pt-3">
+                                        déconnexion
+                                    </div>
+                                </a>
+                            </li>
                         {% endif %}
-                    </div>
+                    </ul>
                 </div>
-            </div>
+                </nav>
 
             <div class="row main justify-content-center">
                 <div class="col-12">
