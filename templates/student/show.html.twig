@@ -4,7 +4,12 @@
 
 {% block body %}
     <div class="col-12 text-center">
-        <h3>{{ student.firstname }} {{ student.lastname }}</h3>
+        <h3>
+            {{ student.firstname }} {{ student.lastname }} 
+            {% if student.section is not null %}
+                ({{ student.section.abbreviation }})<br>
+            {% endif %}
+        </h3>
     </div>
 
     <div class="col-12 col-sm-10 col-lg-7 text-center clear-box">
@@ -77,16 +82,11 @@
                         </a> {{ student.purchases | length }}
                     </div>
                     <div class="col-12 pt-5 small-text">
-                        {% if student.section is not null %}
-                            {{ student.section.abbreviation }}<br>
-                        {% endif %}
                         {% if student.classgroup is not null %}
-                            {{ student.classgroup.name }}<br>
+                            {{ student.classgroup.name }} 
                         {% else %}
-                            Aucune classe<br>
+                            Aucune classe 
                         {% endif %}
-                        Joueur depuis le {{ student.dateCreate ? student.dateCreate|date('d/m/Y') : '' }}<br>
-                        Responsable des élèves : {{ student.isLead ? 'Oui' : 'Non' }}<br>
                     </div>
                 </div>
             </div>
@@ -162,6 +162,14 @@
                     Aucune activité enregistrée
                 </div>
             {% endfor %}
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-10 col-lg-7 mt-3 text-center clear-box">
+        <p>infos supplémentaires</p>
+        <div class="col-12 pt-1 small-text">
+            Joueur depuis le {{ student.dateCreate ? student.dateCreate|date('d/m/Y') : '' }}<br>
+            Responsable des élèves : {{ student.isLead ? 'Oui' : 'Non' }}<br>
         </div>
     </div>
 
