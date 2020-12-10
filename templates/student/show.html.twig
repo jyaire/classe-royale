@@ -35,7 +35,10 @@
                             {% endif %}
                     {% endfor %}
                 {% endif %}
-                <p class="pt-3">XP : {{ student.xp }}</p>
+                <p class="pt-3">
+                    XP : {{ student.xp }}<br>
+                    <span class="small-text">{{ level.name }}</span>
+                </p>
             </div>
             <div class="col-6 pt-3">
                 <div class="row">

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Classgroup;
 use App\Entity\Student;
 use App\Form\StudentType;
+use App\Repository\LevelRepository;
 use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -98,10 +99,19 @@ class StudentController extends AbstractController
      * @Route("/{id}", name="student_show", methods={"GET"})
      * @IsGranted("ROLE_USER")
      * @param Student $student
+     * @param LevelRepository $levelRepository
      * @return Response
      */
-    public function show(Student $student): Response
+    public function show(Student $student, LevelRepository $levelRepository): Response
     {
+        // find level of student
+        $levels = $levelRepository->findAll();
+        foreach($levels as $level) {
+            if($student->getXp() >= $level->getXp()) {
+                $levelStudent = $level;
+            }
+        }
+
         // if parent is connected, verify user can view the student
         if($this->isGranted('ROLE_PARENT')) {
             foreach($this->getUser()->getStudents() as $child) {
@@ -109,6 +119,7 @@ class StudentController extends AbstractController
                 if($student->getClassgroup() == $classChild) {
                     return $this->render('student/show.html.twig', [
                         'student' => $student,
+                        'level' => $levelStudent,
                     ]);
                 }
                 else {
@@ -120,6 +131,7 @@ class StudentController extends AbstractController
 
         return $this->render('student/show.html.twig', [
             'student' => $student,
+            'level' => $levelStudent,
         ]);
     }
 
