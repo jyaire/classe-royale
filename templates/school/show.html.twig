@@ -11,15 +11,18 @@
     Téléphone : {{ school.phone }}<br>
     RNE : {{ school.rne }}
     <br><a href="{{ path('school_edit', {'id': school.id}) }}">Modifier ces informations</a>
-    {{ include('school/_delete_form.html.twig') }}
 </div>
 
 <div class="col-12 text-center">
-    <div class="row justify-content-left">
+    <div class="row justify-content-left pt-2">
         {% for classgroup in school.classgroups %}
             <a href="{{ path('classgroup_show', {'id': classgroup.id}) }}">
                 <div class="student-box">
-                    <p>{{ classgroup.name }}<br>
+                    {% if classgroup.name | length > 30 %}
+                        <p class="smaller-text">{{ classgroup.name }}<br>
+                    {% else %}
+                        <p>{{ classgroup.name }}<br>
+                    {% endif %}
                         <span class="small-text text-white">({{ classgroup.students | length }} élèves)</span>
                     </p>
                 </div>

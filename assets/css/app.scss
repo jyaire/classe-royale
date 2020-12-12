@@ -203,6 +203,10 @@ h4 {
 
 /* PAGES */
 
+.smaller-text {
+    font-size: 1rem;
+}
+
 .student-box {
     display: flex;
     justify-content: center;
@@ -212,7 +216,7 @@ h4 {
     background-color: $primary-color;
     width: 170px;
     height: 170px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 
     img {
         width: 80px;
