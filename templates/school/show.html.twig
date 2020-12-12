@@ -15,7 +15,6 @@
 </div>
 
 <div class="col-12 text-center">
-    <h4 class="text-left">Les classes</h4>
     <div class="row justify-content-left">
         {% for classgroup in school.classgroups %}
             <a href="{{ path('classgroup_show', {'id': classgroup.id}) }}">

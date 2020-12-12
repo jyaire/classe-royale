@@ -8,7 +8,9 @@
         {% if school is null %}
             Aucune école actuellement - <a href="{{ path('school_choose') }}">Choisir une école</a>
         {% else %}
-            {{ school.name }} ({{ school.city }})
+            <a href="{{ path('school_show', {id : school.id}) }}">
+                {{ school.name }} ({{ school.city }})
+            </a>
         {% endif %}
         {% if school is not null %}
             <h3 class="pt-4">Mes classes</h3>
