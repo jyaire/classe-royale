@@ -171,11 +171,26 @@ class CardController extends AbstractController
      * @param ?Student $student
      * @return Response
      */
-    public function show(Card $card, ?Student $student): Response
+    public function show(Card $card, ?Student $student, CardRepository $cardRepository): Response
     {
+        //verify if card can be unlock
+        $unlockingCard = false;
+        if($student != null and $card->getLevel()>1) {
+            $search = $cardRepository->findOneBy([
+                'name'=> $card->getName(),
+                'level' => $card->getLevel()-1,
+                ]);
+            foreach($student->getCards() as $studentCard) {
+                if($studentCard == $search) {
+                    $unlockingCard = true;
+                    break;
+                }
+            }
+        }
         return $this->render('card/show.html.twig', [
             'card' => $card,
             'student' => $student,
+            'unlockingCard' => $unlockingCard,
         ]);
     }
 

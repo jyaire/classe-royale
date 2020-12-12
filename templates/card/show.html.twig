@@ -74,12 +74,20 @@
                             {% set flag = 1 %}
                         {% endif %}
                     {% endfor %}
-                    {% if flag != 1 %}
+                    {% if flag != 1 and (unlockingCard == true or card.level == 1 )%}
                         <p class="text-center">
                             <a href="{{ path('card_win', {'card': card.id, 'student': student.id}) }}">
                                 Débloquer la carte pour {{ student.firstname }}
                             </a>
                         </p>
+                    {% else %}
+                        {% if card.level != 1 %}
+                            <p class="text-center">
+                                <a href="{{ path('card_show', {'id': card.id -1, 'student': student.id}) }}">
+                                    Il faut d'abord débloquer la carte niveau {{ card.level -1 }}
+                                </a>
+                            </p>
+                        {% endif %}
                     {% endif %}
             {% endif %}
         </div>
