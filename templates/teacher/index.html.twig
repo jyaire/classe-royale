@@ -3,8 +3,7 @@
 {% block title %}Classe Royale - Enseignant{% endblock %}
 
 {% block body %}
-    <div class="col-12 col-md-7">
-        <p>Bienvenue {{ app.user.firstname }} {{ app.user.lastname }}</p>
+    <div class="col-12 col-md-7 text-center">
         {% if school is null %}
             Aucune école actuellement - <a href="{{ path('school_choose') }}">Choisir une école</a>
         {% else %}
@@ -13,20 +12,20 @@
             </a>
         {% endif %}
         {% if school is not null %}
-            <h3 class="pt-4">Mes classes</h3>
-            <div class="row">
+            <h3 class="pt-4 text-center">Mes classes</h3>
+            <div class="row justify-content-center pt-2">
                 {% for classgroup in app.user.classgroups %}
-                        <a href="{{ path('classgroup_show', {id : classgroup.id}) }}">
-                            <div class="choice-button text-center">
-                            {{ classgroup.name }}
-                            </div>
-                        </a>
+                    <a href="{{ path('classgroup_show', {id : classgroup.id}) }}">
+                        <div class="student-box">
+                        {{ classgroup.name }}
+                        </div>
+                    </a>
                 {% else %}
-                        Aucune classe rattachée
+                    Aucune classe rattachée
                 {% endfor %}
-            
+        
                 <a href="{{ path('classgroup_choose', {school : school.id}) }}">
-                    <div class="choice-button">
+                    <div class="student-box bg-light">
                         <img src="{{ asset('images/add.png') }}"
                             alt="Ajouter une classe" class="add-button"
                             title="Ajouter une classe">
