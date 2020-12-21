@@ -6,6 +6,7 @@ use App\Entity\Support;
 use App\Form\SupportType;
 use App\Repository\SupportRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,6 +28,7 @@ class SupportController extends AbstractController
 
     /**
      * @Route("/new", name="support_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function new(Request $request): Response
     {
@@ -35,6 +37,12 @@ class SupportController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if($support->getParent() == null) {
+                $support->setIsParent(false);
+            }
+            else {
+                $support->setIsParent(true);
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($support);
             $entityManager->flush();
@@ -60,6 +68,7 @@ class SupportController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="support_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Support $support): Response
     {
@@ -80,6 +89,7 @@ class SupportController extends AbstractController
 
     /**
      * @Route("/{id}", name="support_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Support $support): Response
     {

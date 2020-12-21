@@ -1,11 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Support{% endblock %}
+{% block title %}Ajouter un article d'aide{% endblock %}
 
 {% block body %}
-    <h1>Create new Support</h1>
+    <div class="col-12 col-md-7 text-center">
+        <h3>Nouvel article de support</h3>
 
-    {{ include('support/_form.html.twig') }}
+        {{ include('support/_form.html.twig') }}
 
-    <a href="{{ path('support_index') }}">back to list</a>
+        <a href="{{ path('support_index') }}">Retour à l'aide en ligne</a>
+    </div>
 {% endblock %}

@@ -1,43 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Support index{% endblock %}
+{% block title %}Classe Royale - Aide et support{% endblock %}
 
 {% block body %}
-    <h1>Support index</h1>
+    <div class="col-12 col-md-7 text-center">
+        <h3>Aide et support</h3>
+        <p>Nous contacter</p>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Content</th>
-                <th>IsParent</th>
-                <th>Parent</th>
-                <th>Rank</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for support in supports %}
-            <tr>
-                <td>{{ support.id }}</td>
-                <td>{{ support.title }}</td>
-                <td>{{ support.content }}</td>
-                <td>{{ support.isParent ? 'Yes' : 'No' }}</td>
-                <td>{{ support.parent }}</td>
-                <td>{{ support.rank }}</td>
-                <td>
-                    <a href="{{ path('support_show', {'id': support.id}) }}">show</a>
-                    <a href="{{ path('support_edit', {'id': support.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('support_new') }}">Create new</a>
+       
+            {% for support in supports %} 
+                <a href="{{ path('support_show', {'id': support.id}) }}">
+                    <div class="clear-box m-2">
+                        {{ support.title }}
+                    </div>
+                </a>
+            {% else %}
+                <p>Aucune rubrique d'aide actuellement</p>
+                
+            {% endfor %}
+        
+    </div>
+    <div class="col-12 col-md-7 text-center">
+        {% if is_granted('ROLE_ADMIN') %}
+            <br><a href="{{ path('support_new') }}">Créer un article</a> 
+        {% endif %}
+    </div>
 {% endblock %}
