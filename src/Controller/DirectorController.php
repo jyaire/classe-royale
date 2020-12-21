@@ -210,6 +210,17 @@ class DirectorController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $email = $form->getData();
             $user = $userRepository->findOneBy(['email' => $email]);
+            $teacher = false;
+            foreach($user->getRoles() as $role) {
+                if($role == "ROLE_TEACHER") {
+                    $teacher = true;
+                }
+            }
+            if ($teacher == false) {
+                $roles = $user->getRoles();
+                array_push($roles, "ROLE_TEACHER");
+                $user->setRoles($roles);
+            }
             $user->addClassgroup($classgroup);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
