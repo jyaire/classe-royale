@@ -4,9 +4,7 @@
 
 {% block body %}
     <div class="col-12 col-md-7 text-center">
-        <h3>Aide et support</h3>
-        <p>Nous contacter</p>
-
+        <h3 class="mb-4">Aide et support</h3>
        
             {% for support in supports %} 
                 <a href="{{ path('support_show', {'id': support.id}) }}">
@@ -18,6 +16,11 @@
                 <p>Aucune rubrique d'aide actuellement</p>
                 
             {% endfor %}
+            <a href="{{ path('contact') }}">
+                <div class="clear-box m-2">
+                    Je voudrais vous contacter
+                </div>
+            </a>
         
     </div>
     <div class="col-12 col-md-7 text-center">
