@@ -1,0 +1,18 @@
+{% apply inline_css %}
+
+    <style>
+        .text-bold {
+            font-weight: bold;
+        }
+    </style>
+
+    <p class="text-bold">Message envoyé depuis Classe Royale</p>
+    <p>
+        <span class="text-bold">Expéditeur :</span> {{ contactFormData.name }}<br>
+        <span class="text-bold">Mail :</span> {{ contactFormData.email }}
+    </p>
+    <p>
+        <span class="text-bold">Message :</span><br>
+        {{ contactFormData.message | nl2br }}
+    </p>
+{% endapply %}

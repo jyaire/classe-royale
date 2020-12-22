@@ -532,6 +532,12 @@
     "symfonycasts/verify-email-bundle": {
         "version": "v1.0.0"
     },
+    "tijsverkoyen/css-to-inline-styles": {
+        "version": "2.2.3"
+    },
+    "twig/cssinliner-extra": {
+        "version": "v3.1.1"
+    },
     "twig/extra-bundle": {
         "version": "v3.0.4"
     },

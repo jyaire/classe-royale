@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ContactType extends AbstractType
 {
@@ -20,7 +21,17 @@ class ContactType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Adresse Mail'
             ])
-            ->add('subject')
+            ->add('subject', ChoiceType::class, [
+                'label' => 'Objet du message (choisissez)',
+                'choices'  => [
+                    "Je veux vous remercier" => 'merci',
+                    "J'ai besoin d'aide" => 'aide',
+                    "J'ai trouvé un bug" => 'bug',
+                    "Je suggère une fonctionalité" => 'suggestion',
+                    "Je veux rejoindre l'équipe" => 'job',
+                    "Autre question" => 'autre',
+                ],
+            ])
             ->add('message', TextareaType::class, [
                 'label' => 'Votre message',
             ])
