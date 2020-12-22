@@ -47,7 +47,13 @@
         {% endif %}<br>
     </div>
     <div class="col-12 col-md-10 col-lg-7">
-
         <a href="{{ path('user_edit', {'id': user.id}) }}" class="third-button">Modifier mon profil</a>
+    </div>
+    <div class="col-12 col-md-10 col-lg-7">
+        <a href="{{ path('app_logout') }}">
+            <div class="primary-button">
+                Déconnexion
+            </div>
+        </a>
     </div>
 {% endblock %}
