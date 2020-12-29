@@ -109,12 +109,18 @@ class Student
      */
     private $cards;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Purchase::class, mappedBy="student")
+     */
+    private $purchases;
+
     public function __construct()
     {
         $this->parent = new ArrayCollection();
         $this->points = new ArrayCollection();
         $this->teams = new ArrayCollection();
         $this->cards = new ArrayCollection();
+        $this->purchases = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -398,6 +404,37 @@ class Student
         if ($this->cards->contains($card)) {
             $this->cards->removeElement($card);
             $card->removeStudent($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Purchase[]
+     */
+    public function getPurchases(): Collection
+    {
+        return $this->purchases;
+    }
+
+    public function addPurchase(Purchase $purchase): self
+    {
+        if (!$this->purchases->contains($purchase)) {
+            $this->purchases[] = $purchase;
+            $purchase->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchase(Purchase $purchase): self
+    {
+        if ($this->purchases->contains($purchase)) {
+            $this->purchases->removeElement($purchase);
+            // set the owning side to null (unless already changed)
+            if ($purchase->getStudent() === $this) {
+                $purchase->setStudent(null);
+            }
         }
 
         return $this;
