@@ -3,10 +3,16 @@
 {% block title %}Nouvelle classe - Classe Royale{% endblock %}
 
 {% block body %}
-    <h3>Nouvelle classe</h3>
-    <p>{{ classgroup.school.name }}</p>
-
-    {{ include('classgroup/_form.html.twig') }}
-
-    <a href="{{ path('classgroup_index') }}">back to list</a>
+    <div class="col-12 text-center">
+        <h3>Nouvelle classe</h3>
+        <p>{{ classgroup.school.name }}</p>
+    </div>
+    <div class="col-12 col-md-10 col-lg-7 text-center dark-box mt-2">
+        <div class="p-4">
+            {{ include('classgroup/_form.html.twig') }}
+        </div>
+    </div>
+    <div class="col-12 text-center">
+        <a href="{{ path('school_show', {'id': classgroup.school.id }) }}">{{ classgroup.school.name }}</a>
+    </div>
 {% endblock %}

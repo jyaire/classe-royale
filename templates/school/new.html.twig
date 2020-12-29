@@ -3,11 +3,13 @@
 {% block title %}Classe Royale - Création d'une nouvelle école{% endblock %}
 
 {% block body %}
-    <div class="col-7">
+    <div class="col-12 text-center">
         <h3>Création d'une nouvelle école</h3>
-
-        {{ include('school/_form.html.twig') }}
-
-        <a href="{{ path('school_index') }}">back to list</a>
+    </div>
+    <div class="col-12 col-md-10 col-lg-7 text-center dark-box mt-2">
+        <div class="p-4">
+            {{ include('school/_form.html.twig') }}
+        </div>
+        <a href="{{ path('director') }}">Direction</a>
     </div>
 {% endblock %}

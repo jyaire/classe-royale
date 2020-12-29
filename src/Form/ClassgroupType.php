@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Classgroup;
 use App\Entity\Section;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,7 +15,9 @@ class ClassgroupType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
+            ->add('name', TextType::class, [
+                'label' => 'Nom de la classe',
+            ])
             ->add('section', EntityType::class, [
                 'class' => Section::class,
                 'choice_label' => 'abbreviation',
