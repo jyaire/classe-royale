@@ -79,7 +79,7 @@
                     <div class="col-6 pt-4 win-box-cards">
                         <a href="{{ path('product_index', {'student' : student.id}) }}">
                             <img src="{{ asset('images/shopping.png') }}">
-                        </a> {{ student.products | length }}
+                        </a> {#{{ student.products | length }}#}
                     </div>
                     <div class="col-12 pt-5 small-text">
                         {% if student.classgroup is not null %}

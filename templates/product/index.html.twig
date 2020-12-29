@@ -51,6 +51,7 @@
                     {% if student is null %}
                         <a href="{{ path('product_show', {'id': product.id}) }}">Détails</a>
                     {% else %}
+                        {#
                         {% set numberOldProduct = 0 %}
                         {% for oldProduct in student.products %}
                             {% if oldProduct == product %}
@@ -63,6 +64,7 @@
                             Acheté {{ numberOldProduct }} fois
                         {% endif %}
                         <a href="{{ path('product_show', {'id': product.id, 'student': student.id}) }}">Détails</a>
+                    #}
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') and student is null %}
                         <a href="{{ path('product_edit', {'id': product.id}) }}">Modifier</a>
