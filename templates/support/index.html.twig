@@ -7,11 +7,16 @@
         <h3 class="mb-4">Aide et support</h3>
        
             {% for support in supports %} 
-                <a href="{{ path('support_show', {'id': support.id}) }}">
                     <div class="clear-box m-2">
-                        {{ support.title }}
+                        <details>
+                            <summary>{{ support.title }}</summary>
+                            <div class="mt-3 text-left">{{ support.content }}</div>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <br><a href="{{ path('support_edit', {'id': support.id}) }}" class="third-button">Modifier cet article</a>
+                            {{ include('support/_delete_form.html.twig') }}
+                        {% endif %}
+                        </details>
                     </div>
-                </a>
             {% else %}
                 <p>Aucune rubrique d'aide actuellement</p>
                 
