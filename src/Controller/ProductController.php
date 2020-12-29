@@ -3,11 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Point;
-use App\Entity\Purchase;
+use App\Entity\Product;
 use App\Entity\Reason;
 use App\Entity\Student;
-use App\Form\PurchaseType;
-use App\Repository\PurchaseRepository;
+use App\Form\ProductType;
+use App\Repository\ProductRepository;
 use App\Repository\ReasonRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -16,32 +16,32 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/purchase")
+ * @Route("/product")
  * @IsGranted("ROLE_USER")
  */
-class PurchaseController extends AbstractController
+class ProductController extends AbstractController
 {
     /**
-     * @Route("/all/{student}", name="purchase_index", methods={"GET"}, defaults={"student": null})
+     * @Route("/all/{student}", name="product_index", methods={"GET"}, defaults={"student": null})
      * @IsGranted("ROLE_TEACHER")
      * @param ?Student $student
      */
-    public function index(PurchaseRepository $purchaseRepository, ?Student $student): Response
+    public function index(ProductRepository $productRepository, ?Student $student): Response
     {
-        return $this->render('purchase/index.html.twig', [
-            'purchases' => $purchaseRepository->findAll(),
+        return $this->render('product/index.html.twig', [
+            'products' => $productRepository->findAll(),
             'student' => $student,
         ]);
     }
 
     /**
-     * @Route("/new", name="purchase_new", methods={"GET","POST"})
+     * @Route("/new", name="product_new", methods={"GET","POST"})
      * @IsGranted("ROLE_TEACHER")
      */
     public function new(Request $request): Response
     {
-        $purchase = new Purchase();
-        $form = $this->createForm(PurchaseType::class, $purchase);
+        $product = new Product();
+        $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -50,92 +50,92 @@ class PurchaseController extends AbstractController
                 foreach ($this->getUser()->getClassgroups() as $classgroup) {
                     $classg = $classgroup;
                 }
-                $purchase
+                $product
                     ->setClassgroup($classg)
                     ->setCreator($this->getUser())
                     ;
             }
-            $entityManager->persist($purchase);
+            $entityManager->persist($product);
             $entityManager->flush();
 
-            return $this->redirectToRoute('purchase_index');
+            return $this->redirectToRoute('product_index');
         }
 
-        return $this->render('purchase/new.html.twig', [
-            'purchase' => $purchase,
+        return $this->render('product/new.html.twig', [
+            'product' => $product,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="purchase_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="product_edit", methods={"GET","POST"})
      * @IsGranted("ROLE_TEACHER")
      */
-    public function edit(Request $request, Purchase $purchase): Response
+    public function edit(Request $request, Product $product): Response
     {
-        $form = $this->createForm(PurchaseType::class, $purchase);
+        $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('purchase_index');
+            return $this->redirectToRoute('product_index');
         }
 
-        return $this->render('purchase/edit.html.twig', [
-            'purchase' => $purchase,
+        return $this->render('product/edit.html.twig', [
+            'product' => $product,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}/{student}", name="purchase_show", methods={"GET"}, defaults={"student": null})
-     * @param Purchase $purchase
+     * @Route("/{id}/{student}", name="product_show", methods={"GET"}, defaults={"student": null})
+     * @param Product $product
      * @param ?Student $student
      */
-    public function show(Purchase $purchase, ?Student $student): Response
+    public function show(Product $product, ?Student $student): Response
     {
-        return $this->render('purchase/show.html.twig', [
-            'purchase' => $purchase,
+        return $this->render('product/show.html.twig', [
+            'product' => $product,
             'student'=> $student,
         ]);
     }
 
     /**
-     * @Route("/pay/{id}/{student}", name="purchase_pay", methods={"GET"})
-     * @param Purchase $purchase
+     * @Route("/pay/{id}/{student}", name="product_pay", methods={"GET"})
+     * @param Product $product
      * @param Student $student
      */
-    public function pay(Purchase $purchase, Student $student): Response
+    public function pay(Product $product, Student $student): Response
     {
-        return $this->render('purchase/pay.html.twig', [
-            'purchase' => $purchase,
+        return $this->render('product/pay.html.twig', [
+            'product' => $product,
             'student'=> $student,
         ]);
     }
 
     /**
-     * @Route("/confirm/{id}/{student}", name="purchase_confirm", methods={"GET"})
-     * @param Purchase $purchase
+     * @Route("/confirm/{id}/{student}", name="product_confirm", methods={"GET"})
+     * @param Product $product
      * @param Student $student
      * @param ReasonRepository $reasonRepository
      */
-    public function confirm(Purchase $purchase, Student $student, ReasonRepository $reasonRepository): Response
+    public function confirm(Product $product, Student $student, ReasonRepository $reasonRepository): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-        // add purchase to student
-        $student->addPurchase($purchase);
+        // add product to student
+        // TO DO
         // add XP and remove price (gold or elixir)
         $student->setXp($student->getXp()+5);
-        if ($purchase->getCurrency() == "gold") {
-            $student->setGold($student->getGold()-$purchase->getPrice());
+        if ($product->getCurrency() == "gold") {
+            $student->setGold($student->getGold()-$product->getPrice());
         }
         else {
-            $student->setElixir($student->getElixir()-$purchase->getPrice());
+            $student->setElixir($student->getElixir()-$product->getPrice());
         }
         // add point and reason
         $point = new Point;
-        $sentence = 'Achat de "' . $purchase->getName() . '"';
+        $sentence = 'Achat de "' . $product->getName() . '"';
         // search if reason already exists
         $search = $reasonRepository->findOneBy(['sentence'=>$sentence]);
         if(!empty($search)) {
@@ -148,8 +148,8 @@ class PurchaseController extends AbstractController
         }
         $point
             ->setStudent($student)
-            ->setQuantity(-$purchase->getPrice())
-            ->setType($purchase->getCurrency())
+            ->setQuantity(-$product->getPrice())
+            ->setType($product->getCurrency())
             ->setDate(new \DateTime())
             ->setAuthor($this->getUser());
         
@@ -157,7 +157,7 @@ class PurchaseController extends AbstractController
         $entityManager->persist($point);
         $entityManager->flush();
 
-        $message = $student->getFirstname() . ' a acheté "' . $purchase->getName() . '"';
+        $message = $student->getFirstname() . ' a acheté "' . $product->getName() . '"';
         $this->addFlash('success', $message);
         return $this->redirectToRoute('student_show', [
             'id' => $student->getId(),
@@ -165,17 +165,17 @@ class PurchaseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="purchase_delete", methods={"DELETE"})
+     * @Route("/{id}", name="product_delete", methods={"DELETE"})
      * @IsGranted("ROLE_TEACHER")
      */
-    public function delete(Request $request, Purchase $purchase): Response
+    public function delete(Request $request, Product $product): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$purchase->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($purchase);
+            $entityManager->remove($product);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('purchase_index');
+        return $this->redirectToRoute('product_index');
     }
 }

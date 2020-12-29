@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\PurchaseRepository;
+use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=PurchaseRepository::class)
+ * @ORM\Entity(repositoryClass=ProductRepository::class)
  */
-class Purchase
+class Product
 {
     /**
      * @ORM\Id
@@ -45,24 +45,14 @@ class Purchase
     private $avatar;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Student::class, inversedBy="purchases")
-     */
-    private $student;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Classgroup::class, inversedBy="purchases")
+     * @ORM\ManyToOne(targetEntity=Classgroup::class, inversedBy="products")
      */
     private $classgroup;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="purchases")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="products")
      */
     private $creator;
-
-    public function __construct()
-    {
-        $this->student = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -125,32 +115,6 @@ class Purchase
     public function setAvatar(?string $avatar): self
     {
         $this->avatar = $avatar;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Student[]
-     */
-    public function getStudent(): Collection
-    {
-        return $this->student;
-    }
-
-    public function addStudent(Student $student): self
-    {
-        if (!$this->student->contains($student)) {
-            $this->student[] = $student;
-        }
-
-        return $this;
-    }
-
-    public function removeStudent(Student $student): self
-    {
-        if ($this->student->contains($student)) {
-            $this->student->removeElement($student);
-        }
 
         return $this;
     }

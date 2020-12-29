@@ -4,20 +4,20 @@
 
 {% block body %}
     <div class="col-12 text-center">
-        <h2>Achat : {{ purchase.name }}</h2>
+        <h2>Achat : {{ product.name }}</h2>
     </div>
     <div class="col-2 text-center bg-light p-3">
-        <a href = "{{ path('purchase_show', {'id': purchase.id, 'student': student.id}) }}">
-            {% if purchase.avatar is empty %}
+        <a href = "{{ path('product_show', {'id': product.id, 'student': student.id}) }}">
+            {% if product.avatar is empty %}
                 <img src="{{ asset('images/shop.png') }}"
-                        alt="{{ purchase.name }}"
+                        alt="{{ product.name }}"
                         class="emoticon-info">
             {% else %}
-                <img src="{{ asset('purchase/' ~ purchase.avatar) }}"
-                        alt="{{ purchase.name }}"
+                <img src="{{ asset('product/' ~ product.avatar) }}"
+                        alt="{{ product.name }}"
                         class="emoticon-info">
             {% endif %}
-            <br>{{ purchase.name }}
+            <br>{{ product.name }}
         </a>
     </div>
     <div class="col-2 text-center bg-light p-3">
@@ -46,13 +46,13 @@
         </a>
     </div>
     <div class="col-12 text-center mt-3">
-    <p>Info : {{ purchase.description }}</p>
+    <p>Info : {{ product.description }}</p>
     Voulez-vous vraiment effectuer cet achat ?<br>
 
-    <a href="{{ path('purchase_confirm', {'id': purchase.id, 'student': student.id}) }}">
+    <a href="{{ path('product_confirm', {'id': product.id, 'student': student.id}) }}">
         <button class="third-button">Oui, acheter</button>
     </a>
-    <a href="{{ path('purchase_index', {'student': student.id}) }}">
+    <a href="{{ path('product_index', {'student': student.id}) }}">
         <button class="primary-button">Non, retour au magasin</button>
     </a>
     </div>

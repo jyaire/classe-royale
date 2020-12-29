@@ -14,33 +14,33 @@
         {% endif %}
     </div>
     <div class="col-12 text-center">
-        {% for purchase in purchases %}
+        {% for product in products %}
             <div class="row align-items-center dark-box m-2">
                 <div class="col-2 text-center">
-                    {% if purchase.avatar is empty %}
+                    {% if product.avatar is empty %}
                         <img src="{{ asset('images/shop.png') }}"
-                                alt="{{ purchase.name }}"
+                                alt="{{ product.name }}"
                                 class="emoticon-info">
                     {% else %}
-                        <img src="{{ asset('purchase/' ~ purchase.avatar) }}"
-                                alt="{{ purchase.name }}"
+                        <img src="{{ asset('product/' ~ product.avatar) }}"
+                                alt="{{ product.name }}"
                                 class="emoticon-info">
                     {% endif %}
-                    <br>{{ purchase.name }}
+                    <br>{{ product.name }}
                 </div>
                 <div class="col-2 text-center">
                     {% if student is not null %}
-                        <a href="{{ path('purchase_pay', {'id': purchase.id, 'student': student.id}) }}" 
+                        <a href="{{ path('product_pay', {'id': product.id, 'student': student.id}) }}" 
                         class="third-button">Acheter</a>
                     {% endif %}
                 </div>
                 <div class="col-3 text-left">
-                    {{ purchase.description }}
+                    {{ product.description }}
                 </div>
                 <div class="col-2 text-center">
                     <div class="win-smallbox">
-                        - {{ purchase.price }}
-                        {% if purchase.currency == "gold" %}
+                        - {{ product.price }}
+                        {% if product.currency == "gold" %}
                             <img src="{{ asset('images/gold.png') }}" alt="Or">
                         {% else %}
                             <img src="{{ asset('images/elixir.png') }}" alt="Elixir">
@@ -49,23 +49,23 @@
                 </div>
                 <div class="col-2 text-center">
                     {% if student is null %}
-                        <a href="{{ path('purchase_show', {'id': purchase.id}) }}">Détails</a>
+                        <a href="{{ path('product_show', {'id': product.id}) }}">Détails</a>
                     {% else %}
-                        {% set numberOldPurchase = 0 %}
-                        {% for oldPurchase in student.purchases %}
-                            {% if oldPurchase == purchase %}
-                                {% set numberOldPurchase = numberOldPurchase + 1 %}
+                        {% set numberOldProduct = 0 %}
+                        {% for oldProduct in student.products %}
+                            {% if oldProduct == product %}
+                                {% set numberOldProduct = numberOldProduct + 1 %}
                             {% endif %}     
                         {% endfor %}
-                        {% if numberOldPurchase == 0 %}
+                        {% if numberOldProduct == 0 %}
                             Jamais acheté
                         {% else %}
-                            Acheté {{ numberOldPurchase }} fois
+                            Acheté {{ numberOldProduct }} fois
                         {% endif %}
-                        <a href="{{ path('purchase_show', {'id': purchase.id, 'student': student.id}) }}">Détails</a>
+                        <a href="{{ path('product_show', {'id': product.id, 'student': student.id}) }}">Détails</a>
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') and student is null %}
-                        <a href="{{ path('purchase_edit', {'id': purchase.id}) }}">Modifier</a>
+                        <a href="{{ path('product_edit', {'id': product.id}) }}">Modifier</a>
                     {% endif %}  
                 </div>
             </div>
@@ -76,6 +76,6 @@
         {% endfor %}
     </div>
     <div class="col-12 text-center">
-        <a href="{{ path('purchase_new') }}">Ajouter un produit</a>
+        <a href="{{ path('product_new') }}">Ajouter un produit</a>
     </div>
 {% endblock %}
