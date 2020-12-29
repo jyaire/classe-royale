@@ -26,7 +26,10 @@
                                 alt="{{ product.name }}"
                                 class="emoticon-info">
                     {% endif %}
-                    <br>{{ product.name }}
+                    <br>
+                    <a href="{{ path('product_show', {'id': product.id, 'student': student.id}) }}">
+                        {{ product.name }}
+                    </a>
                 </div>
                 <div class="col-2 text-center">
                     {% if student is not null %}
@@ -51,20 +54,17 @@
                     {% if student is null %}
                         <a href="{{ path('product_show', {'id': product.id}) }}">Détails</a>
                     {% else %}
-                        {#
-                        {% set numberOldProduct = 0 %}
-                        {% for oldProduct in student.products %}
-                            {% if oldProduct == product %}
-                                {% set numberOldProduct = numberOldProduct + 1 %}
+                        {% set numberPurchase = 0 %}
+                        {% for purchase in student.purchases %}
+                            {% if purchase.product == product %}
+                                {% set numberPurchase = numberPurchase + 1 %}
                             {% endif %}     
                         {% endfor %}
-                        {% if numberOldProduct == 0 %}
+                        {% if numberPurchase == 0 %}
                             Jamais acheté
                         {% else %}
-                            Acheté {{ numberOldProduct }} fois
+                            Acheté {{ numberPurchase }} fois
                         {% endif %}
-                        <a href="{{ path('product_show', {'id': product.id, 'student': student.id}) }}">Détails</a>
-                    #}
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') and student is null %}
                         <a href="{{ path('product_edit', {'id': product.id}) }}">Modifier</a>

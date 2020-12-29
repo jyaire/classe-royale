@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Point;
 use App\Entity\Product;
+use App\Entity\Purchase;
 use App\Entity\Reason;
 use App\Entity\Student;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Repository\ReasonRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
@@ -124,7 +126,11 @@ class ProductController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         // add product to student
-        // TO DO
+        $purchase = new Purchase;
+        $purchase
+            ->setStudent($student)
+            ->setProduct($product)
+            ->setDate(new \DateTime());
         // add XP and remove price (gold or elixir)
         $student->setXp($student->getXp()+5);
         if ($product->getCurrency() == "gold") {
@@ -155,6 +161,7 @@ class ProductController extends AbstractController
         
         $entityManager->persist($student);
         $entityManager->persist($point);
+        $entityManager->persist($purchase);
         $entityManager->flush();
 
         $message = $student->getFirstname() . ' a acheté "' . $product->getName() . '"';
