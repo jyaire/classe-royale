@@ -21,6 +21,7 @@ class ClassgroupController extends AbstractController
 {
     /**
      * @Route("/", name="classgroup_index", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      * @param ClassgroupRepository $classgroupRepository
      * @return Response
      */
@@ -46,14 +47,16 @@ class ClassgroupController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="classgroup_new", methods={"GET","POST"})
+     * @Route("/new/{school}", name="classgroup_new", methods={"GET","POST"})
      * @IsGranted("ROLE_DIRECTOR")
      * @param Request $request
+     * @param School $school
      * @return Response
      */
-    public function new(Request $request): Response
+    public function new(School $school, Request $request): Response
     {
         $classgroup = new Classgroup();
+        $classgroup->setSchool($school);
         $form = $this->createForm(ClassgroupType::class, $classgroup);
         $form->handleRequest($request);
 

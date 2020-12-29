@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Classgroup{% endblock %}
+{% block title %}Nouvelle classe - Classe Royale{% endblock %}
 
 {% block body %}
-    <h1>Create new Classgroup</h1>
+    <h3>Nouvelle classe</h3>
+    <p>{{ classgroup.school.name }}</p>
 
     {{ include('classgroup/_form.html.twig') }}
 
