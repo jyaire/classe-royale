@@ -300,6 +300,9 @@ class PointController extends AbstractController
             } else {
                 $student->setElixir($student->getElixir() - $point->getQuantity());
             }
+            if($point->getPurchase() != null) {
+                $entityManager->remove($point->getPurchase());
+            }
             $entityManager->remove($point);
             $entityManager->persist($student);
             $entityManager->flush();
