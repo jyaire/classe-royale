@@ -4,46 +4,46 @@
 
 {% block body %}
     <div class="col-12 text-center">
-        <h2>{{ purchase.name }}</h2>
+        <h2>{{ product.name }}</h2>
     </div>
 
     <div class="col-3 text-center">            
-        {% if purchase.avatar is empty %}
+        {% if product.avatar is empty %}
             <img src="{{ asset('images/shop.png') }}"
-                    alt="{{ purchase.name }}"
+                    alt="{{ product.name }}"
                     class="emoticon-info">
         {% else %}
-            <img src="{{ asset('purchase/' ~ purchase.avatar) }}"
-                    alt="{{ purchase.name }}"
+            <img src="{{ asset('product/' ~ product.avatar) }}"
+                    alt="{{ product.name }}"
                     class="emoticon-info">
         {% endif %}
     </div>
 
     <div class="col-6 text-center">
-        <p>{{ purchase.description }}</p>
+        <p>{{ product.description }}</p>
     </div>
 
     <div class="col-3 text-center">            
-        <p>{{ purchase.price }} {{ purchase.currency }}</p>
+        <p>{{ product.price }} {{ product.currency }}</p>
     </div>
 
     <div class="col-12 text-center">
         {% if student is not null %}
-            <a href="{{ path('purchase_pay', {'id': purchase.id, 'student': student.id}) }}" class="third-button">Acheter pour {{ student.firstname }}</a><br>
-            <a href="{{ path('purchase_index', {'student': student.id}) }}">Retour au magasin</a><br>
+            <a href="{{ path('product_pay', {'id': product.id, 'student': student.id}) }}" class="third-button">Acheter pour {{ student.firstname }}</a><br>
+            <a href="{{ path('product_index', {'student': student.id}) }}">Retour au magasin</a><br>
         {% else %}
-            <a href="{{ path('purchase_index') }}">Retour au magasin</a><br>
+            <a href="{{ path('product_index') }}">Retour au magasin</a><br>
         {% endif %}
         {% if is_granted('ROLE_TEACHER') %}
         {% set modif = 0 %}
             {% for classgroup in app.user.classgroups %}
-                {% if purchase.classgroup == app.user.classgroups %}
+                {% if product.classgroup == app.user.classgroups %}
                     {% set modif = 1 %}
                 {% endif %}
             {% endfor %}
         {% endif %}
         {% if (is_granted('ROLE_ADMIN') or modif == 1) and student is null %}
-            <a href="{{ path('purchase_edit', {'id': purchase.id}) }}">Modifier</a>
+            <a href="{{ path('product_edit', {'id': product.id}) }}">Modifier</a>
         {% endif %}
     </div>
 {% endblock %}

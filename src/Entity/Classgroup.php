@@ -55,9 +55,9 @@ class Classgroup
     private $teams;
 
     /**
-     * @ORM\OneToMany(targetEntity=Purchase::class, mappedBy="classgroup")
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="classgroup")
      */
-    private $purchases;
+    private $products;
 
     public function __construct()
     {
@@ -65,7 +65,7 @@ class Classgroup
         $this->teacher = new ArrayCollection();
         $this->section = new ArrayCollection();
         $this->teams = new ArrayCollection();
-        $this->purchases = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -224,30 +224,30 @@ class Classgroup
     }
 
     /**
-     * @return Collection|Purchase[]
+     * @return Collection|Product[]
      */
-    public function getPurchases(): Collection
+    public function getProducts(): Collection
     {
-        return $this->purchases;
+        return $this->products;
     }
 
-    public function addPurchase(Purchase $purchase): self
+    public function addProduct(Product $product): self
     {
-        if (!$this->purchases->contains($purchase)) {
-            $this->purchases[] = $purchase;
-            $purchase->setClassgroup($this);
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setClassgroup($this);
         }
 
         return $this;
     }
 
-    public function removePurchase(Purchase $purchase): self
+    public function removeProduct(Product $product): self
     {
-        if ($this->purchases->contains($purchase)) {
-            $this->purchases->removeElement($purchase);
+        if ($this->products->contains($product)) {
+            $this->products->removeElement($product);
             // set the owning side to null (unless already changed)
-            if ($purchase->getClassgroup() === $this) {
-                $purchase->setClassgroup(null);
+            if ($product->getClassgroup() === $this) {
+                $product->setClassgroup(null);
             }
         }
 

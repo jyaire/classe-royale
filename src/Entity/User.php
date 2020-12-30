@@ -94,9 +94,9 @@ class User implements UserInterface
     private $points;
 
     /**
-     * @ORM\OneToMany(targetEntity=Purchase::class, mappedBy="creator")
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="creator")
      */
-    private $purchases;
+    private $products;
 
     public function __construct()
     {
@@ -104,7 +104,7 @@ class User implements UserInterface
         $this->students = new ArrayCollection();
         $this->classgroups = new ArrayCollection();
         $this->points = new ArrayCollection();
-        $this->purchases = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -388,30 +388,30 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Purchase[]
+     * @return Collection|Product[]
      */
-    public function getPurchases(): Collection
+    public function getProducts(): Collection
     {
-        return $this->purchases;
+        return $this->products;
     }
 
-    public function addPurchase(Purchase $purchase): self
+    public function addProduct(Product $product): self
     {
-        if (!$this->purchases->contains($purchase)) {
-            $this->purchases[] = $purchase;
-            $purchase->setCreator($this);
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setCreator($this);
         }
 
         return $this;
     }
 
-    public function removePurchase(Purchase $purchase): self
+    public function removeProduct(Product $product): self
     {
-        if ($this->purchases->contains($purchase)) {
-            $this->purchases->removeElement($purchase);
+        if ($this->products->contains($product)) {
+            $this->products->removeElement($product);
             // set the owning side to null (unless already changed)
-            if ($purchase->getCreator() === $this) {
-                $purchase->setCreator(null);
+            if ($product->getCreator() === $this) {
+                $product->setCreator(null);
             }
         }
 

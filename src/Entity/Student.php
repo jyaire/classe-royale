@@ -110,7 +110,7 @@ class Student
     private $cards;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Purchase::class, mappedBy="student")
+     * @ORM\OneToMany(targetEntity=Purchase::class, mappedBy="student")
      */
     private $purchases;
 
@@ -421,7 +421,7 @@ class Student
     {
         if (!$this->purchases->contains($purchase)) {
             $this->purchases[] = $purchase;
-            $purchase->addStudent($this);
+            $purchase->setStudent($this);
         }
 
         return $this;
@@ -431,7 +431,10 @@ class Student
     {
         if ($this->purchases->contains($purchase)) {
             $this->purchases->removeElement($purchase);
-            $purchase->removeStudent($this);
+            // set the owning side to null (unless already changed)
+            if ($purchase->getStudent() === $this) {
+                $purchase->setStudent(null);
+            }
         }
 
         return $this;
