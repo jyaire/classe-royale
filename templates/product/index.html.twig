@@ -27,7 +27,11 @@
                                 class="emoticon-info">
                     {% endif %}
                     <br>
-                    <a href="{{ path('product_show', {'id': product.id, 'student': student.id}) }}">
+                    {% if student is null %}
+                        <a href="{{ path('product_show', {'id': product.id}) }}">
+                    {% else %}
+                        <a href="{{ path('product_show', {'id': product.id, 'student': student.id}) }}">
+                    {% endif %}
                         {{ product.name }}
                     </a>
                 </div>

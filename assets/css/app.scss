@@ -351,9 +351,13 @@ h4 {
     }
 
     &:hover {
-        background-color: grey;
+        background-color: $fourth-color;
+        filter: grayscale(50%);
         color: $primary-color;
         box-shadow: 4px 4px 5px black;
+        img {
+            filter: none;
+        }
     }
 }
 

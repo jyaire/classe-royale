@@ -302,12 +302,16 @@ class PointController extends AbstractController
             }
             if($point->getPurchase() != null) {
                 $entityManager->remove($point->getPurchase());
+                $message = "Action supprimée, l'achat a été retiré";
+            }
+            else {
+                $message = "Action supprimée";
             }
             $entityManager->remove($point);
             $entityManager->persist($student);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Action supprimée');
+            $this->addFlash('success', $message);
         }
 
         return $this->redirectToRoute('student_show', ['id' => $student->getId()]);
