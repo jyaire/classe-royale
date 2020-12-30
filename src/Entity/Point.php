@@ -48,6 +48,11 @@ class Point
      */
     private $author;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Purchase::class, inversedBy="points")
+     */
+    private $purchase;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -121,6 +126,18 @@ class Point
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getPurchase(): ?Purchase
+    {
+        return $this->purchase;
+    }
+
+    public function setPurchase(?Purchase $purchase): self
+    {
+        $this->purchase = $purchase;
 
         return $this;
     }

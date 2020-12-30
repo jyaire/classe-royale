@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PurchaseRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -33,6 +35,16 @@ class Purchase
      * @ORM\Column(type="datetime")
      */
     private $date;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Point::class, mappedBy="purchase")
+     */
+    private $points;
+
+    public function __construct()
+    {
+        $this->points = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -71,6 +83,37 @@ class Purchase
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Point[]
+     */
+    public function getPoints(): Collection
+    {
+        return $this->points;
+    }
+
+    public function addPoint(Point $point): self
+    {
+        if (!$this->points->contains($point)) {
+            $this->points[] = $point;
+            $point->setPurchase($this);
+        }
+
+        return $this;
+    }
+
+    public function removePoint(Point $point): self
+    {
+        if ($this->points->contains($point)) {
+            $this->points->removeElement($point);
+            // set the owning side to null (unless already changed)
+            if ($point->getPurchase() === $this) {
+                $point->setPurchase(null);
+            }
+        }
 
         return $this;
     }
