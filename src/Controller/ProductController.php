@@ -10,7 +10,6 @@ use App\Entity\Student;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Repository\ReasonRepository;
-use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
@@ -157,7 +156,8 @@ class ProductController extends AbstractController
             ->setQuantity(-$product->getPrice())
             ->setType($product->getCurrency())
             ->setDate(new \DateTime())
-            ->setAuthor($this->getUser());
+            ->setAuthor($this->getUser())
+            ->setPurchase($purchase);
         
         $entityManager->persist($student);
         $entityManager->persist($point);
