@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/occupation")
+ * @IsGranted("ROLE_TEACHER")
  */
 class OccupationController extends AbstractController
 {
