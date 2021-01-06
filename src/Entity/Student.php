@@ -114,6 +114,11 @@ class Student
      */
     private $purchases;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Occupation::class, mappedBy="student")
+     */
+    private $occupations;
+
     public function __construct()
     {
         $this->parent = new ArrayCollection();
@@ -121,6 +126,7 @@ class Student
         $this->teams = new ArrayCollection();
         $this->cards = new ArrayCollection();
         $this->purchases = new ArrayCollection();
+        $this->occupations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -434,6 +440,37 @@ class Student
             // set the owning side to null (unless already changed)
             if ($purchase->getStudent() === $this) {
                 $purchase->setStudent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Occupation[]
+     */
+    public function getOccupations(): Collection
+    {
+        return $this->occupations;
+    }
+
+    public function addOccupation(Occupation $occupation): self
+    {
+        if (!$this->occupations->contains($occupation)) {
+            $this->occupations[] = $occupation;
+            $occupation->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOccupation(Occupation $occupation): self
+    {
+        if ($this->occupations->contains($occupation)) {
+            $this->occupations->removeElement($occupation);
+            // set the owning side to null (unless already changed)
+            if ($occupation->getStudent() === $this) {
+                $occupation->setStudent(null);
             }
         }
 

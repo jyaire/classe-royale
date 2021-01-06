@@ -59,6 +59,11 @@ class Classgroup
      */
     private $products;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Job::class, mappedBy="classgroup")
+     */
+    private $jobs;
+
     public function __construct()
     {
         $this->students = new ArrayCollection();
@@ -66,6 +71,7 @@ class Classgroup
         $this->section = new ArrayCollection();
         $this->teams = new ArrayCollection();
         $this->products = new ArrayCollection();
+        $this->jobs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -248,6 +254,37 @@ class Classgroup
             // set the owning side to null (unless already changed)
             if ($product->getClassgroup() === $this) {
                 $product->setClassgroup(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Job[]
+     */
+    public function getJobs(): Collection
+    {
+        return $this->jobs;
+    }
+
+    public function addJob(Job $job): self
+    {
+        if (!$this->jobs->contains($job)) {
+            $this->jobs[] = $job;
+            $job->setClassgroup($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJob(Job $job): self
+    {
+        if ($this->jobs->contains($job)) {
+            $this->jobs->removeElement($job);
+            // set the owning side to null (unless already changed)
+            if ($job->getClassgroup() === $this) {
+                $job->setClassgroup(null);
             }
         }
 
