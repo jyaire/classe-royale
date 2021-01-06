@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Occupation index{% endblock %}
+
+{% block body %}
+    <h1>Occupation index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DateStart</th>
+                <th>DateEnd</th>
+                <th>Salary</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for occupation in occupations %}
+            <tr>
+                <td>{{ occupation.id }}</td>
+                <td>{{ occupation.dateStart ? occupation.dateStart|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ occupation.dateEnd ? occupation.dateEnd|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ occupation.salary }}</td>
+                <td>
+                    <a href="{{ path('occupation_show', {'id': occupation.id}) }}">show</a>
+                    <a href="{{ path('occupation_edit', {'id': occupation.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('occupation_new') }}">Create new</a>
+{% endblock %}

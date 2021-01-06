@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Occupation{% endblock %}
+
+{% block body %}
+    <h1>Edit Occupation</h1>
+
+    {{ include('occupation/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('occupation_index') }}">back to list</a>
+
+    {{ include('occupation/_delete_form.html.twig') }}
+{% endblock %}
