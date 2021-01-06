@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Job;
+use App\Entity\Classgroup;
 use App\Form\JobType;
 use App\Repository\JobRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,15 +30,29 @@ class JobController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="job_new", methods={"GET","POST"})
+     * @Route("/new/{classgroup}", name="job_new", methods={"GET","POST"}, defaults={"classgroup": null})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, ?Classgroup $classgroup, AuthorizationCheckerInterface $authChecker): Response
     {
+        if ($classgroup == null and !$authChecker->isGranted('ROLE_ADMIN')) {
+            $this->addFlash(
+            'danger',
+            'Le nouveau métier doit être rattaché à une classe'
+            );
+            return $this->redirectToRoute('teacher');
+        }
         $job = new Job();
         $form = $this->createForm(JobType::class, $job);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //set no classgroup if an admin is connected
+            if ($this->isGranted('ROLE_ADMIN') and $classgroup != null) {
+                $classgroup = null;
+            }
+
+dd($classgroup);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($job);
             $entityManager->flush();
