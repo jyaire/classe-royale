@@ -5,24 +5,41 @@
 {% block body %}
     <div class="col-12 text-center">
         <h3>Les métiers</h3>
-    </div>
-    <div class="col-12 col-sm-10 col-lg-7 pt-3 text-center">
-        {% for job in jobs %}
-            <div class="clear-box m-2">
-                {{ job.title }} : {{ job.description }} 
-                {% if job.classgroup != null or is_granted('ROLE_ADMIN') %}
-                    <a href="{{ path('job_edit', {'id': job.id}) }}">Modifier</a>
-                {% endif %}
-            </div>
-        {% else %}
-            Aucun métier actuellement
-        {% endfor %}
-        </div>
-<div class="col-12 text-center">
-        {% if classgroup is null %}
-            <a href="{{ path('job_new', {'classgroup': null}) }}">Ajouter un métier</a>
-        {% else %}
-            <a href="{{ path('job_new', {'classgroup': classgroup.id}) }}">Ajouter un métier</a>
+        {% if classgroup != null %}
+            <a href="{{ path('classgroup_show', {'id': classgroup.id}) }}">{{ classgroup.name }}</a>
         {% endif %}
     </div>
+    <div class="col-12">
+        <div class="row m-2 justify-content-center">
+            {% for job in jobs %}
+                <div class="col-4 clear-box mt-2 text-center">
+                    <h5>{{ job.title }}</h5>
+                    <p class="text-left">{{ job.description }}</p>
+                    {% if job.classgroup != null or is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('job_edit', {'id': job.id}) }}">Modifier</a> - 
+                        <a href="{{ path('job_delete', {'id': job.id}) }}">Retirer</a>
+                    {% endif %}
+                </div>
+                <div class="col-8 dark-box mt-2 text-center">
+                    Aucun élève ne fait ce métier actuellement (ajouter)
+                </div>
+            {% else %}
+                Aucun métier actuellement
+            {% endfor %}
+            <div class="col-2 mt-2 clear-box text-center">
+            {% if classgroup is null %}
+                <a href="{{ path('job_new', {'classgroup': null}) }}">
+            {% else %}
+                <a href="{{ path('job_new', {'classgroup': classgroup.id}) }}">
+            {% endif %}
+                
+                    <img src="{{ asset('images/add.png') }}"
+                        alt="Ajouter un métier" class="add-button"
+                        title="Ajouter un métier">
+                        <p>Nouveau métier</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

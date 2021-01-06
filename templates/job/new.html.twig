@@ -10,7 +10,10 @@
         {% if job.classgroup is null %}
             <p>Ce métier sera disponible pour toutes les classes du jeu.</p>
         {% else %}
-            <p>Ce métier sera accessible à votre classe seulement.</p>
+            <p>Ce métier sera accessible 
+            <a href="{{ path('classgroup_show', {'id': job.classgroup.id}) }}">
+                à votre classe
+            </a> seulement.</p>
         {% endif %}
         {{ include('job/_form.html.twig') }}
         {% if job.classgroup is null %}
