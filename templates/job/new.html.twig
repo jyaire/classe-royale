@@ -1,11 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Job{% endblock %}
+{% block title %}Nouveau métier - Classe Royale{% endblock %}
 
 {% block body %}
-    <h1>Create new Job</h1>
-
-    {{ include('job/_form.html.twig') }}
-
-    <a href="{{ path('job_index') }}">back to list</a>
+    <div class="col-12 text-center">
+        <h3>Nouveau métier</h3>
+    </div>
+    <div class="col-12 col-sm-10 col-lg-7 pt-3 text-center">
+        {% if job.classgroup is null %}
+            <p>Ce métier sera disponible pour toutes les classes du jeu.</p>
+        {% else %}
+            <p>Ce métier sera accessible à votre classe seulement.</p>
+        {% endif %}
+        {{ include('job/_form.html.twig') }}
+        {% if job.classgroup is null %}
+            <a href="{{ path('job_index', {'classgroup': null}) }}">Métiers pour tous</a>
+        {% else %}
+            <a href="{{ path('job_index', {'classgroup': job.classgroup.id}) }}">Liste des métiers</a>
+        {% endif %}
+    </div>
 {% endblock %}

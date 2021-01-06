@@ -1,13 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Job{% endblock %}
+{% block title %}Modifier un métier - Classe Royale{% endblock %}
 
 {% block body %}
-    <h1>Edit Job</h1>
-
-    {{ include('job/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('job_index') }}">back to list</a>
-
-    {{ include('job/_delete_form.html.twig') }}
+    <div class="col-12 text-center">
+        <h3>Modifier un métier</h3>
+    </div>
+    <div class="col-12 col-sm-10 col-lg-7 pt-3 text-center">
+        {{ include('job/_form.html.twig', {'button_label': 'Modifier'}) }}
+        {% if job.classgroup is null %}
+            <a href="{{ path('job_index', {'classgroup': null}) }}">Liste des métiers</a>
+        {% else %}
+            <a href="{{ path('job_index', {'classgroup': job.classgroup.id}) }}">Liste des métiers</a>
+        {% endif %}
+        {{ include('job/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

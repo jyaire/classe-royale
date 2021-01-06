@@ -20,16 +20,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class JobController extends AbstractController
 {
     /**
-     * @Route("/", name="job_index", methods={"GET"})
-     */
-    public function index(JobRepository $jobRepository): Response
-    {
-        return $this->render('job/index.html.twig', [
-            'jobs' => $jobRepository->findAll(),
-        ]);
-    }
-
-    /**
      * @Route("/new/{classgroup}", name="job_new", methods={"GET","POST"}, defaults={"classgroup": null})
      */
     public function new(Request $request, ?Classgroup $classgroup, AuthorizationCheckerInterface $authChecker): Response
@@ -42,27 +32,59 @@ class JobController extends AbstractController
             return $this->redirectToRoute('teacher');
         }
         $job = new Job();
+        $job->setClassgroup($classgroup);
         $form = $this->createForm(JobType::class, $job);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //set no classgroup if an admin is connected
-            if ($this->isGranted('ROLE_ADMIN') and $classgroup != null) {
-                $classgroup = null;
-            }
-
-dd($classgroup);
-
+            
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($job);
             $entityManager->flush();
+            $this->addFlash(
+                'success',
+                'Métier ajouté'
+                );
 
-            return $this->redirectToRoute('job_index');
+            if ($this->isGranted('ROLE_ADMIN') and $classgroup == null) {
+                return $this->redirectToRoute('job_index');
+            }
+            else {
+                return $this->redirectToRoute('job_index', [
+                    'classgroup' => $classgroup->getId(),
+                ]);
+            }
         }
 
         return $this->render('job/new.html.twig', [
             'job' => $job,
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{classgroup}", name="job_index", methods={"GET"}, defaults={"classgroup": null})
+     */
+    public function index(JobRepository $jobRepository, ?Classgroup $classgroup): Response
+    {
+        if ($classgroup == null) {
+            if ($this->isGranted('ROLE_ADMIN')) {
+                $jobs = $jobRepository->findBy(['classgroup'=>null]);
+            }
+            else {
+                $this->addFlash(
+                    'danger',
+                    'Vous ne pouvez afficher que les métiers de votre classe'
+                    );
+                    return $this->redirectToRoute('teacher');
+            }
+        }
+        else {
+            $jobs = $jobRepository->findForClassgroup($classgroup);
+        }
+        return $this->render('job/index.html.twig', [
+            'jobs' => $jobs,
+            'classgroup' => $classgroup,
         ]);
     }
 
