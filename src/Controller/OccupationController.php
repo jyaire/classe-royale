@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Occupation;
+use App\Entity\Job;
+use App\Entity\Student;
 use App\Form\OccupationType;
+use DateTime;
 use App\Repository\OccupationRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -92,5 +95,68 @@ class OccupationController extends AbstractController
         }
 
         return $this->redirectToRoute('occupation_index');
+    }
+
+     /**
+     * @Route("/add/{job}", name="occupation_add", methods={"GET","POST"})
+     */
+    public function add(Request $request, Job $job): Response
+    {
+        $form = $this->createForm(OccupationType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $count=0;
+            foreach ($form->get('student')->getData() as $student) {
+                $occupation = new Occupation();
+                $occupation
+                    ->setStudent($student)
+                    ->setJob($job)
+                    ->setDateStart(new DateTime())
+                    ->setSalary($form->get('salary')->getData())
+                    ;
+                    $count++;
+                $entityManager->persist($occupation);
+            }
+            
+            $entityManager->flush();
+            $message = $count . 'élève(s) ajouté(s) à ce métier';
+            $this->addFlash(
+                'success',
+                $message
+                );
+
+            return $this->redirectToRoute('job_index', [
+                'classgroup' => $job->getClassgroup()->getId(),
+            ]);
+        }
+
+        return $this->render('job/add.html.twig', [
+            'job' => $job,
+            'form' => $form->createView(),
+        ]);
+    }
+
+     /**
+     * @Route("/remove/{occupation}", name="occupation_remove", methods={"GET"})
+     */
+    public function remove(Occupation $occupation): Response
+    {
+        $id = $occupation->getJob()->getId();
+        
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($occupation);
+        $entityManager->flush();
+
+        $this->addFlash(
+            'success',
+            'Le métier a été retiré de votre classe'
+            );
+        return $this->redirectToRoute('job_show', [
+            'id'=>$id,
+        ]);
     }
 }

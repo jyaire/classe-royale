@@ -11,12 +11,14 @@
         <h4>Qui fait ce métier ?</h4>
         <div class="dark-box row">
             {% for occupation in job.occupations %}
-                <div class="clear-button">
-                    {{ occupation.student.firstname }}
-                </div>
+                <a href="{{ path('occupation_remove', {'occupation': occupation.id}) }}">
+                    <div class="clear-button">
+                        <p>{{ occupation.student.firstname }}</p>
+                    </div>
+                </a>
             {% endfor %}
             <div class="clear-button">
-                <a href="{{ path('job_add', {'job': job.id}) }}">
+                <a href="{{ path('occupation_add', {'job': job.id}) }}">
                     <img src="{{ asset('images/add.png') }}"
                     alt="Ajouter un élève"
                     title="Ajouter un élève">
