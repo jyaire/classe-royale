@@ -169,6 +169,28 @@ h4 {
     height: auto;
 }
 
+.clear-button {
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+    align-items: center;
+    text-align: center;
+    background-color: $fifth-color;
+    color: black;
+    width: 100px;
+    height: 100px;
+    font-size: 0.6rem;
+
+    img {
+        width: 70%;
+        height: auto;
+    }
+
+    &:hover {
+        background-color: $fourth-color;
+    }
+}
+
 /* MAIN */
 
 .main {

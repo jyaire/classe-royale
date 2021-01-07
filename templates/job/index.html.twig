@@ -18,30 +18,37 @@
                     <h5>{{ job.title }}</h5>
                     <p class="text-left">{{ job.description }}</p>
                     {% if job.classgroup != null or is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('job_show', {'id': job.id}) }}">Gérer</a> - 
                         <a href="{{ path('job_edit', {'id': job.id}) }}">Modifier</a>
                     {% endif %}
                 </div>
-                <div class="col-8 dark-box mt-2 text-center">
-                    Aucun élève ne fait ce métier actuellement (
-                        <a href="{{ path('job_show', {'id': job.id}) }}">
-                            gérer
-                        </a>)
+                <div class="col-7 dark-box m-2 text-center align-items-left">                    
+                    <div class="row pl-2">
+                        {% for occupation in job.occupations %}
+                            <div class="clear-button">
+                                {{ occupation.student.firstname }}
+                            </div>
+                        {% endfor %}
+                        <div class="clear-button">
+                            <img src="{{ asset('images/add.png') }}"
+                                alt="Ajouter un élève"
+                                title="Ajouter un élève">
+                        </div>
+                    </div>
                 </div>
             {% else %}
                 Aucun métier actuellement
             {% endfor %}
-            <div class="col-2 mt-2 clear-box text-center">
-            {% if classgroup is null %}
-                <a href="{{ path('job_new', {'classgroup': null}) }}">
-            {% else %}
-                <a href="{{ path('job_new', {'classgroup': classgroup.id}) }}">
-            {% endif %}
-                
-                    <img src="{{ asset('images/add.png') }}"
-                        alt="Ajouter un métier" class="add-button"
-                        title="Ajouter un métier">
+            <div class="col-4 clear-box mt-2 text-center">
+                {% if classgroup is null %}
+                    <a href="{{ path('job_new', {'classgroup': null}) }}">
+                {% else %}
+                    <a href="{{ path('job_new', {'classgroup': classgroup.id}) }}">
+                {% endif %}
                         <p>Nouveau métier</p>
-                </a>
+                    </a>
+            </div>
+            <div class="col-7 m-2">  
             </div>
         </div>
     </div>
