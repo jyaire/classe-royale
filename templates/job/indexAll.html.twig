@@ -4,12 +4,7 @@
 
 {% block body %}
     <div class="col-12 text-center">
-        <h3>Les métiers</h3>
-        {% if classgroup != null %}
-            <a href="{{ path('classgroup_show', {'id': classgroup.id}) }}">{{ classgroup.name }}</a>
-        {% else %}
-            Métiers globaux disponibles pour toutes les classes
-        {% endif %}
+        <h3>Tous les métiers</h3>
     </div>
     <div class="col-12">
         <div class="row m-2 justify-content-center">
@@ -23,7 +18,14 @@
                     {% endif %}
                 </div>
                 <div class="col-8 dark-box mt-2 text-center">
-                    Aucun élève ne fait ce métier actuellement (ajouter)
+                    {% if job.classgroup == null %}
+                        Ce métier est <a href="{{ path('job_index_admin') }}">global</a>
+                    {% else %}
+                        Métier attaché à 
+                        <a href="{{ path('classgroup_show', {'id': job.classgroup.id}) }}">
+                            {{ job.classgroup.name }}
+                        </a>
+                    {% endif %}
                 </div>
             {% else %}
                 Aucun métier actuellement

@@ -20,6 +20,34 @@ use Symfony\Component\Routing\Annotation\Route;
 class JobController extends AbstractController
 {
     /**
+     * @Route("/", name="job_index_all", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function indexAll(JobRepository $jobRepository): Response
+    {
+        $jobs = $jobRepository->findAll();
+        
+        return $this->render('job/indexAll.html.twig', [
+            'jobs' => $jobs,
+            'classgroup' => null,
+        ]);
+    }
+    
+    /**
+     * @Route("/global", name="job_index_admin", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function indexAdmin(JobRepository $jobRepository): Response
+    {
+        $jobs = $jobRepository->findBy(['classgroup'=>null]);
+        
+        return $this->render('job/index.html.twig', [
+            'jobs' => $jobs,
+            'classgroup' => null,
+        ]);
+    }
+    
+    /**
      * @Route("/new/{classgroup}", name="job_new", methods={"GET","POST"}, defaults={"classgroup": null})
      */
     public function new(Request $request, ?Classgroup $classgroup, AuthorizationCheckerInterface $authChecker): Response
@@ -63,7 +91,7 @@ class JobController extends AbstractController
     }
 
     /**
-     * @Route("/{classgroup}", name="job_index", methods={"GET"}, defaults={"classgroup": null})
+     * @Route("/classgroup/{classgroup}", name="job_index", methods={"GET"}, defaults={"classgroup": null})
      */
     public function index(JobRepository $jobRepository, ?Classgroup $classgroup): Response
     {
