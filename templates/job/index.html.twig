@@ -18,8 +18,7 @@
                     <h5>{{ job.title }}</h5>
                     <p class="text-left">{{ job.description }}</p>
                     {% if job.classgroup != null or is_granted('ROLE_ADMIN') %}
-                        <a href="{{ path('job_edit', {'id': job.id}) }}">Modifier</a> - 
-                        <a href="{{ path('job_delete', {'id': job.id}) }}">Retirer</a>
+                        <a href="{{ path('job_edit', {'id': job.id}) }}">Modifier</a>
                     {% endif %}
                 </div>
                 <div class="col-8 dark-box mt-2 text-center">

@@ -5,6 +5,12 @@
 {% block body %}
     <div class="col-12 text-center">
         <h3>Modifier un métier</h3>
+        {% if job.classgroup is null %}
+            Ce métier est inutilisé
+        {% else %}
+            {{ job.classgroup.name }}
+        {% endif %}
+        
     </div>
     <div class="col-12 col-sm-10 col-lg-7 pt-3 text-center">
         {{ include('job/_form.html.twig', {'button_label': 'Modifier'}) }}
@@ -12,6 +18,15 @@
             <a href="{{ path('job_index', {'classgroup': null}) }}">Liste des métiers</a>
         {% else %}
             <a href="{{ path('job_index', {'classgroup': job.classgroup.id}) }}">Liste des métiers</a>
+        {% endif %}
+    </div>
+    <div class="col-12 pt-3 text-center">
+        {% if job.classgroup != null %}
+            <a href="{{ path('job_remove', {'job': job.id}) }}" 
+                class="primary-button" 
+                onclick="return confirm('Retirer un métier le rendra inutilisable, il faudra en recréer un si vous voulez à nouveau l\'utiliser. Etes-vous certain de vouloir faire cela ?');">
+                Retirer ce métier de la classe
+            </a>
         {% endif %}
     </div>
     <div class="col-12 pt-3 text-center">

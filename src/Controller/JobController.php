@@ -93,7 +93,7 @@ class JobController extends AbstractController
             }
         }
         else {
-            $jobs = $jobRepository->findForClassgroup($classgroup);
+            $jobs = $jobRepository->findBy(['classgroup'=>$classgroup]);
         }
         return $this->render('job/index.html.twig', [
             'jobs' => $jobs,
@@ -131,6 +131,27 @@ class JobController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/remove/{job}", name="job_remove", methods={"GET"})
+     */
+    public function remove(Job $job): Response
+    {
+        $classgroup = $job->getClassgroup();
+        $job->setClassgroup(null);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($job);
+        $entityManager->flush();
+
+        $this->addFlash(
+            'success',
+            'Le métier a été retiré de votre classe'
+            );
+        return $this->redirectToRoute('job_index', [
+            'classgroup'=>$classgroup->getId(),
+        ]);
+    }
+    
     /**
      * @Route("/{id}", name="job_delete", methods={"DELETE"})
      */
