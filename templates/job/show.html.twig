@@ -1,30 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Job{% endblock %}
+{% block title %}{{ job.title }} - Classe Royale{% endblock %}
 
 {% block body %}
-    <h1>Job</h1>
+    <div class="col-12 col-sm-10 col-lg-7 pt-3 text-center">
+        <h3>{{ job.title }}</h3>
+    </div>
+    <div class="col-12 col-sm-10 col-lg-7 pt-3 text-center">
+        <p>{{ job.description }}</p>
+        <h4>Qui fait ce métier ?</h4>
+        <div class="clear-box">
+            Aucun élève actuellement
+        </div>
+        <h4>Informations</h4>
+        {% if job.classgroup != null %}
+            Ce métier appartient à  
+            <a href="{{ path('classgroup_show', {'id': job.classgroup.id}) }}">
+                {{ job.classgroup.name }}
+            </a>
+        {% else %}
+            Ce métier n'est plus utilisé
+        {% endif %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ job.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ job.title }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ job.description }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <p>
+            <a href="{{ path('job_edit', {'id': job.id}) }}">Modifier ce métier</a>
+        </p>
 
-    <a href="{{ path('job_index') }}">back to list</a>
+    </div>
+    <div class="col-12 pt-3 text-center">
 
-    <a href="{{ path('job_edit', {'id': job.id}) }}">edit</a>
-
-    {{ include('job/_delete_form.html.twig') }}
+        {% if job.classgroup is null and is_granted('ROLE_ADMIN') %}
+            <br><a href="{{ path('job_index_all') }}">Tous les métiers</a>
+        {% else %}
+            <a href="{{ path('job_index', {'classgroup': job.classgroup.id}) }}">Les métiers de la classe</a>
+        {% endif %}
+    </div>
 {% endblock %}

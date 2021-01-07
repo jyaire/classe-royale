@@ -13,6 +13,10 @@
         {% else %}
             <a href="{{ path('job_index', {'classgroup': job.classgroup.id}) }}">Liste des métiers</a>
         {% endif %}
-        {{ include('job/_delete_form.html.twig') }}
+    </div>
+    <div class="col-12 pt-3 text-center">
+        {% if is_granted('ROLE_ADMIN') %}
+            {{ include('job/_delete_form.html.twig') }}
+        {% endif %}
     </div>
 {% endblock %}

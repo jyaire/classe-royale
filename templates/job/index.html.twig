@@ -8,7 +8,7 @@
         {% if classgroup != null %}
             <a href="{{ path('classgroup_show', {'id': classgroup.id}) }}">{{ classgroup.name }}</a>
         {% else %}
-            Métiers globaux disponibles pour toutes les classes
+            Métiers inutilisés
         {% endif %}
     </div>
     <div class="col-12">
@@ -23,7 +23,10 @@
                     {% endif %}
                 </div>
                 <div class="col-8 dark-box mt-2 text-center">
-                    Aucun élève ne fait ce métier actuellement (ajouter)
+                    Aucun élève ne fait ce métier actuellement (
+                        <a href="{{ path('job_show', {'id': job.id}) }}">
+                            gérer
+                        </a>)
                 </div>
             {% else %}
                 Aucun métier actuellement

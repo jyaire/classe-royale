@@ -29,21 +29,6 @@ class JobController extends AbstractController
         
         return $this->render('job/indexAll.html.twig', [
             'jobs' => $jobs,
-            'classgroup' => null,
-        ]);
-    }
-    
-    /**
-     * @Route("/global", name="job_index_admin", methods={"GET"})
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function indexAdmin(JobRepository $jobRepository): Response
-    {
-        $jobs = $jobRepository->findBy(['classgroup'=>null]);
-        
-        return $this->render('job/index.html.twig', [
-            'jobs' => $jobs,
-            'classgroup' => null,
         ]);
     }
     
