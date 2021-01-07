@@ -9,8 +9,17 @@
     <div class="col-12 col-sm-10 col-lg-7 pt-3 text-center">
         <p>{{ job.description }}</p>
         <h4>Qui fait ce métier ?</h4>
-        <div class="clear-box">
-            Aucun élève actuellement
+        <div class="dark-box row">
+            {% for occupation in job.occupations %}
+                <div class="clear-button">
+                    {{ occupation.student.firstname }}
+                </div>
+            {% endfor %}
+            <div class="clear-button">
+                <img src="{{ asset('images/add.png') }}"
+                    alt="Ajouter un élève"
+                    title="Ajouter un élève">
+            </div>
         </div>
         <h4>Informations</h4>
         {% if job.classgroup != null %}
