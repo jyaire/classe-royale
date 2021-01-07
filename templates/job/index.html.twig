@@ -30,9 +30,11 @@
                             </div>
                         {% endfor %}
                         <div class="clear-button">
-                            <img src="{{ asset('images/add.png') }}"
-                                alt="Ajouter un élève"
-                                title="Ajouter un élève">
+                            <a href="{{ path('job_add', {'job': job.id}) }}">
+                                <img src="{{ asset('images/add.png') }}"
+                                    alt="Ajouter un élève"
+                                    title="Ajouter un élève">
+                            </a>
                         </div>
                     </div>
                 </div>

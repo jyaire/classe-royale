@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des métiers - Classe Royale{% endblock %}
+
+{% block body %}
+    <div class="col-12 text-center">
+        <h3>{{ job.title }}</h3>
+    </div>
+    <div class="col-12 col-sm-10 col-lg-7 pt-3 text-center">
+        
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button class="third-button">{{ button_label|default('Ajouter cet(te)/ces élève(s)') }}</button>
+        {{ form_end(form) }}
+        <p class="mt-3 text-left">Elèves qui font ce métier :</p>
+        <div class="dark-box row">
+            {% for occupation in job.occupations %}
+                <div class="clear-button">
+                    {{ occupation.student.firstname }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

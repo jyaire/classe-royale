@@ -4,8 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Job;
 use App\Entity\Classgroup;
+use App\Entity\Occupation;
 use App\Form\JobType;
+use App\Form\OccupationType;
 use App\Repository\JobRepository;
+use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -164,5 +167,48 @@ class JobController extends AbstractController
         }
 
         return $this->redirectToRoute('job_index');
+    }
+
+    /**
+     * @Route("/add/{job}", name="job_add", methods={"GET","POST"})
+     */
+    public function add(Request $request, Job $job): Response
+    {
+        $form = $this->createForm(OccupationType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $count=0;
+            foreach ($form->get('student')->getData() as $student) {
+                $occupation = new Occupation();
+                $occupation
+                    ->setStudent($student)
+                    ->setJob($job)
+                    ->setDateStart(new DateTime())
+                    ->setSalary($form->get('salary')->getData())
+                    ;
+                    $count++;
+                $entityManager->persist($occupation);
+            }
+            
+            $entityManager->flush();
+            $message = $count . 'élève(s) ajouté(s) à ce métier';
+            $this->addFlash(
+                'success',
+                $message
+                );
+
+            return $this->redirectToRoute('job_index', [
+                'classgroup' => $job->getClassgroup()->getId(),
+            ]);
+        }
+
+        return $this->render('job/add.html.twig', [
+            'job' => $job,
+            'form' => $form->createView(),
+        ]);
     }
 }
