@@ -102,7 +102,8 @@ class OccupationController extends AbstractController
      */
     public function add(Request $request, Job $job): Response
     {
-        $form = $this->createForm(OccupationType::class);
+        $classgroup = $job->getClassgroup()->getId();
+        $form = $this->createForm(OccupationType::class, ['classgroup' => $classgroup]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
