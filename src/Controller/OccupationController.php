@@ -103,7 +103,8 @@ class OccupationController extends AbstractController
     public function add(Request $request, Job $job): Response
     {
         $classgroup = $job->getClassgroup()->getId();
-        $form = $this->createForm(OccupationType::class, ['classgroup' => $classgroup]);
+        $occupation = null;
+        $form = $this->createForm(OccupationType::class, $occupation, ['classgroup' => $classgroup]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -124,7 +125,7 @@ class OccupationController extends AbstractController
             }
             
             $entityManager->flush();
-            $message = $count . 'élève(s) ajouté(s) à ce métier';
+            $message = $count . ' élève(s) ajouté(s) à ce métier';
             $this->addFlash(
                 'success',
                 $message

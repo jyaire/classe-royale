@@ -17,7 +17,6 @@ class OccupationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $classgroup = $options['classgroup'];
-        dd($classgroup);
         $builder
             ->add('student', EntityType::class, [
                 'class' => Student::class,

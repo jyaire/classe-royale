@@ -26,7 +26,13 @@
                     <div class="row pl-2">
                         {% for occupation in job.occupations %}
                             <div class="clear-button">
-                                {{ occupation.student.firstname }}
+                                <p>{{ occupation.student.firstname }}</p>
+                                <a href="{{ path('occupation_remove', {'occupation': occupation.id}) }}">
+                                    <br><img src="{{ asset('images/icone-delete.png') }}"
+                                    alt="Retirer l'élève"
+                                    title="Retirer l'élève"
+                                    class="delete-img">
+                                </a>
                             </div>
                         {% endfor %}
                         <div class="clear-button">
