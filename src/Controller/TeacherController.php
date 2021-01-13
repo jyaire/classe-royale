@@ -15,20 +15,8 @@ class TeacherController extends AbstractController
      */
     public function index()
     {
-        if(count($this->getUser()->getClassgroups()) != 0) {
-            $classgroups = $this->getUser()->getClassgroups();
-            foreach($classgroups as $classgroup) {
-                $school = $classgroup->getSchool();
-            }
-            return $this->render('teacher/index.html.twig', [
-                'school' => $school,
-            ]);
-        }
-        else {
-            return $this->render('teacher/index.html.twig', [
-                'school' => null,
-            ]);
-        }
+    
+        return $this->render('teacher/index.html.twig');
     }
 
     /**
