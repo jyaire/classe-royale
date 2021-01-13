@@ -65,7 +65,11 @@ class ClassgroupController extends AbstractController
             $entityManager->persist($classgroup);
             $entityManager->flush();
 
-            return $this->redirectToRoute('classgroup_index');
+            $this->addFlash('success', "Classe créée");
+
+            return $this->redirectToRoute('school_show', [
+                'id' => $classgroup->getSchool()->getId(),
+            ]);
         }
 
         return $this->render('classgroup/new.html.twig', [
