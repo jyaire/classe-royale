@@ -35,8 +35,11 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-         - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/admin, roles: ROLE_ADMIN, requires_channel: https }
         # - { path: ^/profile, roles: ROLE_USER }
+         - { path: '^/login', roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        # catch all other URLs
+         - { path: '^/', roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
 
     role_hierarchy:
         ROLE_PARENT: ROLE_USER
