@@ -89,6 +89,7 @@ class ClassgroupController extends AbstractController
     public function invitePDF(Classgroup $classgroup)
     {
         // generate invitation code id doen't exist in student table
+        $entityManager = $this->getDoctrine()->getManager();
         foreach ($classgroup->getStudents() as $student) {
             if ($student->getInvit() == null) {
                 $data = array_map('str_shuffle', [
@@ -103,7 +104,6 @@ class ClassgroupController extends AbstractController
                 // add initials to make unique
                 $pwd = substr($student->getFirstname(), 0, 1).substr($student->getLastname(), 0, 1).$pwd;
                 $student->setInvit($pwd);
-                $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($student);
             }
         }
@@ -214,18 +214,22 @@ class ClassgroupController extends AbstractController
     {
         // if parent connected, verify user can view the classgroup
         if($this->isGranted('ROLE_PARENT')) {
+            $access = false;
             foreach($this->getUser()->getStudents() as $child) {
                 $classChild = $child->getClassgroup();
                 if($classgroup == $classChild) {
-                    return $this->render('classgroup/show.html.twig', [
-                        'classgroup' => $classgroup,
-                        'ranking' => $ranking,
-                        ]);
+                    $access = true;
                 }
-                else {
-                    $this->addFlash('danger', "Vous ne pouvez voir que les classes de vos enfants");
-                    return $this->redirectToRoute('parent');
-                }
+            }
+            if ($access == true) {
+                return $this->render('classgroup/show.html.twig', [
+                    'classgroup' => $classgroup,
+                    'ranking' => $ranking,
+                    ]);
+            }    
+            else {
+                $this->addFlash('danger', "Vous ne pouvez voir que les classes de vos enfants");
+                return $this->redirectToRoute('parent');
             }
         }
         
