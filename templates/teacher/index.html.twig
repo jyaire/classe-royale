@@ -5,11 +5,17 @@
 {% block body %}
     <div class="col-12 col-md-7 text-center">
         {% for classgroup in app.user.classgroups %}
-            <h5 class="pt-4 text-center">
-                {{ classgroup.school.name }} ({{ classgroup.school.city }})
-                <a href="{{ path('school_show', {id : classgroup.school.id}) }}">-></a>
+            <h5 class="text-center">
+                <a href="{{ path('school_show', {id : classgroup.school.id}) }}" title="Accèder à l'école">
+                    <img src="{{ asset('images/tour-school.png') }}"
+                        alt="Ecole" 
+                        class="logo-school">
+                </a>
+                {{ classgroup.school.name }}
             </h5>
-            <div class="row justify-content-center">
+            <p class="city-subtitle">{{ classgroup.school.city }}</p>
+            
+            <div class="row justify-content-center pb-2">
                 {% for class in classgroup.school.classgroups %}
                     {% if class == classgroup %}
                         <a href="{{ path('classgroup_show', {id : class.id}) }}">
@@ -23,12 +29,12 @@
                     <div class="student-box bg-light">
                         <img src="{{ asset('images/add.png') }}"
                             alt="Ajouter une classe" class="add-button"
-                            title="Ajouter une classe">
+                            title="Ajouter une classe dans cette école">
                     </div>
                 </a>
             </div>
         {% else %}
-            Aucune école actuellement - <a href="{{ path('school_choose') }}">Choisir une école</a>
+            Aucune école actuellement - <a href="{{ path('school_choose') }}">Choisir une école</a>021444444444444444444444444444444444444
         {% endfor %}
     </div>
 {% endblock %}
