@@ -15,6 +15,9 @@
             Cette page vous permet d'imprimer les invitations pour les parents d'élèves de votre classe.
         </p>
         <p>
+            <a href="{{ path('classgroup_invit_pdf', {'classgroup' : classgroup.id}) }}">Ouvrir les invitations</a>
+        </p>
+        <p>
             <a href="{{ path('classgroup_show', {'id' : classgroup.id}) }}">{{ classgroup.name }}</a>
         </p>
         <p>

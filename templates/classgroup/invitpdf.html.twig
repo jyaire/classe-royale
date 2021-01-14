@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Invitation aux familles - {{ classgroup.name }}</title>
+    </head>
+    <body>
+        <h4>Invitation aux familles - {{ classgroup.name }}</h4>
+        <p>Imprimez, découpez et distribuez ces invitations aux parents de vos élèves, 
+        en autant d'exemplaires que nécessaires.</p>
+
+{% for student in classgroup.students %}
+    <hr>
+    <p>{{ student.firstname }} {{ student.lastname }}, {{ classgroup.name }}</p>
+    <p>Votre enfant utilise l'application Classe Royale qui permet de rendre ludique ses acquis et ses activités.
+    <br>Vous pouvez suivre à distance ses aventures sur ordinateur ou téléphone !</p>
+    <p>Rendez-vous sur http://classeroyale.jejoueenclasse.fr !<p>
+    <ul>
+        <li>Créer un compte gratuit (si vous n'en possédez pas)</li>
+        <li>Ajouter votre enfant avec le code ci-dessous :</li>
+    </ul>
+    <h4 style="text-align: center;">HB4JR8</h4>
+{% endfor %}
+
+    </body>
+</html>

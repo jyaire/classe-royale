@@ -12,6 +12,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 /**
  * @Route("/classgroup")
@@ -75,6 +77,35 @@ class ClassgroupController extends AbstractController
         return $this->render('classgroup/new.html.twig', [
             'classgroup' => $classgroup,
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/invit/pdf/{classgroup}", name="classgroup_invit_pdf", methods={"GET"})
+     * @IsGranted("ROLE_TEACHER")
+     * @param Classgroup $classgroup
+     * @return Response
+     */
+    public function invitePDF(Classgroup $classgroup)
+    {
+        // generate invitation code id doen't exist in student table
+        
+
+        // generate PDF with DomPDF
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+        $dompdf = new Dompdf($pdfOptions);
+        
+        $html = $this->renderView('classgroup/invitpdf.html.twig', [
+            'classgroup' => $classgroup,
+        ]);
+        
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+
+        $dompdf->render();
+        $dompdf->stream("invitations_familles.pdf", [
+            "Attachment" => false
         ]);
     }
 
