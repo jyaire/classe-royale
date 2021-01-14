@@ -17,7 +17,9 @@
             en autant d'exemplaires que nécessaires.
         </p>
         <p>
-            <a href="{{ path('classgroup_invit_pdf', {'classgroup' : classgroup.id}) }}" target="_blank">Ouvrir les invitations</a>
+            <a href="{{ path('classgroup_invit_pdf', {'classgroup' : classgroup.id}) }}" 
+            target="_blank"
+            class="third-button">Générer les invitations</a>
         </p>
         <p>
             <a href="{{ path('classgroup_show', {'id' : classgroup.id}) }}">{{ classgroup.name }}</a>
