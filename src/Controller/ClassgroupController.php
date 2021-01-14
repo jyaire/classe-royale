@@ -89,7 +89,25 @@ class ClassgroupController extends AbstractController
     public function invitePDF(Classgroup $classgroup)
     {
         // generate invitation code id doen't exist in student table
-        
+        foreach ($classgroup->getStudents() as $student) {
+            if ($student->getInvit() == null) {
+                $data = array_map('str_shuffle', [
+                    'digit' => '23569',
+                    'upper' => 'CDEFGHJKLMNPQRSTUVWXY'
+                ]);
+                 
+                $pwd = str_shuffle(
+                    substr($data['digit'], 0 , 4).
+                    substr($data['upper'], 0 , 2)
+                );
+                // add initials to make unique
+                $pwd = substr($student->getFirstname(), 0, 1).substr($student->getLastname(), 0, 1).$pwd;
+                $student->setInvit($pwd);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($student);
+            }
+        }
+        $entityManager->flush();
 
         // generate PDF with DomPDF
         $pdfOptions = new Options();
