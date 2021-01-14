@@ -5,22 +5,30 @@
         <title>Invitation aux familles - {{ classgroup.name }}</title>
     </head>
     <body>
-        <h4>Invitation aux familles - {{ classgroup.name }}</h4>
-        <p>Imprimez, découpez et distribuez ces invitations aux parents de vos élèves, 
-        en autant d'exemplaires que nécessaires.</p>
 
-{% for student in classgroup.students %}
-    <hr>
-    <p>{{ student.firstname }} {{ student.lastname }}, {{ classgroup.name }}</p>
-    <p>Votre enfant utilise l'application Classe Royale qui permet de rendre ludique ses acquis et ses activités.
-    <br>Vous pouvez suivre à distance ses aventures sur ordinateur ou téléphone !</p>
-    <p>Rendez-vous sur http://classeroyale.jejoueenclasse.fr !<p>
-    <ul>
-        <li>Créer un compte gratuit (si vous n'en possédez pas)</li>
-        <li>Ajouter votre enfant avec le code ci-dessous :</li>
-    </ul>
-    <h4 style="text-align: center;">HB4JR8</h4>
-{% endfor %}
+    <style>
+        .text-center {
+            text-align: center;
+        }
+
+        .bold {
+            font-weight: 900;
+        }
+    </style>
+
+    {% for student in classgroup.students %}
+        <p class="bold">{{ student.firstname }} {{ student.lastname }}, {{ classgroup.name }}</p>
+        <p>Votre enfant utilise l'application Classe Royale qui permet de rendre ludique ses acquis et ses activités.
+        <br>Vous pouvez suivre à distance ses aventures sur ordinateur ou téléphone !</p>
+        <p>Rendez-vous sur http://classeroyale.jejoueenclasse.fr<p>
+        <ul>
+            <li>Créez un compte gratuit (si vous n'en possédez pas)</li>
+            <li>Ajoutez votre enfant avec le code : <span class="bold">HB4JR8</span></li>
+        </ul>
+        <p>Ce code est partageable à tous ceux qui voudraient suivre votre enfant, 
+        qu'ils rajouteront à leur propre compte.<p>
+        <hr>
+    {% endfor %}
 
     </body>
 </html>

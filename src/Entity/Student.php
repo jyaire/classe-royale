@@ -119,6 +119,11 @@ class Student
      */
     private $occupations;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $invit;
+
     public function __construct()
     {
         $this->parent = new ArrayCollection();
@@ -473,6 +478,18 @@ class Student
                 $occupation->setStudent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getInvit(): ?string
+    {
+        return $this->invit;
+    }
+
+    public function setInvit(?string $invit): self
+    {
+        $this->invit = $invit;
 
         return $this;
     }
