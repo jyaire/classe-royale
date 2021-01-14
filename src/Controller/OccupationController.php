@@ -148,14 +148,16 @@ class OccupationController extends AbstractController
     public function remove(Occupation $occupation): Response
     {
         $id = $occupation->getJob()->getId();
+        $firstname = $occupation->getStudent()->getFirstname();
         
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($occupation);
         $entityManager->flush();
 
+        $message = $firstname . " ne fait plus ce métier";
         $this->addFlash(
             'success',
-            'Le métier a été retiré de votre classe'
+            $message
             );
         return $this->redirectToRoute('job_show', [
             'id'=>$id,

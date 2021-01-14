@@ -3,18 +3,18 @@
 {% block title %}Classe Royale - {{ school.name }}{% endblock %}
 
 {% block body %}
-<div class="col-12 offset-md-2 col-md-5 text-center">
-    <h3>{{ school.name }}</h3>
-    {{ school.address }}, {{ school.postalCode }} {{ school.city }} ({{ school.country }})
-</div>
-<div class="col-12 col-md-5 text-center">
-    Téléphone : {{ school.phone }}<br>
-    RNE : {{ school.rne }}
-    <br><a href="{{ path('school_edit', {'id': school.id}) }}">Modifier ces informations</a>
+<div class="col-12 col-md-7 text-center">
+    <h3>
+        {{ school.name }}
+         <img src="{{ asset('images/tour-school.png') }}"
+            alt="Ecole" 
+            class="logo-school">
+    </h3>
+    <p class="city-subtitle">{{ school.city }}</p>
 </div>
 
 <div class="col-12 text-center">
-    <div class="row justify-content-left pt-2">
+    <div class="row justify-content-left">
         {% for classgroup in school.classgroups %}
             <a href="{{ path('classgroup_show', {'id': classgroup.id}) }}">
                 <div class="student-box">
@@ -31,11 +31,19 @@
             Aucune classe dans cette école
         {% endfor %}
     </div>
+</div>
 
+<div class="col-12 col-md-7 text-center">
+    {{ school.address }}, {{ school.postalCode }} {{ school.city }} ({{ school.country }})<br>
+    Téléphone : {{ school.phone }}<br>
+    RNE : {{ school.rne }}
+    <br><a href="{{ path('school_edit', {'id': school.id}) }}">Modifier ces informations</a>
+</div>
+
+<div class="col-12 col-md-7 text-center">
     <p class="mt-3">
         <a href="{{ path('import_students', {'id' : school.id}) }}" title="Importer des élèves">Importer classes et élèves depuis Onde</a><br>
         <a href="{{ path('classgroup_new', {'school' : school.id}) }}">Ajouter une classe manuellement</a><br>
     </p>
-
 </div>
 {% endblock %}

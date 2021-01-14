@@ -114,19 +114,24 @@ class StudentController extends AbstractController
 
         // if parent is connected, verify user can view the student
         if($this->isGranted('ROLE_PARENT')) {
+            $access = false;
             foreach($this->getUser()->getStudents() as $child) {
                 $classChild = $child->getClassgroup();
                 if($student->getClassgroup() == $classChild) {
-                    return $this->render('student/show.html.twig', [
-                        'student' => $student,
-                        'level' => $levelStudent,
-                    ]);
-                }
-                else {
-                    $this->addFlash('danger', "Vous ne pouvez voir que les élèves dans les classes de vos enfants");
-                    return $this->redirectToRoute('parent');
+                    $access = true;
                 }
             }
+            if ($access == true) {
+                return $this->render('student/show.html.twig', [
+                    'student' => $student,
+                    'level' => $levelStudent,
+                ]);
+            }
+            else {
+                $this->addFlash('danger', "Vous ne pouvez voir que les élèves dans les classes de vos enfants");
+                return $this->redirectToRoute('parent');
+            }
+            
         }
 
         return $this->render('student/show.html.twig', [

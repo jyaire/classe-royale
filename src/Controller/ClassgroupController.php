@@ -12,6 +12,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 /**
  * @Route("/classgroup")
@@ -65,12 +67,76 @@ class ClassgroupController extends AbstractController
             $entityManager->persist($classgroup);
             $entityManager->flush();
 
-            return $this->redirectToRoute('classgroup_index');
+            $this->addFlash('success', "Classe créée");
+
+            return $this->redirectToRoute('school_show', [
+                'id' => $classgroup->getSchool()->getId(),
+            ]);
         }
 
         return $this->render('classgroup/new.html.twig', [
             'classgroup' => $classgroup,
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/invit/pdf/{classgroup}", name="classgroup_invit_pdf", methods={"GET"})
+     * @IsGranted("ROLE_TEACHER")
+     * @param Classgroup $classgroup
+     * @return Response
+     */
+    public function invitePDF(Classgroup $classgroup)
+    {
+        // generate invitation code id doen't exist in student table
+        $entityManager = $this->getDoctrine()->getManager();
+        foreach ($classgroup->getStudents() as $student) {
+            if ($student->getInvit() == null) {
+                $data = array_map('str_shuffle', [
+                    'digit' => '23569',
+                    'upper' => 'CDEFGHJKLMNPQRSTUVWXY'
+                ]);
+                 
+                $pwd = str_shuffle(
+                    substr($data['digit'], 0 , 4).
+                    substr($data['upper'], 0 , 2)
+                );
+                // add initials to make unique
+                $pwd = substr($student->getFirstname(), 0, 1).substr($student->getLastname(), 0, 1).$pwd;
+                $student->setInvit($pwd);
+                $entityManager->persist($student);
+            }
+        }
+        $entityManager->flush();
+
+        // generate PDF with DomPDF
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+        $dompdf = new Dompdf($pdfOptions);
+        
+        $html = $this->renderView('classgroup/invitpdf.html.twig', [
+            'classgroup' => $classgroup,
+        ]);
+        
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+
+        $dompdf->render();
+        $dompdf->stream("invitations_familles.pdf", [
+            "Attachment" => false
+        ]);
+    }
+
+    /**
+     * @Route("/invit/{classgroup}", name="classgroup_invit", methods={"GET"})
+     * @IsGranted("ROLE_TEACHER")
+     * @param Classgroup $classgroup
+     * @return Response
+     */
+    public function invite(Classgroup $classgroup): Response
+    {
+        return $this->render('classgroup/invit.html.twig', [
+            'classgroup' => $classgroup,
         ]);
     }
 
@@ -148,18 +214,22 @@ class ClassgroupController extends AbstractController
     {
         // if parent connected, verify user can view the classgroup
         if($this->isGranted('ROLE_PARENT')) {
+            $access = false;
             foreach($this->getUser()->getStudents() as $child) {
                 $classChild = $child->getClassgroup();
                 if($classgroup == $classChild) {
-                    return $this->render('classgroup/show.html.twig', [
-                        'classgroup' => $classgroup,
-                        'ranking' => $ranking,
-                        ]);
+                    $access = true;
                 }
-                else {
-                    $this->addFlash('danger', "Vous ne pouvez voir que les classes de vos enfants");
-                    return $this->redirectToRoute('parent');
-                }
+            }
+            if ($access == true) {
+                return $this->render('classgroup/show.html.twig', [
+                    'classgroup' => $classgroup,
+                    'ranking' => $ranking,
+                    ]);
+            }    
+            else {
+                $this->addFlash('danger', "Vous ne pouvez voir que les classes de vos enfants");
+                return $this->redirectToRoute('parent');
             }
         }
         

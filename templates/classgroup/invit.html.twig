@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Inviter les parents de {{ classgroup.name }} - Classe Royale
+{% endblock %}
+
+{% block body %}
+    <div class="col-12 text-center">
+        <h3>Invitations pour les familles</h3>
+        <p>{{ classgroup.name }}</p>
+    </div>
+        
+    <div class="col-12 text-center">
+        <p class="mt-3">
+            Cette page vous permet d'imprimer les invitations pour les parents d'élèves de votre classe.
+            <br>Imprimez, découpez et distribuez ces invitations aux parents de vos élèves, 
+            en autant d'exemplaires que nécessaires.
+        </p>
+        <p>
+            <a href="{{ path('classgroup_invit_pdf', {'classgroup' : classgroup.id}) }}" target="_blank">Ouvrir les invitations</a>
+        </p>
+        <p>
+            <a href="{{ path('classgroup_show', {'id' : classgroup.id}) }}">{{ classgroup.name }}</a>
+        </p>
+        <p>
+            <a href="{{ path('school_show', {'id' : classgroup.school.id}) }}">{{ classgroup.school.name }}</a>
+        </p>
+    </div>
+{% endblock %}

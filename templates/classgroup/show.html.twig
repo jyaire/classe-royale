@@ -102,7 +102,10 @@
                 </a>
             {% endif %}
         </div>
-        <p class="mt-3 text-center">
+    </div>
+    <div class="col-12 text-center">
+        <h5 class="mt-3">Informations</h5>
+        <p class="mt-3">
             {{ classgroup.students | length }} élèves
             ({% for section in classgroup.section %}
                 {{section.abbreviation }}
@@ -112,7 +115,7 @@
             , {{ classgroup.school.city }}
             {% endif %}
         </p>
-        <p class="mt-3 text-center">
+        <p class="mt-3">
             Enseignant(s) de la classe :
             {% for teacher in classgroup.teacher %}
                 {{ teacher.firstname }} {{ teacher.lastname }} -
@@ -122,15 +125,19 @@
             {% endfor %}
         </p>
     </div>
-    {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_DIRECTOR') or is_granted('ROLE_TEACHER') %}
-        <div class="col-12 text-center">
+    <div class="col-12 text-center">
+        <h5 class="mt-3">Actions</h5>
+        {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_DIRECTOR') or is_granted('ROLE_TEACHER') %}
             <p class="mt-3">
                 <a href="{{ path('director_addTeacher', {'id' : classgroup.id }) }}">Ajouter un enseignant</a>
+            </p>
+            <p class="mt-3">
+                <a href="{{ path('classgroup_invit', {'classgroup' : classgroup.id }) }}">Imprimer les invitations parents</a>
             </p>
             <p class="mt-3">
                 <a href="{{ path('classgroup_edit', {'id': classgroup.id}) }}">Modifier cette classe</a>
                 (ref Onde {{ classgroup.ref }})
             </p>
-        </div>
-    {% endif %}
+        {% endif %}
+    </div>
 {% endblock %}

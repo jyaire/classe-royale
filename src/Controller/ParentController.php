@@ -35,15 +35,13 @@ class ParentController extends AbstractController
     public function addStudent(Request $request, StudentRepository $studentRepository)
     {
         $form = $this->createFormBuilder()
-            ->add('ine')
-            ->add('firstname')
+            ->add('invit')
             ->getForm();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $student = $studentRepository->findOneBy([
-                'ine' => $form->getData()['ine'],
-                'firstname' => $form->getData()['firstname'],
+                'invit' => $form->getData()['invit'],
                 ]);
             if(empty($student)) {
                 $this->addFlash('danger', 'Aucun enfant trouvé');
