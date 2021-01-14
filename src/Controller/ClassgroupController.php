@@ -79,6 +79,19 @@ class ClassgroupController extends AbstractController
     }
 
     /**
+     * @Route("/invit/{classgroup}", name="classgroup_invit", methods={"GET"})
+     * @IsGranted("ROLE_TEACHER")
+     * @param Classgroup $classgroup
+     * @return Response
+     */
+    public function invite(Classgroup $classgroup): Response
+    {
+        return $this->render('classgroup/invit.html.twig', [
+            'classgroup' => $classgroup,
+        ]);
+    }
+
+    /**
      * @Route("/{id}/edit", name="classgroup_edit", methods={"GET","POST"})
      * @IsGranted("ROLE_TEACHER")
      * @param Request $request
