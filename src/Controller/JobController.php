@@ -121,8 +121,12 @@ class JobController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('job_index');
+            
+            $this->addFlash(
+                'success',
+                'Métier modifié'
+                );
+            return $this->redirectToRoute('job_index', ['classgroup' => $job->getClassgroup()->getId()]);
         }
 
         return $this->render('job/edit.html.twig', [
