@@ -12,7 +12,10 @@
         <div class="dark-box row">
             {% for occupation in job.occupations %}  
                 <div class="clear-button">
-                    <p>{{ occupation.student.firstname }}</p>
+                    <p>
+                        {{ occupation.student.firstname }} 
+                        ({{ occupation.student.occupations | length }})
+                    </p>
                     <a href="{{ path('occupation_remove', {'occupation': occupation.id}) }}">
                         <br><img src="{{ asset('images/icone-delete.png') }}"
                         alt="Retirer l'élève"
@@ -29,6 +32,16 @@
                 </a>
             </div>
         </div>
+
+        <p class="mt-3">
+            Sans métier : 
+            {% for student in job.classgroup.students %}
+                {% if student.occupations | length == 0 %}
+                    {{ student.firstname }} - 
+                {% endif %}
+            {% endfor %}
+        </p>
+
         <h4>Informations</h4>
         {% if job.classgroup != null %}
             Ce métier appartient à  
