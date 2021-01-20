@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Classe Royale - Création d'un compte{% endblock %}
+
+{% block body %}
+<div class="col-12 col-md-10 col-lg-7 text-center">
+    <h3>Je suis...</h3>
+    <div class="row justify-content-center mt-4">
+        <a href="{{ path('app_register') }}">
+            <div class="student-box m-1">
+                Parent
+            </div>
+        </a>
+        <div class="student-box m-1">
+            Enseignant
+        </div>
+    </div>
+    <p class="m-3">Chef d'établissement</p>
+</div>
+{% endblock %}

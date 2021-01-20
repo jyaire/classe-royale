@@ -19,19 +19,17 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('roles', ChoiceType::class, [
+            ->add('firstname')
+            ->add('lastname')
+            ->add('isWoman', ChoiceType::class, [
                 'required' => true,
                 'multiple' => false,
                 'expanded' => false,
                 'choices' => [
-                    'Parent' => 'ROLE_PARENT',
-                    'Enseignant' => 'ROLE_TEACHER',
-                    'Chef d\'établissement' => 'ROLE_DIRECTOR',
+                    'Une femme' => true,
+                    'Un homme' => false,
                 ],
             ])
-            ->add('firstname')
-            ->add('lastname')
-            ->add('isWoman')
             ->add('email')
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
@@ -58,19 +56,6 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
         ;
-
-        // Data transformer
-        $builder->get('roles')
-            ->addModelTransformer(new CallbackTransformer(
-                function ($rolesArray) {
-                    // transform the array to a string
-                    return count($rolesArray)? $rolesArray[0]: null;
-                },
-                function ($rolesString) {
-                    // transform the string back to an array
-                    return [$rolesString];
-                }
-            ));
     }
 
     public function configureOptions(OptionsResolver $resolver)

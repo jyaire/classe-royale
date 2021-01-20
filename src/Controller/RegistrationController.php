@@ -26,6 +26,15 @@ class RegistrationController extends AbstractController
     }
 
     /**
+     * @Route("/register/choice", name="choice_register")
+     * @return Response
+     */
+    public function choice(): Response
+    {
+        return $this->render('registration/choice.html.twig');
+    }
+
+    /**
      * @Route("/register", name="app_register")
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
