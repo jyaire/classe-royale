@@ -5,16 +5,15 @@
 {% endblock %}
 
 {% block body %}
-    <div class="col-12 col-md-10 col-lg-7 text-center">
-        <h2>Rattacher un enfant</h2>
-        <p>Code de l'enfant à rattacher</p>
+    <div class="col-12 col-md-7 col-lg-5 text-center">
+        <h2 class="mb-4">Rattacher un enfant</h2>
         {{ form_start(form) }}
         {{ form_widget(form) }}
         <button class="third-button">{{ button_label|default('Rattacher') }}</button>
         {{ form_end(form) }}
     </div>
-    <div class="col-12 col-md-10 col-lg-7 text-center">
-        <a href="{{ path('parent') }}">Retour</a>
+    <div class="col-12 text-center">
+        <a href="{{ path('home') }}">Retour</a>
     </div>
 
 {% endblock %}

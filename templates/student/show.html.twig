@@ -107,7 +107,7 @@
             {% for child in app.user.students %}
                     {% if child == student %}
                         <br><a href="{{ path('parent_remove_student', {'id': student.id}) }}">
-                        Retirer {{ student.firstname }} de mon comte
+                        Retirer {{ student.firstname }} de mon compte
                         </a><br>
                     {% endif %}
             {% endfor %}

@@ -23,6 +23,7 @@ class HomeController extends AbstractController
             $accessDirector = $authorizationChecker->isGranted("ROLE_DIRECTOR");
             $accessAdmin = $authorizationChecker->isGranted("ROLE_ADMIN");
             $accessParent = $authorizationChecker->isGranted("ROLE_PARENT");
+            $accessUser = $authorizationChecker->isGranted("ROLE_USER");
 
                 if ($accessTeacher) {
                     return $this->redirectToRoute('teacher');
@@ -35,6 +36,9 @@ class HomeController extends AbstractController
                 }
                 elseif ($accessParent) {
                     return $this->redirectToRoute('parent');
+                }
+                elseif ($accessUser) {
+                    return $this->redirectToRoute('choice_register');
                 }
         }
         else {

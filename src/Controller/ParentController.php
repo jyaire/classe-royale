@@ -11,15 +11,17 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * @Route("/parent")
- * @IsGranted("ROLE_PARENT")
  */
 class ParentController extends AbstractController
 {
     /**
      * @Route("/", name="parent")
+     * @IsGranted("ROLE_PARENT")
      */
     public function index()
     {
@@ -28,18 +30,23 @@ class ParentController extends AbstractController
 
     /**
      * @Route("/add", name="parent_add_student")
+     * @IsGranted("ROLE_USER")
      * @param Request $request
      * @param StudentRepository $studentRepository
      * @return RedirectResponse|Response
      */
-    public function addStudent(Request $request, StudentRepository $studentRepository)
+    public function addStudent(Request $request, StudentRepository $studentRepository, AuthorizationCheckerInterface $authChecker)
     {
         $form = $this->createFormBuilder()
-            ->add('invit')
+            ->add('invit', TextType::class, [
+                'label' => "Code enfant (fourni par l'école)",
+            ])
             ->getForm();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // add student to parent if code is ok
             $student = $studentRepository->findOneBy([
                 'invit' => $form->getData()['invit'],
                 ]);
@@ -51,6 +58,18 @@ class ParentController extends AbstractController
             }
 
             $entityManager = $this->getDoctrine()->getManager();
+
+            // add role_parent to user if not already parent
+            if (!$authChecker->isGranted('ROLE_PARENT')) {
+                $user = $this->getUser();
+                $roles = $user->getRoles();
+                array_push($roles, "ROLE_PARENT");
+                $user->setRoles($roles);
+                $entityManager->persist($user);
+                $message = 'Vous êtes devenu "parent", il faut vous reconnecter';
+                $this->addFlash('danger', $message);
+            }
+
             $entityManager->persist($student);
             $entityManager->flush();
 
@@ -66,6 +85,7 @@ class ParentController extends AbstractController
 
     /**
      * @Route("/{id}/remove", name="parent_remove_student")
+     * @IsGranted("ROLE_PARENT")
      * @param Student $student
      * @param EntityManagerInterface $em
      * @return Response
