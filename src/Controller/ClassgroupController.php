@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mailer\MailerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
@@ -174,34 +177,79 @@ class ClassgroupController extends AbstractController
      * @param UserRepository $userRepository
      * @return RedirectResponse|Response
      */
-    public function teacherAdd(Request $request, Classgroup $classgroup, UserRepository $userRepository)
+    public function teacherAdd(Request $request, Classgroup $classgroup, UserRepository $userRepository, MailerInterface $mailer)
     {
         $form = $this->createFormBuilder()
             ->add('email', EmailType::class)
             ->getForm();
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $email = $form->getData();
-            $user = $userRepository->findOneBy(['email' => $email]);
-            $teacher = false;
-            foreach($user->getRoles() as $role) {
-                if($role == "ROLE_TEACHER") {
-                    $teacher = true;
-                }
-            }
-            if ($teacher == false) {
-                $roles = $user->getRoles();
-                array_push($roles, "ROLE_TEACHER");
-                $user->setRoles($roles);
-            }
-            $user->addClassgroup($classgroup);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
 
-            $message = $user->getFirstname() . ' ' . $user->getLastname() . ' est associé(e) à la classe';
-            $this->addFlash('success', $message);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $email = $form->getData()['email'];
+            $user = $userRepository->findOneBy(['email' => $email]);
+
+            $entityManager = $this->getDoctrine()->getManager();
+
+            if ($user == null) {
+                 // generate invitation code id doen't exist in student table
+                
+                if ($classgroup->getInvit() == null) {
+                    
+                    $data = array_map('str_shuffle', [
+                        'digit' => '23569',
+                        'upper' => 'CDEFGHJKLMNPQRSTUVWXY'
+                    ]);
+                    
+                    $invit = str_shuffle(
+                        substr($data['digit'], 0 , 2).
+                        substr($data['upper'], 0 , 3)
+                    );
+                    // add id classgroup to make unique
+                    $invit = $classgroup->getId().$invit;
+                    $classgroup->setInvit($invit);
+                    $entityManager->persist($classgroup);
+                    $entityManager->flush();
+                }
+
+                // send mail to invitated teacher
+                $message = (new TemplatedEmail())
+                ->from(new Address('bienvenue@classeroyale.fr', 'Classe Royale'))
+                ->to($email)
+                ->subject('Invitation pour enseigner dans une classe')
+                ->htmlTemplate('contact/invitTeacher.html.twig')
+                ->context([
+                    'classgroup' => $classgroup,
+                ])
+                ;
+                $mailer->send($message);
+
+
+                $message = "Une invitation a été envoyée à " . $email . " pour cette classe";
+                $this->addFlash('success', $message);
+            }
+            else {
+                // attach invitated user to the classgroup
+                $teacher = false;
+                foreach($user->getRoles() as $role) {
+                    if($role == "ROLE_TEACHER") {
+                        $teacher = true;
+                    }
+                }
+                if ($teacher == false) {
+                    $roles = $user->getRoles();
+                    array_push($roles, "ROLE_TEACHER");
+                    $user->setRoles($roles);
+                }
+                $user->addClassgroup($classgroup);
+
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                $message = $user->getFirstname() . ' ' . $user->getLastname() . ' est associé(e) à la classe';
+                $this->addFlash('success', $message);
+            }
+
             return $this->redirectToRoute('classgroup_show', ['id'=>$classgroup->getId()]);
         }
 

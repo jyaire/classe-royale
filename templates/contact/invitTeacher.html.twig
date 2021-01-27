@@ -1,0 +1,28 @@
+{% apply inline_css %}
+
+    <style>
+        .text-bold {
+            font-weight: bold;
+        }
+    </style>
+
+    <p>Bonjour,</p>
+    <p>
+        {{ app.user.firstname }} {{ app.user.lastname }} vous a invité 
+        à rejoindre Classe Royale pour enseigner dans la classe  
+        "<span class="text-bold">{{ classgroup.name }}</span>".
+        <br>
+        Merci de vous <a href="http://classeroyale.jejoueenclasse.fr/register">créer un compte</a> 
+        et d'utiliser le code d'invitation enseignant suivant :
+    </p>
+    <p class="text-bold">
+        {{ classgroup.invit }}
+    </p>
+    <p>
+        Lien direct : <a href="http://classeroyale.jejoueenclasse.fr/register">http://classeroyale.jejoueenclasse.fr/register</a>
+    </p>
+    <p>
+        A bientôt !<br>
+        L'équipe de Classe Royale
+    </p>
+{% endapply %}
