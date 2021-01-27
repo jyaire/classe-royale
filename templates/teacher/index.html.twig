@@ -34,7 +34,8 @@
                 </a>
             </div>
         {% else %}
-            Aucune école actuellement - <a href="{{ path('school_choose') }}">Choisir une école</a>021444444444444444444444444444444444444
+            <p>Aucune école actuellement - <a href="{{ path('school_choose') }}">Choisir une école</a></p>
+            <p>J'ai un <a href="{{ path('invite_teacher') }}">code d'invitation enseignant</a></p>
         {% endfor %}
     </div>
 {% endblock %}

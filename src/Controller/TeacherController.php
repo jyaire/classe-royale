@@ -24,7 +24,7 @@ class TeacherController extends AbstractController
     }
 
     /**
-     * @Route("/invite", name="invite_teacher")
+     * @Route("/teacher/invite", name="invite_teacher")
      * @IsGranted("ROLE_USER")
      * @param Request $request
      * @param StudentRepository $studentRepository
