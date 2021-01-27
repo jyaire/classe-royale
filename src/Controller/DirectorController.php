@@ -5,17 +5,14 @@ namespace App\Controller;
 use App\Entity\Classgroup;
 use App\Entity\School;
 use App\Entity\Student;
-use App\Entity\User;
 use App\Form\ImportType;
 use App\Repository\ClassgroupRepository;
 use App\Repository\SectionRepository;
 use App\Repository\StudentRepository;
-use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -191,68 +188,5 @@ class DirectorController extends AbstractController
             'students' => $students,
             'school' => $school,
         ]);
-    }
-
-    /**
-     * @Route("/director/class/{id}/addTeacher", name="director_addTeacher")
-     * @param Request $request
-     * @param Classgroup $classgroup
-     * @param UserRepository $userRepository
-     * @return RedirectResponse|Response
-     */
-    public function addTeacher(Request $request, Classgroup $classgroup, UserRepository $userRepository)
-    {
-        $form = $this->createFormBuilder()
-            ->add('email', EmailType::class)
-            ->getForm();
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $email = $form->getData();
-            $user = $userRepository->findOneBy(['email' => $email]);
-            $teacher = false;
-            foreach($user->getRoles() as $role) {
-                if($role == "ROLE_TEACHER") {
-                    $teacher = true;
-                }
-            }
-            if ($teacher == false) {
-                $roles = $user->getRoles();
-                array_push($roles, "ROLE_TEACHER");
-                $user->setRoles($roles);
-            }
-            $user->addClassgroup($classgroup);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            $message = $user->getFirstname() . ' ' . $user->getLastname() . ' est associé(e) à la classe';
-            $this->addFlash('success', $message);
-            return $this->redirectToRoute('classgroup_show', ['id'=>$classgroup->getId()]);
-        }
-
-        return $this->render('director/addTeacher.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("director/class/{classgroup}/deleteTeacher/{teacher}", name="teacher_delete")
-     * @param Request $request
-     * @param Classgroup $classgroup
-     * @param User $teacher
-     * @return Response
-     */
-    public function delete(Request $request, Classgroup $classgroup, User $teacher): Response
-    {
-        $classgroup->removeTeacher($teacher);
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($classgroup);
-        $entityManager->flush();
-
-        $message = $teacher->getFirstname() . ' ' . $teacher->getLastname() . ' a été retiré(e) de la classe';
-        $this->addFlash('success', $message);
-
-        return $this->redirectToRoute('classgroup_show', ['id'=>$classgroup->getId()]);
     }
 }
