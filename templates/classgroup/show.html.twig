@@ -81,12 +81,12 @@
                         {% include 'classgroup/cards_students.html.twig' %}
                     {% endfor %}
                 {% else %}
-                    {% for student in classgroup.students %}
+                    {% for student in classgroup.students | sort((a, b) => a.lastname <=> b.lastname) %}
                         {% include 'classgroup/cards_students.html.twig' %}
                     {% endfor %}
                 {% endif %}
             {% else %}
-                {% for student in classgroup.students %}
+                {% for student in classgroup.students | sort((a, b) => a.lastname <=> b.lastname) %}
                     {% include 'classgroup/cards_students.html.twig' %}
                 {% endfor %}
             {% endif %}

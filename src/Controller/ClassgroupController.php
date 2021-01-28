@@ -352,30 +352,57 @@ class ClassgroupController extends AbstractController
      */
     public function show(Classgroup $classgroup, ?string $ranking): Response
     {
-        // if parent connected, verify user can view the classgroup
+        $access = false;
+        $role = "user";
+
+        if($this->isGranted('ROLE_ADMIN','ROLE_SUPERADMIN')) {
+            $access = true;
+        }
+        
+        if($this->isGranted('ROLE_TEACHER')) {
+            $role = "teacher";
+            foreach($this->getUser()->getClassgroups() as $class) {
+                if($classgroup == $class) {
+                    $access = true;
+                }
+            }
+        }
+        
         if($this->isGranted('ROLE_PARENT')) {
             $access = false;
+            $role = "parent";
             foreach($this->getUser()->getStudents() as $child) {
                 $classChild = $child->getClassgroup();
                 if($classgroup == $classChild) {
                     $access = true;
                 }
             }
-            if ($access == true) {
-                return $this->render('classgroup/show.html.twig', [
-                    'classgroup' => $classgroup,
-                    'ranking' => $ranking,
-                    ]);
-            }    
-            else {
-                $this->addFlash('danger', "Vous ne pouvez voir que les classes de vos enfants");
-                return $this->redirectToRoute('parent');
-            }
         }
         
-        return $this->render('classgroup/show.html.twig', [
-            'classgroup' => $classgroup,
-            'ranking' => $ranking,
-            ]);
+        if ($access == true) {
+            return $this->render('classgroup/show.html.twig', [
+                'classgroup' => $classgroup,
+                'ranking' => $ranking,
+                ]);
+        }
+        else {
+            switch($role) {
+                case "director" :
+                    $this->addFlash('danger', "Cette classe n'appartient à aucune de vos écoles");
+                    return $this->redirectToRoute('director');
+                    break;
+                case "teacher" :
+                    $this->addFlash('danger', "Vous n'enseignez pas dans cette classe");
+                    return $this->redirectToRoute('teacher');
+                    break;
+                case "parent" :
+                    $this->addFlash('danger', "Vous ne pouvez voir que les classes de vos enfants");
+                    return $this->redirectToRoute('parent');
+                    break;
+                default :
+                    $this->addFlash('danger', "Vous n'avez pas accès à cette classe");
+                    return $this->redirectToRoute('director');
+            }
+        }
     }
 }
