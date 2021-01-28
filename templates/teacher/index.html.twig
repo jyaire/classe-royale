@@ -4,38 +4,33 @@
 
 {% block body %}
     <div class="col-12 col-md-7 text-center">
-        {% for classgroup in app.user.classgroups %}
+        <p>Ajouter une classe : <a href="{{ path('invite_teacher') }}">code d'invitation enseignant</a></p>
+        {% for school in schools %}
             <h5 class="text-center">
-                <a href="{{ path('school_show', {id : classgroup.school.id}) }}" title="Accèder à l'école">
+                <a href="{{ path('school_show', {id : school.id}) }}" title="Accèder à l'école">
                     <img src="{{ asset('images/tour-school.png') }}"
                         alt="Ecole" 
                         class="logo-school">
                 </a>
-                {{ classgroup.school.name }}
+                {{ school.name }}
             </h5>
-            <p class="city-subtitle">{{ classgroup.school.city }}</p>
+            <p class="city-subtitle">{{ school.city }}</p>
             
             <div class="row justify-content-center pb-2">
-                {% for class in classgroup.school.classgroups %}
-                    {% if class == classgroup %}
-                        <a href="{{ path('classgroup_show', {id : class.id}) }}">
-                            <div class="student-box">
-                            {{ class.name }}
-                            </div>
-                        </a>
-                    {% endif %}
+                {% for classgroup in school.classgroups %}
+                    {% for teacher in classgroup.teacher %}
+                        {% if teacher == app.user %}
+                            <a href="{{ path('classgroup_show', {id : classgroup.id}) }}">
+                                <div class="student-box">
+                                {{ classgroup.name }}
+                                </div>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
                 {% endfor %}
-                <a href="{{ path('classgroup_choose', {school : classgroup.school.id}) }}">
-                    <div class="student-box bg-light">
-                        <img src="{{ asset('images/add.png') }}"
-                            alt="Ajouter une classe" class="add-button"
-                            title="Ajouter une classe dans cette école">
-                    </div>
-                </a>
             </div>
         {% else %}
             <p>Aucune école actuellement - <a href="{{ path('school_choose') }}">Choisir une école</a></p>
         {% endfor %}
-        <p>J'ai un <a href="{{ path('invite_teacher') }}">code d'invitation enseignant</a></p>
     </div>
 {% endblock %}

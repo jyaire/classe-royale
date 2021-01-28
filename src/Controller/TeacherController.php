@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Classgroup;
 use App\Repository\ClassgroupRepository;
+use App\Repository\SchoolRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,10 +18,18 @@ class TeacherController extends AbstractController
      * @Route("/teacher", name="teacher")
      * @IsGranted("ROLE_TEACHER")
      */
-    public function index()
+    public function index(SchoolRepository $schoolRepository)
     {
-    
-        return $this->render('teacher/index.html.twig');
+        $schools = [];
+        $classgroups = $this->getUser()->getClassgroups();
+        foreach($classgroups as $classgroup) {
+            array_push($schools, $classgroup->getSchool());
+        }
+        $schools = array_unique($schools,SORT_REGULAR);
+
+        return $this->render('teacher/index.html.twig', [
+            'schools'=> $schools,
+        ]);
     }
 
     /**
