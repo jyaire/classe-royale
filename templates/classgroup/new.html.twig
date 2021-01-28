@@ -7,6 +7,8 @@
         <h3>Nouvelle classe</h3>
         {% if classgroup.school != null %}
             <p>{{ classgroup.school.name }}</p>
+        {% else %}
+            <p>Cette classe ne sera rattachée à aucune école</p>
         {% endif %}
     </div>
     <div class="col-12 col-md-10 col-lg-7 text-center dark-box mt-2">

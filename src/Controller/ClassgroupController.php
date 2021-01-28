@@ -56,7 +56,6 @@ class ClassgroupController extends AbstractController
 
     /**
      * @Route("/new/{school}", name="classgroup_new", methods={"GET","POST"}, defaults={"school": null})
-     * @IsGranted("ROLE_TEACHER")
      * @param Request $request
      * @param ?School $school
      * @return Response
@@ -75,6 +74,23 @@ class ClassgroupController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            // add ROLE_TEACHER if not already
+            $user = $this->getUser();
+            $teacher = false;
+            foreach($user->getRoles() as $role) {
+                if($role == "ROLE_TEACHER") {
+                    $teacher = true;
+                }
+            }
+            if ($teacher == false) {
+                $roles = $user->getRoles();
+                array_push($roles, "ROLE_TEACHER");
+                $user->setRoles($roles);
+                $this->addFlash('danger', "Vous êtes devenu enseignant, une reconnexion est nécessaire");
+                $entityManager->persist($user);
+            }
+
             $entityManager->persist($classgroup);
             $entityManager->flush();
 
