@@ -5,14 +5,18 @@
 {% block body %}
     <div class="col-12 text-center">
         <h3>Nouvelle classe</h3>
-        <p>{{ classgroup.school.name }}</p>
+        {% if classgroup.school != null %}
+            <p>{{ classgroup.school.name }}</p>
+        {% endif %}
     </div>
     <div class="col-12 col-md-10 col-lg-7 text-center dark-box mt-2">
         <div class="p-4">
             {{ include('classgroup/_form.html.twig') }}
         </div>
     </div>
-    <div class="col-12 text-center">
-        <a href="{{ path('school_show', {'id': classgroup.school.id }) }}">{{ classgroup.school.name }}</a>
-    </div>
+    {% if classgroup.school != null %}
+        <div class="col-12 text-center">
+            <a href="{{ path('school_show', {'id': classgroup.school.id }) }}">{{ classgroup.school.name }}</a>
+        </div>
+    {% endif %}
 {% endblock %}

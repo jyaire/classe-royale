@@ -5,6 +5,27 @@
 {% block body %}
     <div class="col-12 col-md-7 text-center">
         <p>Ajouter une classe : <a href="{{ path('invite_teacher') }}">code d'invitation enseignant</a></p>
+        {% if classgroups is not empty %}        
+            <h5 class="text-center">
+                <img src="{{ asset('images/tour-school.png') }}"
+                    alt="Ecole" 
+                    class="logo-school">
+                Classe(s) non rattachée(s) à une école
+            </h5>
+            <div class="row justify-content-center pb-2">
+                {% for classgroup in classgroups %}
+                    {% for teacher in classgroup.teacher %}
+                        {% if teacher == app.user %}
+                            <a href="{{ path('classgroup_show', {id : classgroup.id}) }}">
+                                <div class="student-box">
+                                {{ classgroup.name }}
+                                </div>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
         {% for school in schools %}
             <h5 class="text-center">
                 <a href="{{ path('school_show', {id : school.id}) }}" title="Accèder à l'école">
@@ -15,7 +36,7 @@
                 {{ school.name }}
             </h5>
             <p class="city-subtitle">{{ school.city }}</p>
-            
+
             <div class="row justify-content-center pb-2">
                 {% for classgroup in school.classgroups %}
                     {% for teacher in classgroup.teacher %}
@@ -29,8 +50,7 @@
                     {% endfor %}
                 {% endfor %}
             </div>
-        {% else %}
-            <p>Aucune école actuellement - <a href="{{ path('school_choose') }}">Choisir une école</a></p>
         {% endfor %}
+        <p><a href="{{ path('classgroup_new', {'school': null}) }}">Créer une classe manuellement</a> (déconseillé)</p>
     </div>
 {% endblock %}

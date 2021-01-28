@@ -20,15 +20,27 @@ class TeacherController extends AbstractController
      */
     public function index(SchoolRepository $schoolRepository)
     {
+        // find schools where teacher teach
         $schools = [];
         $classgroups = $this->getUser()->getClassgroups();
         foreach($classgroups as $classgroup) {
-            array_push($schools, $classgroup->getSchool());
+            if($classgroup->getSchool() != null) {
+                array_push($schools, $classgroup->getSchool());
+            }
         }
         $schools = array_unique($schools,SORT_REGULAR);
+        
+        // find classgroups without school where teacher teach
+        $orphelinClassgroups = [];
+        foreach($classgroups as $classgroup) {
+            if($classgroup->getSchool() == null) {
+                array_push($orphelinClassgroups, $classgroup);
+            }
+        }
 
         return $this->render('teacher/index.html.twig', [
             'schools'=> $schools,
+            'classgroups'=> $orphelinClassgroups,
         ]);
     }
 

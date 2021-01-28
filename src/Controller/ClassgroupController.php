@@ -55,16 +55,21 @@ class ClassgroupController extends AbstractController
     }
 
     /**
-     * @Route("/new/{school}", name="classgroup_new", methods={"GET","POST"})
-     * @IsGranted("ROLE_DIRECTOR")
+     * @Route("/new/{school}", name="classgroup_new", methods={"GET","POST"}, defaults={"school": null})
+     * @IsGranted("ROLE_TEACHER")
      * @param Request $request
-     * @param School $school
+     * @param ?School $school
      * @return Response
      */
-    public function new(School $school, Request $request): Response
+    public function new(?School $school, Request $request): Response
     {
         $classgroup = new Classgroup();
-        $classgroup->setSchool($school);
+        if($school == null) {
+            $classgroup->addTeacher($this->getUser());
+        }
+        else {
+            $classgroup->setSchool($school);
+        }
         $form = $this->createForm(ClassgroupType::class, $classgroup);
         $form->handleRequest($request);
 
@@ -75,9 +80,14 @@ class ClassgroupController extends AbstractController
 
             $this->addFlash('success', "Classe créée");
 
-            return $this->redirectToRoute('school_show', [
-                'id' => $classgroup->getSchool()->getId(),
-            ]);
+            if($school == null) {
+                return $this->redirectToRoute('teacher');
+            }
+            else {
+                return $this->redirectToRoute('school_show', [
+                    'id' => $classgroup->getSchool()->getId(),
+                ]);
+            }
         }
 
         return $this->render('classgroup/new.html.twig', [
