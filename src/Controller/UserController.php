@@ -92,7 +92,10 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $user->setDateModif(new \Datetime);
+            $entityManager->persist($user);
+            $entityManager->flush();
 
             $this->addFlash('success', "Votre profil a été modifié");
             return $this->redirectToRoute('user_show', [
