@@ -23,13 +23,11 @@ final class Version20201112083514 extends AbstractMigration
         $this->addSql('CREATE TABLE card_student (card_id INT NOT NULL, student_id INT NOT NULL, INDEX IDX_E03925454ACC9A20 (card_id), INDEX IDX_E0392545CB944F1A (student_id), PRIMARY KEY(card_id, student_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE card_student ADD CONSTRAINT FK_E03925454ACC9A20 FOREIGN KEY (card_id) REFERENCES card (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE card_student ADD CONSTRAINT FK_E0392545CB944F1A FOREIGN KEY (student_id) REFERENCES student (id) ON DELETE CASCADE');
-        $this->addSql('DROP TABLE migration_versions');
     }
 
     public function down(Schema $schema) : void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE migration_versions (version VARCHAR(14) CHARACTER SET utf8mb4 NOT NULL COLLATE `utf8mb4_unicode_ci`, executed_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', PRIMARY KEY(version)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB COMMENT = \'\' ');
         $this->addSql('DROP TABLE card_student');
     }
 }
