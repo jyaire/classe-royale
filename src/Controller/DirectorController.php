@@ -135,6 +135,7 @@ class DirectorController extends AbstractController
                     $ine = $data[5];
                     $birthdate = DateTime::createFromFormat('Y-m-d', $data[3]);
                     $refClassgroup = $data[17];
+                    $section = $sectionRepository->findOneBy(['abbreviation'=>$data[16]]);
                     $classgroup = $classgroupRepository->findOneBy(['ref'=>$refClassgroup]);
                     $student = $students->findOneBy(['ine'=> $ine]);
                     if(isset($student)) {
@@ -143,6 +144,7 @@ class DirectorController extends AbstractController
                             ->setLastname($data[0])
                             ->setFirstname($data[2])
                             ->setIsGirl($isGirl)
+                            ->setSection($section)
                             ->setDateModif(new DateTime())
                             ->setBirthdate($birthdate)
                         ;
@@ -164,6 +166,7 @@ class DirectorController extends AbstractController
                             ->setGold(10)
                             ->setElixir(10)
                             ->setBirthdate($birthdate)
+                            ->setSection($section)
                         ;
                         $em->persist($student);
                         $iAdd++;
@@ -177,7 +180,9 @@ class DirectorController extends AbstractController
                 "$iAdd élèves correctement ajoutés et $iModif modifiés"
             );
             $em->flush();
-            return $this->redirectToRoute('student_index');
+            return $this->redirectToRoute('school_show', [
+                'id' => $school->getId(),
+            ]);
         }
 
         // find all students
