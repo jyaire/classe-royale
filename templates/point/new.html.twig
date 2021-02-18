@@ -37,16 +37,24 @@
         <div class="col-4 text-center">
             {{ form_row(form.quantity) }}
             {{ form_widget(form.reason) }}
-        </div>
-        <div class="col-4 text-center pt-5">
             <button class="third-button">{{ button_label|default('Ajouter') }}</button>
             {{ form_end(form) }}
+        </div>
+        <div class="col-4 text-center pt-5">
             <div class="p-4">
                 {% if point.type == "gold" %}
+                    <p class="clear-box">
+                        Ajoute de l'or aux élèves sélectionnés
+                        <img src="{{ asset('images/gold.png') }}" alt="Or" class="small-icone">
+                    </p>
                     <a href="{{ path('point_multiple_new', {'winner': 'classgroup', 'number': number, 'type': 'elixir'}) }}">
                         Elixir ?
                     </a>
                 {% else %}
+                    <p class="clear-box">
+                        Ajoute de l'élixir aux élèves sélectionnés
+                        <img src="{{ asset('images/elixir.png') }}" alt="Elixir"  class="small-icone">
+                    </p>
                     <a href="{{ path('point_multiple_new', {'winner': 'classgroup', 'number': number, 'type': 'gold'}) }}">
                         Or ?
                     </a>

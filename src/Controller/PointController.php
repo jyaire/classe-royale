@@ -191,8 +191,24 @@ class PointController extends AbstractController
         $form = $this->createForm(PointMultipleType::class, null, ['number' => $number]);
         $form->handleRequest($request);
 
+        $point = new Point();
+        $point
+            ->setType($type);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            // repost form if no student selected
+            if(count($form->getData()['student']) == 0) {
+                $message = "Vous n'avez pas sélectionné d'élève";
+                $this->addFlash('danger', $message);
+
+                return $this->redirectToRoute('point_multiple_new', [
+                    'winner' => $winner,
+                    'number' => $number,
+                    'type' => $type,
+                ]);
+            }
 
             // search if reason already exists
             $reason = $form->getData()['reason'];
@@ -207,6 +223,7 @@ class PointController extends AbstractController
             }
 
             // give points to each student
+            $nb = 0;
             foreach ($form->getData()['student'] as $pupil) {
                 $point = new Point();
                 $point
@@ -222,28 +239,28 @@ class PointController extends AbstractController
                     case "gold":
                         $win = $pupil->getGold() + $point->getQuantity();
                         $pupil->setGold($win);
+                        $message = $point->getQuantity() . " pièce(s) d'or";
                         break;
                     case "elixir":
                         $win = $pupil->getElixir() + $point->getQuantity();
                         $pupil->setElixir($win);
+                        $message = $point->getQuantity() . " goutte(s) d'élixir";
                         break;
                 }
 
                 $pupil
                     ->setXp($pupil->getXp()+5);
-
+                $nb++;
                 $entityManager->persist($point);
                 $entityManager->persist($pupil);
             }
 
             $entityManager->flush();
 
-            $this->addFlash('success', 'Les points ont été ajoutés');
+            $message = $message . ' ont été ajoutée(s) à ' . $nb . ' élève(s)';
+            $this->addFlash('success', $message);
             return $this->redirectToRoute('classgroup_show', ['id' => $number]);
         }
-        $point = new Point();
-        $point
-            ->setType($type);
 
         return $this->render('point/new.html.twig', [
             'point' => $point,
