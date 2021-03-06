@@ -21,8 +21,9 @@
         {{ form_row(registrationForm.plainPassword, {
             label: 'Mot de passe'
         }) }}
+        <a href="{{ path('cgu') }}" target="_blank">Lire les conditions d'utilisation</a>
         {{ form_row(registrationForm.agreeTerms, {
-            label: 'J\'accepte les conditions'
+            label: "J'ai lu et j'accepte ces conditions"
         }) }}
 
         <button type="submit" class="third-button">Créer mon compte</button>
