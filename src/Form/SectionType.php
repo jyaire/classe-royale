@@ -14,7 +14,7 @@ class SectionType extends AbstractType
         $builder
             ->add('name')
             ->add('abbreviation')
-            ->add('rank')
+            ->add('ranking')
         ;
     }
 
