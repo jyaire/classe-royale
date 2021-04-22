@@ -30,7 +30,7 @@ class SupportType extends AbstractType
                 'expanded' => false,
                 'multiple' => false,
         ])
-            ->add('rank', IntegerType::class, [
+            ->add('ranking', IntegerType::class, [
                 'label' => 'Ordre dans les articles',
             ])
         ;

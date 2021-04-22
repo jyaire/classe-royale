@@ -27,7 +27,7 @@ class Subject
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $rank;
+    private $ranking;
 
     /**
      * @ORM\OneToMany(targetEntity=Card::class, mappedBy="subject")
@@ -56,14 +56,14 @@ class Subject
         return $this;
     }
 
-    public function getRank(): ?int
+    public function getRanking(): ?int
     {
-        return $this->rank;
+        return $this->ranking;
     }
 
-    public function setRank(?int $rank): self
+    public function setRanking(?int $ranking): self
     {
-        $this->rank = $rank;
+        $this->ranking = $ranking;
 
         return $this;
     }

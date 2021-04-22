@@ -13,7 +13,7 @@ class SubjectType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('rank')
+            ->add('ranking')
         ;
     }
 

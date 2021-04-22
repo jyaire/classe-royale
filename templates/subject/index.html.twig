@@ -8,7 +8,7 @@
         <div class="row justify-content-center">
             {% for subject in subjects %}
                 <div class="student-box">
-                    <p>{{ subject.name }} - rang : {{ subject.rank }}<br>
+                    <p>{{ subject.name }} - rang : {{ subject.ranking }}<br>
                         <a href="{{ path('subject_edit', {'id': subject.id}) }}">modifier</a></p>
                 </div>
             {% else %}
