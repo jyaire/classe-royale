@@ -18,7 +18,7 @@
         <div class="row justify-content-center">
         {% for card in subject.cards | sort((a, b) => a.name <=> b.name) %}
             {% if student is defined %}
-            <a href="{{ path('card_show', {'id': card.id, 'student': student.id}) }}">
+            <a href="{{ path('card_show', {'card': card.id, 'student': student.id}) }}">
                 {% set flag = '' %}
                 {% for ownedCard in student.cards %}
                     {% if card == ownedCard and flag != 1 %}
@@ -30,7 +30,7 @@
                         <div class="card-box-grey">
                 {% endif %}
             {% else %}
-                <a href="{{ path('card_show', {'id': card.id}) }}">
+                <a href="{{ path('card_show', {'card': card.id}) }}">
                 <div class="card-box">
             {% endif %}
                     <div>

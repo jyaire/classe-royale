@@ -166,7 +166,7 @@ class CardController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/{student}", name="card_show", methods={"GET"}, defaults={"student": null}))
+     * @Route("/{card}/{student}", name="card_show", methods={"GET"}, defaults={"student": null}))
      * @param Card $card
      * @param ?Student $student
      * @return Response
