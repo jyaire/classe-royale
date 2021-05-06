@@ -100,7 +100,7 @@ class OccupationController extends AbstractController
      /**
      * @Route("/add/{job}", name="occupation_add", methods={"GET","POST"})
      */
-    public function add(Request $request, Job $job): Response
+    public function add(Request $request, Job $job, OccupationRepository $occupationRepository): Response
     {
         $classgroup = $job->getClassgroup()->getId();
         $occupation = null;
@@ -113,23 +113,37 @@ class OccupationController extends AbstractController
 
             $count=0;
             foreach ($form->get('student')->getData() as $student) {
-                $occupation = new Occupation();
-                $occupation
-                    ->setStudent($student)
-                    ->setJob($job)
-                    ->setDateStart(new DateTime())
-                    ->setSalary($form->get('salary')->getData())
-                    ;
-                    $count++;
-                $entityManager->persist($occupation);
+
+                //verify if student has already this job
+                $search = $occupationRepository->findOneBy(['student'=> $student, 'job' => $job, 'dateEnd' => null]);
+                if($search != null) {
+                    $message = "Métier déjà en cours pour " . $student->getFirstname();
+                    $this->addFlash(
+                        'danger',
+                        $message
+                        );
+                } else {
+                    $occupation = new Occupation();
+                    $occupation
+                        ->setStudent($student)
+                        ->setJob($job)
+                        ->setDateStart(new DateTime())
+                        ->setSalary($form->get('salary')->getData())
+                        ;
+                        $count++;
+                    $entityManager->persist($occupation);
+                }
             }
             
             $entityManager->flush();
-            $message = $count . ' élève(s) ajouté(s) à ce métier';
-            $this->addFlash(
-                'success',
-                $message
-                );
+
+            if($count > 0) {
+                $message = $count . ' élève(s) ajouté(s) à ce métier';
+                $this->addFlash(
+                    'success',
+                    $message
+                    );
+                }
 
             return $this->redirectToRoute('job_index', [
                 'classgroup' => $job->getClassgroup()->getId(),
