@@ -16,7 +16,7 @@ class PointType extends AbstractType
     {
         $builder
             ->add('quantity', IntegerType::class, [
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-control', 'value' => 1],
                 'label' => 'Quantité',
             ])
             ->add('reason', ReasonType::class, [

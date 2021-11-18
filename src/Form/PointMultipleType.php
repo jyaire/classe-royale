@@ -33,7 +33,7 @@ class PointMultipleType extends AbstractType
                 }
             ])
             ->add('quantity', IntegerType::class, [
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-control', 'value' => 1],
                 'label' => 'Quantité',
             ])
             ->add('reason', ReasonType::class, [
