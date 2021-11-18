@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="col-12 text-center">
+<div class="col-12 text-center pb-4">
     <h3>{{ student.firstname }}</h3>
 </div>
-<div class="col-6 text-right">
+<div class="col-4 text-right text-center">
     Avatar actuel :<br>
     {% if student.avatar is empty %}
         {%  if student.isGirl == 1 %}
@@ -22,7 +22,7 @@
              class="emoticon-info">
     {% endif %}
 </div>
-<div class="col-6 text-left">
+<div class="col-8 text-left">
     Modifier :<br>
     {{ form_start(form) }}
     {{ form_widget(form) }}
