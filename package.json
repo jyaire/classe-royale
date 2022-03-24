@@ -20,7 +20,7 @@
         "start": "symfony server:start --no-tls"
     },
     "dependencies": {
-        "node-forge": "^0.10.0",
+        "node-forge": "^1.3.0",
         "object-path": "^0.11.8"
     }
 }
