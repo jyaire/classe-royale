@@ -12,7 +12,7 @@
         "doctrine/doctrine-bundle": "^2.3",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.8",
-        "dompdf/dompdf": "^1.0.0",
+        "dompdf/dompdf": "^2.0.2",
         "liip/imagine-bundle": "^2.5",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^6.1",
